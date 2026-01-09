@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+
+Sitemap: https://emmanueladutwum123.github.io/ghana-cocoa-hedging/sitemap.xml
