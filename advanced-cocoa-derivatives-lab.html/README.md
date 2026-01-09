@@ -16,7 +16,7 @@ An advanced computational finance research platform for analyzing cocoa derivati
 ### 🔧 Technical Features
 - Black-Scholes options pricing with Ghana-specific parameters
 - Delta hedging simulation and backtesting
-- Real-time data visualization with Plotly.js
+- Real-time data visualization
 - TensorFlow.js for machine learning predictions
 - Mobile-responsive design
 
