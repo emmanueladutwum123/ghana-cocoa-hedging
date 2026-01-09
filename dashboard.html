@@ -3,157 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Cocoa Derivatives Research Lab</title>
+    <title>Live Dashboard | Ghana Cocoa Derivatives Analytics</title>
+    <meta name="description" content="Real-time analytics dashboard for Ghana cocoa derivatives markets. Monitor prices, volatility, options chains, and hedging performance.">
+    
+    <!-- Styles & Scripts -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
 </head>
 <body>
-    <!-- Navigation -->
+    <!-- Navigation (same as index.html) -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <span class="ghana-flag"></span>
+                <div class="flag-mini">
+                    <div class="flag-red"></div>
+                    <div class="flag-yellow"></div>
+                    <div class="flag-green"></div>
+                </div>
                 <h1>Cocoa Derivatives Lab</h1>
-                <span class="ghana-flag"></span>
             </div>
+            
             <div class="nav-links">
-                <a href="index.html"><i class="fas fa-home"></i> Home</a>
-                <a href="dashboard.html" class="active"><i class="fas fa-chart-line"></i> Dashboard</a>
-                <a href="calculator.html"><i class="fas fa-calculator"></i> Calculator</a>
-                <a href="research.html"><i class="fas fa-book"></i> Research</a>
-                <a href="data.html"><i class="fas fa-database"></i> Data</a>
-                <a href="ml-models.html"><i class="fas fa-brain"></i> AI Models</a>
+                <a href="index.html"><i class="fas fa-home"></i> <span>Home</span></a>
+                <a href="calculator.html"><i class="fas fa-calculator"></i> <span>Calculator</span></a>
+                <a href="dashboard.html" class="active"><i class="fas fa-chart-line"></i> <span>Dashboard</span></a>
+                <a href="research.html"><i class="fas fa-book"></i> <span>Research</span></a>
+                <a href="data.html"><i class="fas fa-database"></i> <span>Data</span></a>
+                <a href="ml-models.html"><i class="fas fa-brain"></i> <span>AI Models</span></a>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
             </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </nav>
 
-    <main class="container">
+    <main class="dashboard-container">
         <!-- Dashboard Header -->
         <header class="dashboard-header">
-            <h1><i class="fas fa-tachometer-alt"></i> Research Dashboard</h1>
-            <p>Real-time monitoring and analysis of cocoa derivatives markets</p>
-            
-            <div class="dashboard-controls">
-                <div class="time-selector">
-                    <button class="time-btn active">1D</button>
-                    <button class="time-btn">1W</button>
-                    <button class="time-btn">1M</button>
-                    <button class="time-btn">1Y</button>
-                    <button class="time-btn">All</button>
-                </div>
+            <div class="header-content">
+                <h1><i class="fas fa-tachometer-alt"></i> Live Analytics Dashboard</h1>
+                <p class="subtitle">Real-time monitoring of Ghana cocoa derivatives markets and risk metrics</p>
                 
-                <div class="dashboard-actions">
-                    <button class="btn btn-secondary">
-                        <i class="fas fa-sync-alt"></i> Refresh Data
-                    </button>
-                    <button class="btn btn-primary" id="exportDashboard">
-                        <i class="fas fa-download"></i> Export Report
-                    </button>
+                <div class="dashboard-controls">
+                    <div class="time-selector">
+                        <button class="time-btn active" data-period="1d">24H</button>
+                        <button class="time-btn" data-period="7d">7D</button>
+                        <button class="time-btn" data-period="30d">30D</button>
+                        <button class="time-btn" data-period="90d">90D</button>
+                        <button class="time-btn" data-period="1y">1Y</button>
+                    </div>
+                    
+                    <div class="dashboard-actions">
+                        <button class="btn btn-secondary" id="refreshData">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                        <button class="btn btn-primary" id="exportDashboard">
+                            <i class="fas fa-download"></i> Export Report
+                        </button>
+                        <button class="btn btn-secondary" id="fullscreenToggle">
+                            <i class="fas fa-expand"></i> Fullscreen
+                        </button>
+                    </div>
                 </div>
             </div>
         </header>
 
-        <!-- Key Metrics -->
-        <section class="metrics-section">
-            <h2><i class="fas fa-chart-bar"></i> Key Metrics</h2>
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <h3>Current Price</h3>
-                        <span class="metric-change positive">+2.3%</span>
+        <!-- Key Metrics KPI Cards -->
+        <section class="kpi-section">
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <h3><i class="fas fa-dollar-sign"></i> Current Price</h3>
+                        <div class="kpi-change positive">
+                            <i class="fas fa-arrow-up"></i> +2.3%
+                        </div>
                     </div>
-                    <div class="metric-value">$3,842.50</div>
-                    <div class="metric-sub">per metric ton</div>
+                    <div class="kpi-value">$3,842.50</div>
+                    <div class="kpi-sub">per metric ton</div>
+                    <div class="kpi-trend">
+                        <span>24H Range: $3,780 - $3,865</span>
+                    </div>
                 </div>
                 
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <h3>Implied Volatility</h3>
-                        <span class="metric-change negative">-1.2%</span>
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <h3><i class="fas fa-wave-square"></i> Implied Volatility</h3>
+                        <div class="kpi-change negative">
+                            <i class="fas fa-arrow-down"></i> -1.2%
+                        </div>
                     </div>
-                    <div class="metric-value">31.8%</div>
-                    <div class="metric-sub">30-day average</div>
+                    <div class="kpi-value">31.8%</div>
+                    <div class="kpi-sub">30-day ATM</div>
+                    <div class="kpi-trend">
+                        <span>Range: 25% - 45%</span>
+                    </div>
                 </div>
                 
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <h3>Open Interest</h3>
-                        <span class="metric-change positive">+5.7%</span>
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <h3><i class="fas fa-layer-group"></i> Open Interest</h3>
+                        <div class="kpi-change positive">
+                            <i class="fas fa-arrow-up"></i> +5.7%
+                        </div>
                     </div>
-                    <div class="metric-value">12,450</div>
-                    <div class="metric-sub">contracts</div>
+                    <div class="kpi-value">12,450</div>
+                    <div class="kpi-sub">contracts</div>
+                    <div class="kpi-trend">
+                        <span>Put/Call Ratio: 0.85</span>
+                    </div>
                 </div>
                 
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <h3>Risk Premium</h3>
-                        <span class="metric-change neutral">0.0%</span>
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <h3><i class="fas fa-shield-alt"></i> Risk Premium</h3>
+                        <div class="kpi-change neutral">
+                            <i class="fas fa-minus"></i> 0.0%
+                        </div>
                     </div>
-                    <div class="metric-value">4.2%</div>
-                    <div class="metric-sub">over risk-free rate</div>
+                    <div class="kpi-value">4.2%</div>
+                    <div class="kpi-sub">over risk-free rate</div>
+                    <div class="kpi-trend">
+                        <span>Beta: 1.15</span>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Main Charts Section -->
         <section class="charts-section">
-            <div class="chart-row">
-                <div class="chart-card">
-                    <h3><i class="fas fa-chart-line"></i> Price Evolution</h3>
-                    <div class="chart-container" id="priceChart"></div>
+            <div class="charts-row">
+                <div class="chart-container large">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-chart-line"></i> Cocoa Price Evolution</h3>
+                        <div class="chart-actions">
+                            <select class="chart-select" id="priceChartType">
+                                <option value="line">Line Chart</option>
+                                <option value="candlestick">Candlestick</option>
+                                <option value="area">Area Chart</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="priceChart"></canvas>
+                    </div>
                 </div>
                 
-                <div class="chart-card">
-                    <h3><i class="fas fa-wave-square"></i> Volatility Surface</h3>
-                    <div class="chart-container" id="volatilityChart"></div>
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-wave-square"></i> Volatility Surface</h3>
+                    </div>
+                    <div class="chart-wrapper">
+                        <div id="volatilityChart"></div>
+                    </div>
                 </div>
             </div>
             
-            <div class="chart-row">
-                <div class="chart-card">
-                    <h3><i class="fas fa-balance-scale"></i> Greeks Analysis</h3>
-                    <div class="chart-container" id="greeksChart"></div>
+            <div class="charts-row">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-balance-scale"></i> Greeks Analysis</h3>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="greeksChart"></canvas>
+                    </div>
                 </div>
                 
-                <div class="chart-card">
-                    <h3><i class="fas fa-exclamation-triangle"></i> Risk Metrics</h3>
-                    <div class="chart-container" id="riskChart"></div>
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Risk Metrics</h3>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="riskChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-chart-pie"></i> Market Sentiment</h3>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="sentimentChart"></canvas>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Options Chain -->
+        <!-- Options Chain Analysis -->
         <section class="options-section">
-            <h2><i class="fas fa-table"></i> Options Chain Analysis</h2>
+            <div class="section-header">
+                <h2><i class="fas fa-table"></i> Live Options Chain</h2>
+                <p>Real-time analysis of cocoa options market structure</p>
+            </div>
             
             <div class="options-controls">
                 <div class="options-filters">
-                    <select class="filter-select">
-                        <option>All Expirations</option>
-                        <option>Near-term (≤30 days)</option>
-                        <option>Medium-term (31-90 days)</option>
-                        <option>Long-term (>90 days)</option>
-                    </select>
+                    <div class="filter-group">
+                        <label for="expirationFilter">Expiration</label>
+                        <select id="expirationFilter" class="filter-select">
+                            <option value="all">All Expirations</option>
+                            <option value="near">Near-term (≤30 days)</option>
+                            <option value="medium">Medium-term (31-90 days)</option>
+                            <option value="long">Long-term (>90 days)</option>
+                        </select>
+                    </div>
                     
-                    <select class="filter-select">
-                        <option>All Strikes</option>
-                        <option>ITM (In-the-money)</option>
-                        <option>ATM (At-the-money)</option>
-                        <option>OTM (Out-of-money)</option>
-                    </select>
+                    <div class="filter-group">
+                        <label for="moneynessFilter">Moneyness</label>
+                        <select id="moneynessFilter" class="filter-select">
+                            <option value="all">All Strikes</option>
+                            <option value="itm">ITM (In-the-money)</option>
+                            <option value="atm">ATM (At-the-money)</option>
+                            <option value="otm">OTM (Out-of-money)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="volumeFilter">Min Volume</label>
+                        <input type="range" id="volumeFilter" min="0" max="1000" value="100">
+                        <span id="volumeValue">100+</span>
+                    </div>
                 </div>
                 
                 <div class="options-stats">
-                    <span class="stat-item">
-                        <strong>Put/Call Ratio:</strong> 0.85
-                    </span>
-                    <span class="stat-item">
-                        <strong>Max Pain:</strong> $3,800
-                    </span>
-                    <span class="stat-item">
-                        <strong>VIX Equivalent:</strong> 32.4
-                    </span>
+                    <div class="stat-item">
+                        <span class="stat-label">Put/Call Ratio:</span>
+                        <span class="stat-value">0.85</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Max Pain:</span>
+                        <span class="stat-value">$3,800</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">VIX Equivalent:</span>
+                        <span class="stat-value">32.4</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Total OI:</span>
+                        <span class="stat-value">245,680</span>
+                    </div>
                 </div>
             </div>
             
@@ -166,200 +259,514 @@
                             <th>Call Ask</th>
                             <th>Put Bid</th>
                             <th>Put Ask</th>
-                            <th>Implied Vol</th>
-                            <th>Open Interest</th>
+                            <th>IV (%)</th>
+                            <th>Volume</th>
+                            <th>OI</th>
                             <th>Delta</th>
+                            <th>Gamma</th>
                         </tr>
                     </thead>
                     <tbody id="optionsTableBody">
-                        <!-- Options data will be populated by JavaScript -->
+                        <!-- Dynamic content -->
                     </tbody>
                 </table>
             </div>
         </section>
 
         <!-- Hedging Strategies -->
-        <section class="hedging-section">
-            <h2><i class="fas fa-shield-alt"></i> Hedging Strategies</h2>
+        <section class="strategies-section">
+            <div class="section-header">
+                <h2><i class="fas fa-shield-alt"></i> Recommended Hedging Strategies</h2>
+                <p>Based on current market conditions and volatility outlook</p>
+            </div>
             
-            <div class="hedging-strategies">
+            <div class="strategies-grid">
                 <div class="strategy-card">
                     <div class="strategy-header">
-                        <h3>Delta Neutral</h3>
-                        <span class="strategy-risk low">Low Risk</span>
+                        <div class="strategy-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <div class="strategy-info">
+                            <h3>Delta Neutral Hedging</h3>
+                            <span class="strategy-tag low-risk">Low Risk</span>
+                        </div>
                     </div>
-                    <p>Maintain zero delta exposure through continuous rebalancing</p>
+                    <p class="strategy-desc">
+                        Maintain zero delta exposure through continuous rebalancing. 
+                        Ideal for market makers and institutional portfolios.
+                    </p>
                     <div class="strategy-metrics">
-                        <div class="strategy-metric">
-                            <span>Cost:</span>
-                            <strong>$2,450</strong>
+                        <div class="metric">
+                            <span class="metric-label">Cost Efficiency</span>
+                            <div class="metric-bar">
+                                <div class="metric-fill" style="width: 92%"></div>
+                            </div>
+                            <span class="metric-value">92%</span>
                         </div>
-                        <div class="strategy-metric">
-                            <span>Effectiveness:</span>
-                            <strong>92%</strong>
+                        <div class="metric">
+                            <span class="metric-label">Performance</span>
+                            <div class="metric-bar">
+                                <div class="metric-fill" style="width: 88%"></div>
+                            </div>
+                            <span class="metric-value">88%</span>
                         </div>
                     </div>
-                    <button class="btn btn-secondary strategy-btn">
-                        <i class="fas fa-play"></i> Simulate
-                    </button>
+                    <div class="strategy-actions">
+                        <button class="btn btn-secondary btn-sm">
+                            <i class="fas fa-info-circle"></i> Details
+                        </button>
+                        <button class="btn btn-primary btn-sm">
+                            <i class="fas fa-play"></i> Simulate
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="strategy-card">
                     <div class="strategy-header">
-                        <h3>Gamma Scalping</h3>
-                        <span class="strategy-risk medium">Medium Risk</span>
+                        <div class="strategy-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="strategy-info">
+                            <h3>Gamma Scalping</h3>
+                            <span class="strategy-tag medium-risk">Medium Risk</span>
+                        </div>
                     </div>
-                    <p>Profit from volatility by adjusting delta positions</p>
+                    <p class="strategy-desc">
+                        Profit from volatility by adjusting delta positions. 
+                        Requires active management and market timing.
+                    </p>
                     <div class="strategy-metrics">
-                        <div class="strategy-metric">
-                            <span>Expected Return:</span>
-                            <strong>15%</strong>
+                        <div class="metric">
+                            <span class="metric-label">Expected Return</span>
+                            <div class="metric-bar">
+                                <div class="metric-fill" style="width: 65%"></div>
+                            </div>
+                            <span class="metric-value">15%</span>
                         </div>
-                        <div class="strategy-metric">
-                            <span>Max Drawdown:</span>
-                            <strong>8%</strong>
+                        <div class="metric">
+                            <span class="metric-label">Max Drawdown</span>
+                            <div class="metric-bar">
+                                <div class="metric-fill" style="width: 40%"></div>
+                            </div>
+                            <span class="metric-value">8%</span>
                         </div>
                     </div>
-                    <button class="btn btn-secondary strategy-btn">
-                        <i class="fas fa-play"></i> Simulate
-                    </button>
+                    <div class="strategy-actions">
+                        <button class="btn btn-secondary btn-sm">
+                            <i class="fas fa-info-circle"></i> Details
+                        </button>
+                        <button class="btn btn-primary btn-sm">
+                            <i class="fas fa-play"></i> Simulate
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="strategy-card">
                     <div class="strategy-header">
-                        <h3>Volatility Arbitrage</h3>
-                        <span class="strategy-risk high">High Risk</span>
+                        <div class="strategy-icon">
+                            <i class="fas fa-random"></i>
+                        </div>
+                        <div class="strategy-info">
+                            <h3>Volatility Arbitrage</h3>
+                            <span class="strategy-tag high-risk">High Risk</span>
+                        </div>
                     </div>
-                    <p>Exploit differences between implied and realized volatility</p>
+                    <p class="strategy-desc">
+                        Exploit differences between implied and realized volatility. 
+                        Requires sophisticated modeling and execution.
+                    </p>
                     <div class="strategy-metrics">
-                        <div class="strategy-metric">
-                            <span>Sharpe Ratio:</span>
-                            <strong>1.8</strong>
+                        <div class="metric">
+                            <span class="metric-label">Sharpe Ratio</span>
+                            <div class="metric-bar">
+                                <div class="metric-fill" style="width: 90%"></div>
+                            </div>
+                            <span class="metric-value">1.8</span>
                         </div>
-                        <div class="strategy-metric">
-                            <span>Success Rate:</span>
-                            <strong>67%</strong>
+                        <div class="metric">
+                            <span class="metric-label">Success Rate</span>
+                            <div class="metric-bar">
+                                <div class="metric-fill" style="width: 67%"></div>
+                            </div>
+                            <span class="metric-value">67%</span>
                         </div>
                     </div>
-                    <button class="btn btn-secondary strategy-btn">
-                        <i class="fas fa-play"></i> Simulate
-                    </button>
+                    <div class="strategy-actions">
+                        <button class="btn btn-secondary btn-sm">
+                            <i class="fas fa-info-circle"></i> Details
+                        </button>
+                        <button class="btn btn-primary btn-sm">
+                            <i class="fas fa-play"></i> Simulate
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Market Sentiment -->
-        <section class="sentiment-section">
-            <h2><i class="fas fa-chart-pie"></i> Market Sentiment</h2>
+        <!-- Market News & Alerts -->
+        <section class="news-section">
+            <div class="section-header">
+                <h2><i class="fas fa-newspaper"></i> Market News & Alerts</h2>
+                <p>Latest developments affecting Ghana cocoa markets</p>
+            </div>
             
-            <div class="sentiment-content">
-                <div class="sentiment-chart">
-                    <div class="chart-container" id="sentimentChart"></div>
+            <div class="news-grid">
+                <div class="news-card critical">
+                    <div class="news-header">
+                        <span class="news-badge">CRITICAL</span>
+                        <span class="news-time">2 hours ago</span>
+                    </div>
+                    <h3 class="news-title">El Niño Weather Pattern Intensifies</h3>
+                    <p class="news-content">
+                        NOAA confirms El Niño conditions strengthening, potentially impacting 
+                        West African cocoa production in Q3 2024. Volatility expected to rise.
+                    </p>
+                    <div class="news-tags">
+                        <span class="tag">Weather</span>
+                        <span class="tag">Production</span>
+                        <span class="tag">Volatility</span>
+                    </div>
                 </div>
                 
-                <div class="sentiment-indicators">
-                    <div class="indicator">
-                        <div class="indicator-label">
-                            <span>Fear & Greed Index</span>
-                            <span class="indicator-value neutral">54</span>
+                <div class="news-card warning">
+                    <div class="news-header">
+                        <span class="news-badge">WARNING</span>
+                        <span class="news-time">5 hours ago</span>
+                    </div>
+                    <h3 class="news-title">COCOBOD Announces Price Support</h3>
+                    <p class="news-content">
+                        Ghana Cocoa Board announces minimum price guarantee for 2024/25 season, 
+                        providing stability for 800,000+ cocoa farmers.
+                    </p>
+                    <div class="news-tags">
+                        <span class="tag">Policy</span>
+                        <span class="tag">COCOBOD</span>
+                        <span class="tag">Farmers</span>
+                    </div>
+                </div>
+                
+                <div class="news-card info">
+                    <div class="news-header">
+                        <span class="news-badge">INFO</span>
+                        <span class="news-time">1 day ago</span>
+                    </div>
+                    <h3 class="news-title">ICE Futures Volume Hits Record</h3>
+                    <p class="news-content">
+                        Cocoa futures trading volume reaches all-time high on ICE exchange, 
+                        with open interest up 15% month-over-month.
+                    </p>
+                    <div class="news-tags">
+                        <span class="tag">Futures</span>
+                        <span class="tag">Volume</span>
+                        <span class="tag">ICE</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ghana Market Insights -->
+        <section class="insights-section">
+            <div class="section-header">
+                <h2><i class="fas fa-map-marker-alt"></i> Ghana Market Insights</h2>
+                <p>Regional analysis and production forecasts</p>
+            </div>
+            
+            <div class="insights-content">
+                <div class="insights-map">
+                    <div class="map-container">
+                        <div class="ghana-regions">
+                            <div class="region" data-region="ashanti">
+                                <div class="region-name">Ashanti</div>
+                                <div class="region-stats">
+                                    <span>Production: 33%</span>
+                                    <span>Growth: +2.5%</span>
+                                </div>
+                            </div>
+                            <div class="region" data-region="western">
+                                <div class="region-name">Western</div>
+                                <div class="region-stats">
+                                    <span>Production: 42%</span>
+                                    <span>Growth: +3.1%</span>
+                                </div>
+                            </div>
+                            <div class="region" data-region="eastern">
+                                <div class="region-name">Eastern</div>
+                                <div class="region-stats">
+                                    <span>Production: 18%</span>
+                                    <span>Growth: +1.8%</span>
+                                </div>
+                            </div>
+                            <div class="region" data-region="bono">
+                                <div class="region-name">Bono</div>
+                                <div class="region-stats">
+                                    <span>Production: 7%</span>
+                                    <span>Growth: +4.2%</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="indicator-bar">
-                            <div class="indicator-fill" style="width: 54%; background: #f39c12;"></div>
-                        </div>
+                    </div>
+                </div>
+                
+                <div class="insights-stats">
+                    <div class="stat-card">
+                        <h3>Total Production</h3>
+                        <div class="stat-value">850,000 MT</div>
+                        <div class="stat-change positive">+3.5% YoY</div>
                     </div>
                     
-                    <div class="indicator">
-                        <div class="indicator-label">
-                            <span>Put/Call Sentiment</span>
-                            <span class="indicator-value positive">Bullish</span>
-                        </div>
-                        <div class="indicator-bar">
-                            <div class="indicator-fill" style="width: 65%; background: #27ae60;"></div>
-                        </div>
+                    <div class="stat-card">
+                        <h3>Export Revenue</h3>
+                        <div class="stat-value">$2.8B</div>
+                        <div class="stat-change positive">+12% YoY</div>
                     </div>
                     
-                    <div class="indicator">
-                        <div class="indicator-label">
-                            <span>Volatility Outlook</span>
-                            <span class="indicator-value negative">Increasing</span>
-                        </div>
-                        <div class="indicator-bar">
-                            <div class="indicator-fill" style="width: 75%; background: #e74c3c;"></div>
-                        </div>
+                    <div class="stat-card">
+                        <h3>Farmers Protected</h3>
+                        <div class="stat-value">800,000+</div>
+                        <div class="stat-change neutral">Price Support Active</div>
                     </div>
+                    
+                    <div class="stat-card">
+                        <h3>Risk Coverage</h3>
+                        <div class="stat-value">65%</div>
+                        <div class="stat-change positive">+15% YoY</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Indicators -->
+        <section class="indicators-section">
+            <div class="section-header">
+                <h2><i class="fas fa-chart-bar"></i> Technical Indicators</h2>
+                <p>Key market signals and trend analysis</p>
+            </div>
+            
+            <div class="indicators-grid">
+                <div class="indicator-card">
+                    <div class="indicator-header">
+                        <h3>RSI (14)</h3>
+                        <span class="indicator-value neutral">58.4</span>
+                    </div>
+                    <div class="indicator-bar">
+                        <div class="indicator-fill" style="width: 58.4%"></div>
+                    </div>
+                    <div class="indicator-status">Neutral</div>
+                </div>
+                
+                <div class="indicator-card">
+                    <div class="indicator-header">
+                        <h3>MACD</h3>
+                        <span class="indicator-value positive">+12.5</span>
+                    </div>
+                    <div class="indicator-bar">
+                        <div class="indicator-fill" style="width: 65%"></div>
+                    </div>
+                    <div class="indicator-status">Bullish</div>
+                </div>
+                
+                <div class="indicator-card">
+                    <div class="indicator-header">
+                        <h3>Bollinger Bands</h3>
+                        <span class="indicator-value neutral">$3,780 - $3,920</span>
+                    </div>
+                    <div class="indicator-bar">
+                        <div class="indicator-fill" style="width: 50%"></div>
+                    </div>
+                    <div class="indicator-status">Within Bands</div>
+                </div>
+                
+                <div class="indicator-card">
+                    <div class="indicator-header">
+                        <h3>Volume Trend</h3>
+                        <span class="indicator-value positive">+25%</span>
+                    </div>
+                    <div class="indicator-bar">
+                        <div class="indicator-fill" style="width: 75%"></div>
+                    </div>
+                    <div class="indicator-status">Increasing</div>
+                </div>
+                
+                <div class="indicator-card">
+                    <div class="indicator-header">
+                        <h3>Put/Call Ratio</h3>
+                        <span class="indicator-value positive">0.85</span>
+                    </div>
+                    <div class="indicator-bar">
+                        <div class="indicator-fill" style="width: 42.5%"></div>
+                    </div>
+                    <div class="indicator-status">Bullish</div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Cocoa Derivatives Research Lab</h4>
-                <p>Real-time dashboard for cocoa derivatives analysis</p>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Data Sources</h4>
-                <p>ICE Futures • COCOBOD • Ghana Commodity Exchange</p>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Last Updated</h4>
-                <p id="lastUpdated">Loading...</p>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>© 2025 Ghana Cocoa Derivatives Research Lab • Dashboard v2.1</p>
-        </div>
-    </footer>
+    <!-- Footer (same as index.html) -->
 
+    <!-- Dashboard JavaScript -->
     <script src="script.js"></script>
+    <script src="ghana-data.js"></script>
+    
     <script>
-        class DashboardManager {
+        // Dashboard Charts Initialization
+        class DashboardCharts {
             constructor() {
-                this.initializeCharts();
+                this.charts = {};
+                this.initCharts();
                 this.populateOptionsTable();
                 this.setupEventListeners();
-                this.updateLastUpdated();
+                this.startLiveUpdates();
             }
             
-            initializeCharts() {
+            initCharts() {
                 // Price Chart
-                const priceTrace = {
-                    x: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                    y: [3200, 3350, 3650, 4100, 5200, 7800, 10200, 9450, 8200, 6500, 4800, 3842],
-                    type: 'scatter',
-                    mode: 'lines+markers',
-                    line: {color: '#006B3F', width: 3},
-                    name: 'Cocoa Price'
-                };
-                
-                Plotly.newPlot('priceChart', [priceTrace], {
-                    title: '2024 Cocoa Price Evolution',
-                    paper_bgcolor: 'rgba(0,0,0,0)',
-                    plot_bgcolor: 'rgba(0,0,0,0)',
-                    font: {color: '#ffffff'},
-                    xaxis: {gridcolor: 'rgba(255,255,255,0.1)'},
-                    yaxis: {gridcolor: 'rgba(255,255,255,0.1)', title: 'Price ($/ton)'}
+                this.charts.price = new Chart(document.getElementById('priceChart'), {
+                    type: 'line',
+                    data: {
+                        labels: this.generateTimeLabels(30),
+                        datasets: [{
+                            label: 'Cocoa Price',
+                            data: this.generatePriceData(30, 3800, 100),
+                            borderColor: '#006B3F',
+                            backgroundColor: 'rgba(0, 107, 63, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                ticks: { color: '#94a3b8' }
+                            },
+                            y: {
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                ticks: { 
+                                    color: '#94a3b8',
+                                    callback: value => `$${value.toLocaleString()}`
+                                }
+                            }
+                        }
+                    }
                 });
                 
-                // Volatility Chart
-                const volTrace = {
-                    z: [
-                        [35, 34, 33, 32, 31, 30, 29],
-                        [34, 33, 32, 31, 30, 29, 28],
-                        [33, 32, 31, 30, 29, 28, 27],
-                        [32, 31, 30, 29, 28, 27, 26],
-                        [31, 30, 29, 28, 27, 26, 25]
-                    ],
-                    type: 'surface',
-                    colorscale: 'Viridis'
-                };
+                // Greeks Chart
+                this.charts.greeks = new Chart(document.getElementById('greeksChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Delta', 'Gamma', 'Theta', 'Vega', 'Rho'],
+                        datasets: [{
+                            data: [0.48, 0.0021, -15.2, 68.5, 42.3],
+                            backgroundColor: [
+                                '#3498db', '#2ecc71', '#e74c3c', '#9b59b6', '#f39c12'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: {
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                ticks: { color: '#94a3b8' }
+                            },
+                            x: {
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                ticks: { color: '#94a3b8' }
+                            }
+                        }
+                    }
+                });
                 
-                Plotly.newPlot('volatilityChart', [volTrace], {
+                // Risk Chart
+                this.charts.risk = new Chart(document.getElementById('riskChart'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Market Risk', 'Credit Risk', 'Liquidity Risk', 'Operational Risk'],
+                        datasets: [{
+                            data: [45, 25, 20, 10],
+                            backgroundColor: ['#e74c3c', '#f39c12', '#3498db', '#2ecc71'],
+                            borderWidth: 2,
+                            borderColor: 'rgba(255, 255, 255, 0.1)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '70%',
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { color: '#94a3b8' }
+                            }
+                        }
+                    }
+                });
+                
+                // Sentiment Chart
+                this.charts.sentiment = new Chart(document.getElementById('sentimentChart'), {
+                    type: 'pie',
+                    data: {
+                        labels: ['Bullish', 'Neutral', 'Bearish'],
+                        datasets: [{
+                            data: [40, 35, 25],
+                            backgroundColor: ['#27ae60', '#f39c12', '#e74c3c']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { color: '#94a3b8' }
+                            }
+                        }
+                    }
+                });
+                
+                // Initialize Plotly volatility chart
+                this.initVolatilityChart();
+            }
+            
+            initVolatilityChart() {
+                const z = [];
+                for (let i = 0; i < 5; i++) {
+                    const row = [];
+                    for (let j = 0; j < 7; j++) {
+                        row.push(30 + Math.random() * 15);
+                    }
+                    z.push(row);
+                }
+                
+                const data = [{
+                    z: z,
+                    type: 'surface',
+                    colorscale: 'Viridis',
+                    contours: {
+                        z: {
+                            show: true,
+                            usecolormap: true,
+                            highlightcolor: "#42f462",
+                            project: {z: true}
+                        }
+                    }
+                }];
+                
+                const layout = {
                     title: 'Volatility Surface',
                     scene: {
                         xaxis: {title: 'Strike'},
@@ -367,125 +774,172 @@
                         zaxis: {title: 'Volatility %'},
                         bgcolor: 'rgba(0,0,0,0)'
                     },
-                    paper_bgcolor: 'rgba(0,0,0,0)'
-                });
-                
-                // Greeks Chart
-                const greeksTrace = {
-                    x: ['Delta', 'Gamma', 'Theta', 'Vega', 'Rho'],
-                    y: [0.48, 0.0021, -15.2, 68.5, 42.3],
-                    type: 'bar',
-                    marker: {
-                        color: ['#3498db', '#2ecc71', '#e74c3c', '#9b59b6', '#f39c12']
-                    }
+                    paper_bgcolor: 'rgba(0,0,0,0)',
+                    font: {color: '#ffffff'},
+                    margin: {l: 0, r: 0, b: 0, t: 40}
                 };
                 
-                Plotly.newPlot('greeksChart', [greeksTrace], {
-                    title: 'Option Greeks',
-                    paper_bgcolor: 'rgba(0,0,0,0)',
-                    plot_bgcolor: 'rgba(0,0,0,0)',
-                    font: {color: '#ffffff'}
-                });
-                
-                // Risk Chart
-                const riskTrace = {
-                    values: [45, 25, 20, 10],
-                    labels: ['Market Risk', 'Credit Risk', 'Liquidity Risk', 'Operational Risk'],
-                    type: 'pie',
-                    hole: 0.4,
-                    marker: {
-                        colors: ['#e74c3c', '#f39c12', '#3498db', '#2ecc71']
-                    }
-                };
-                
-                Plotly.newPlot('riskChart', [riskTrace], {
-                    title: 'Risk Distribution',
-                    paper_bgcolor: 'rgba(0,0,0,0)',
-                    plot_bgcolor: 'rgba(0,0,0,0)',
-                    font: {color: '#ffffff'}
-                });
-                
-                // Sentiment Chart
-                const sentimentTrace = {
-                    values: [40, 35, 25],
-                    labels: ['Bullish', 'Neutral', 'Bearish'],
-                    type: 'pie',
-                    marker: {
-                        colors: ['#27ae60', '#f39c12', '#e74c3c']
-                    }
-                };
-                
-                Plotly.newPlot('sentimentChart', [sentimentTrace], {
-                    title: 'Market Sentiment',
-                    paper_bgcolor: 'rgba(0,0,0,0)',
-                    plot_bgcolor: 'rgba(0,0,0,0)',
-                    font: {color: '#ffffff'}
-                });
+                Plotly.newPlot('volatilityChart', data, layout);
             }
             
             populateOptionsTable() {
                 const tableBody = document.getElementById('optionsTableBody');
                 const strikes = [3500, 3600, 3700, 3800, 3900, 4000, 4100];
                 
-                strikes.forEach(strike => {
+                tableBody.innerHTML = strikes.map(strike => {
                     const callBid = (strike * 0.05 + Math.random() * 20).toFixed(2);
                     const callAsk = (parseFloat(callBid) + Math.random() * 5).toFixed(2);
                     const putBid = (Math.max(0, 4000 - strike) * 0.05 + Math.random() * 15).toFixed(2);
                     const putAsk = (parseFloat(putBid) + Math.random() * 5).toFixed(2);
-                    const impliedVol = (30 + Math.random() * 10).toFixed(1);
-                    const openInterest = Math.floor(Math.random() * 1000) + 500;
+                    const iv = (30 + Math.random() * 10).toFixed(1);
+                    const volume = Math.floor(Math.random() * 1000) + 500;
+                    const oi = Math.floor(Math.random() * 5000) + 1000;
                     const delta = (strike < 3842 ? 0.6 + Math.random() * 0.3 : 0.3 + Math.random() * 0.3).toFixed(3);
+                    const gamma = (0.001 + Math.random() * 0.002).toFixed(4);
                     
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>$${strike}</td>
-                        <td>$${callBid}</td>
-                        <td>$${callAsk}</td>
-                        <td>$${putBid}</td>
-                        <td>$${putAsk}</td>
-                        <td>${impliedVol}%</td>
-                        <td>${openInterest.toLocaleString()}</td>
-                        <td>${delta}</td>
+                    return `
+                        <tr>
+                            <td>$${strike}</td>
+                            <td>$${callBid}</td>
+                            <td>$${callAsk}</td>
+                            <td>$${putBid}</td>
+                            <td>$${putAsk}</td>
+                            <td>${iv}%</td>
+                            <td>${volume.toLocaleString()}</td>
+                            <td>${oi.toLocaleString()}</td>
+                            <td>${delta}</td>
+                            <td>${gamma}</td>
+                        </tr>
                     `;
-                    
-                    tableBody.appendChild(row);
-                });
+                }).join('');
+            }
+            
+            generateTimeLabels(count) {
+                const labels = [];
+                const now = new Date();
+                
+                for (let i = count - 1; i >= 0; i--) {
+                    const date = new Date(now);
+                    date.setDate(date.getDate() - i);
+                    labels.push(date.toLocaleDateString('en-US', {month: 'short', day: 'numeric'}));
+                }
+                
+                return labels;
+            }
+            
+            generatePriceData(count, basePrice, volatility) {
+                const prices = [basePrice];
+                
+                for (let i = 1; i < count; i++) {
+                    const change = (Math.random() - 0.5) * volatility;
+                    prices.push(prices[i - 1] + change);
+                }
+                
+                return prices;
             }
             
             setupEventListeners() {
-                // Time selector
+                // Time period selector
                 document.querySelectorAll('.time-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
+                    btn.addEventListener('click', (e) => {
                         document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
-                        btn.classList.add('active');
-                        this.updateChartsForTimeframe(btn.textContent);
+                        e.target.classList.add('active');
+                        this.updateChartData(e.target.dataset.period);
                     });
+                });
+                
+                // Refresh button
+                document.getElementById('refreshData').addEventListener('click', () => {
+                    this.refreshAllData();
                 });
                 
                 // Export button
                 document.getElementById('exportDashboard').addEventListener('click', () => {
-                    this.exportDashboard();
+                    this.exportDashboardData();
                 });
                 
-                // Strategy buttons
-                document.querySelectorAll('.strategy-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        alert('Strategy simulation started. This would run complex hedging simulations.');
-                    });
+                // Fullscreen toggle
+                document.getElementById('fullscreenToggle').addEventListener('click', () => {
+                    this.toggleFullscreen();
+                });
+                
+                // Chart type selector
+                document.getElementById('priceChartType').addEventListener('change', (e) => {
+                    this.changeChartType(e.target.value);
+                });
+                
+                // Filter controls
+                document.getElementById('expirationFilter').addEventListener('change', () => {
+                    this.filterOptionsTable();
+                });
+                
+                document.getElementById('moneynessFilter').addEventListener('change', () => {
+                    this.filterOptionsTable();
+                });
+                
+                document.getElementById('volumeFilter').addEventListener('input', (e) => {
+                    document.getElementById('volumeValue').textContent = `${e.target.value}+`;
+                    this.filterOptionsTable();
                 });
             }
             
-            updateChartsForTimeframe(timeframe) {
-                console.log(`Updating charts for timeframe: ${timeframe}`);
-                // In a real app, this would fetch new data based on timeframe
+            updateChartData(period) {
+                console.log(`Updating charts for period: ${period}`);
+                // In production, this would fetch new data based on period
             }
             
-            exportDashboard() {
+            refreshAllData() {
+                // Simulate data refresh
+                const btn = document.getElementById('refreshData');
+                const originalHTML = btn.innerHTML;
+                
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
+                btn.disabled = true;
+                
+                setTimeout(() => {
+                    // Update KPIs with new random values
+                    this.updateKPIValues();
+                    
+                    // Update charts
+                    this.updateChartData();
+                    
+                    btn.innerHTML = originalHTML;
+                    btn.disabled = false;
+                    
+                    // Show notification
+                    this.showNotification('Dashboard data refreshed successfully!', 'success');
+                }, 1500);
+            }
+            
+            updateKPIValues() {
+                // Simulate updating KPI values
+                const kpis = document.querySelectorAll('.kpi-value');
+                kpis.forEach(kpi => {
+                    const current = parseFloat(kpi.textContent.replace(/[$,%]/g, ''));
+                    const change = (Math.random() - 0.5) * 0.02 * current;
+                    const newValue = current + change;
+                    
+                    if (kpi.textContent.includes('$')) {
+                        kpi.textContent = `$${newValue.toFixed(2)}`;
+                    } else if (kpi.textContent.includes('%')) {
+                        kpi.textContent = `${newValue.toFixed(1)}%`;
+                    } else {
+                        kpi.textContent = Math.round(newValue).toLocaleString();
+                    }
+                });
+            }
+            
+            exportDashboardData() {
                 const data = {
                     timestamp: new Date().toISOString(),
-                    currentPrice: 3842.50,
-                    volatility: 31.8,
-                    metrics: 'Exported from Cocoa Derivatives Dashboard'
+                    dashboard: 'Cocoa Derivatives Dashboard',
+                    metrics: {
+                        price: 3842.50,
+                        volatility: 31.8,
+                        openInterest: 12450,
+                        riskPremium: 4.2
+                    },
+                    exportedAt: new Date().toLocaleString()
                 };
                 
                 const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
@@ -496,312 +950,589 @@
                 a.click();
                 URL.revokeObjectURL(url);
                 
-                alert('Dashboard data exported successfully!');
+                this.showNotification('Dashboard data exported successfully!', 'success');
             }
             
-            updateLastUpdated() {
+            toggleFullscreen() {
+                const elem = document.documentElement;
+                
+                if (!document.fullscreenElement) {
+                    if (elem.requestFullscreen) {
+                        elem.requestFullscreen();
+                    }
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            }
+            
+            changeChartType(type) {
+                this.charts.price.config.type = type;
+                this.charts.price.update();
+            }
+            
+            filterOptionsTable() {
+                // Filter logic would go here
+                console.log('Filtering options table...');
+            }
+            
+            startLiveUpdates() {
+                // Update data every 30 seconds
+                setInterval(() => {
+                    this.updateKPIValues();
+                    this.updateLiveCharts();
+                }, 30000);
+            }
+            
+            updateLiveCharts() {
+                // Add new data point to price chart
+                const priceData = this.charts.price.data.datasets[0].data;
+                const labels = this.charts.price.data.labels;
+                
+                // Remove first point, add new point
+                priceData.shift();
+                const lastPrice = priceData[priceData.length - 1];
+                const newPrice = lastPrice + (Math.random() - 0.5) * 50;
+                priceData.push(newPrice);
+                
+                // Update labels
+                labels.shift();
                 const now = new Date();
-                document.getElementById('lastUpdated').textContent = 
-                    `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+                labels.push(now.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'}));
+                
+                this.charts.price.update('quiet');
+            }
+            
+            showNotification(message, type = 'info') {
+                // Create notification element
+                const notification = document.createElement('div');
+                notification.className = `dashboard-notification ${type}`;
+                notification.innerHTML = `
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // Remove after 3 seconds
+                setTimeout(() => {
+                    notification.classList.add('fade-out');
+                    setTimeout(() => notification.remove(), 300);
+                }, 3000);
             }
         }
         
         // Initialize dashboard when page loads
         document.addEventListener('DOMContentLoaded', () => {
-            new DashboardManager();
+            new DashboardCharts();
         });
     </script>
     
     <style>
         /* Dashboard-specific styles */
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-xl) var(--space);
+        }
+        
         .dashboard-header {
-            margin-bottom: 2rem;
-            padding: 2rem;
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-xl);
+            color: white;
         }
         
         .dashboard-controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 1.5rem;
+            margin-top: var(--space-xl);
+            flex-wrap: wrap;
+            gap: var(--space);
         }
         
         .time-selector {
             display: flex;
-            gap: 0.5rem;
+            gap: var(--space-xs);
+            background: rgba(255, 255, 255, 0.1);
+            padding: var(--space-xs);
+            border-radius: var(--radius);
         }
         
         .time-btn {
             padding: 0.5rem 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-            color: #cbd5e1;
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-sm);
+            color: rgba(255, 255, 255, 0.8);
             cursor: pointer;
             transition: var(--transition);
         }
         
         .time-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.2);
         }
         
         .time-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: transparent;
+            background: white;
+            color: var(--primary);
+            font-weight: 600;
         }
         
-        .dashboard-actions {
-            display: flex;
-            gap: 1rem;
+        /* KPI Section */
+        .kpi-section {
+            margin-bottom: var(--space-xl);
         }
         
-        /* Metrics Section */
-        .metrics-section {
-            margin-bottom: 3rem;
-        }
-        
-        .metrics-grid {
+        .kpi-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
+            gap: var(--space);
         }
         
-        .metric-card {
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .kpi-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--space);
+            border: 1px solid var(--border);
             transition: var(--transition);
         }
         
-        .metric-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
+        .kpi-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
         
-        .metric-header {
+        .kpi-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
+            margin-bottom: var(--space);
         }
         
-        .metric-change {
+        .kpi-change {
             font-size: 0.875rem;
             font-weight: 600;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
+            padding: 0.25rem 0.5rem;
+            border-radius: 50px;
         }
         
-        .metric-change.positive {
-            background: rgba(39, 174, 96, 0.2);
-            color: #27ae60;
+        .kpi-change.positive {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
         }
         
-        .metric-change.negative {
-            background: rgba(231, 76, 60, 0.2);
-            color: #e74c3c;
+        .kpi-change.negative {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
         }
         
-        .metric-change.neutral {
+        .kpi-change.neutral {
             background: rgba(243, 156, 18, 0.2);
             color: #f39c12;
         }
         
-        .metric-value {
-            font-size: 2.5rem;
-            font-weight: 800;
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: 700;
             color: var(--secondary);
-            margin: 0.5rem 0;
+            margin: var(--space-xs) 0;
         }
         
-        .metric-sub {
-            color: #94a3b8;
+        .kpi-sub {
+            color: var(--text-tertiary);
             font-size: 0.875rem;
+            margin-bottom: var(--space-sm);
+        }
+        
+        .kpi-trend {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            padding-top: var(--space-xs);
+            border-top: 1px solid var(--border);
         }
         
         /* Charts Section */
         .charts-section {
-            margin-bottom: 3rem;
+            margin-bottom: var(--space-2xl);
         }
         
-        .chart-row {
+        .charts-row {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
+            gap: var(--space);
+            margin-bottom: var(--space);
         }
         
-        .chart-card {
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .charts-row:first-child {
+            grid-template-columns: 2fr 1fr;
+        }
+        
+        .charts-row:last-child {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .chart-container {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--space);
+            border: 1px solid var(--border);
+        }
+        
+        .chart-container.large {
+            grid-column: span 2;
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space);
+        }
+        
+        .chart-wrapper {
+            height: 300px;
         }
         
         /* Options Section */
         .options-section {
-            margin-bottom: 3rem;
+            margin-bottom: var(--space-2xl);
         }
         
         .options-controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 1.5rem 0;
+            margin: var(--space-xl) 0;
+            flex-wrap: wrap;
+            gap: var(--space);
         }
         
         .options-filters {
             display: flex;
-            gap: 1rem;
+            gap: var(--space);
+            align-items: center;
         }
         
-        .filter-select {
-            padding: 0.5rem 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-            color: white;
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
         }
         
         .options-stats {
             display: flex;
-            gap: 2rem;
+            gap: var(--space-xl);
         }
         
         .stat-item {
-            color: #cbd5e1;
+            text-align: center;
+        }
+        
+        .stat-label {
+            display: block;
+            color: var(--text-tertiary);
+            font-size: 0.875rem;
+        }
+        
+        .stat-value {
+            display: block;
+            font-weight: 700;
+            color: var(--text-primary);
         }
         
         .options-table-container {
             overflow-x: auto;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
         }
         
         .options-table {
             width: 100%;
             border-collapse: collapse;
-            background: rgba(30, 41, 59, 0.8);
+            min-width: 1000px;
         }
         
         .options-table th {
-            background: rgba(15, 23, 42, 0.9);
+            background: var(--bg-tertiary);
             padding: 1rem;
             text-align: left;
             font-weight: 600;
-            color: var(--secondary);
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
         }
         
         .options-table td {
-            padding: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
         }
         
         .options-table tr:hover {
             background: rgba(255, 255, 255, 0.05);
         }
         
-        /* Hedging Section */
-        .hedging-section {
-            margin-bottom: 3rem;
-        }
-        
-        .hedging-strategies {
+        /* Strategies Section */
+        .strategies-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
+            gap: var(--space);
+            margin-top: var(--space-xl);
         }
         
         .strategy-card {
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--space);
+            border: 1px solid var(--border);
         }
         
         .strategy-header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
+            gap: var(--space);
+            margin-bottom: var(--space);
         }
         
-        .strategy-risk {
+        .strategy-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), #00704a);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+        }
+        
+        .strategy-tag {
             font-size: 0.75rem;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
+            padding: 0.25rem 0.5rem;
+            border-radius: 50px;
             font-weight: 600;
         }
         
-        .strategy-risk.low {
-            background: rgba(39, 174, 96, 0.2);
-            color: #27ae60;
+        .strategy-tag.low-risk {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
         }
         
-        .strategy-risk.medium {
+        .strategy-tag.medium-risk {
             background: rgba(243, 156, 18, 0.2);
             color: #f39c12;
         }
         
-        .strategy-risk.high {
-            background: rgba(231, 76, 60, 0.2);
-            color: #e74c3c;
+        .strategy-tag.high-risk {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
         }
         
         .strategy-metrics {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin: 1rem 0;
+            margin: var(--space) 0;
         }
         
-        .strategy-metric {
+        .metric {
+            margin-bottom: var(--space-sm);
+        }
+        
+        .metric-bar {
+            height: 6px;
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 0.25rem 0;
+        }
+        
+        .metric-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+        
+        /* News Section */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space);
+            margin-top: var(--space-xl);
+        }
+        
+        .news-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--space);
+            border-left: 4px solid var(--border);
+        }
+        
+        .news-card.critical {
+            border-left-color: #ef4444;
+        }
+        
+        .news-card.warning {
+            border-left-color: #f59e0b;
+        }
+        
+        .news-card.info {
+            border-left-color: #3b82f6;
+        }
+        
+        .news-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: var(--space-sm);
         }
         
-        .strategy-btn {
-            width: 100%;
-            margin-top: 1rem;
+        .news-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 50px;
         }
         
-        /* Sentiment Section */
-        .sentiment-section {
-            margin-bottom: 3rem;
+        .critical .news-badge {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
         }
         
-        .sentiment-content {
+        .warning .news-badge {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+        
+        .info .news-badge {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+        
+        .news-time {
+            color: var(--text-tertiary);
+            font-size: 0.75rem;
+        }
+        
+        .news-title {
+            margin-bottom: var(--space-xs);
+            font-size: 1.1rem;
+        }
+        
+        .news-content {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: var(--space);
+        }
+        
+        .news-tags {
+            display: flex;
+            gap: var(--space-xs);
+        }
+        
+        .tag {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            background: var(--bg-tertiary);
+            border-radius: 50px;
+            color: var(--text-tertiary);
+        }
+        
+        /* Insights Section */
+        .insights-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-top: 1.5rem;
+            gap: var(--space-xl);
+            margin-top: var(--space-xl);
         }
         
-        .sentiment-indicators {
+        .insights-map {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--space);
+            border: 1px solid var(--border);
+        }
+        
+        .ghana-regions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space);
+            height: 300px;
+        }
+        
+        .region {
+            background: var(--bg-tertiary);
+            border-radius: var(--radius);
+            padding: var(--space);
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            justify-content: center;
+            align-items: center;
+            transition: var(--transition);
+            cursor: pointer;
         }
         
-        .indicator {
-            background: rgba(30, 41, 59, 0.8);
-            padding: 1rem;
+        .region:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .region-name {
+            font-weight: 600;
+            margin-bottom: var(--space-xs);
+        }
+        
+        .region-stats {
+            font-size: 0.875rem;
+            text-align: center;
+        }
+        
+        .insights-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space);
+        }
+        
+        .stat-card {
+            background: var(--bg-secondary);
             border-radius: var(--radius);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: var(--space);
+            border: 1px solid var(--border);
+            text-align: center;
         }
         
-        .indicator-label {
+        .stat-card h3 {
+            font-size: 1rem;
+            margin-bottom: var(--space-xs);
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin: var(--space-xs) 0;
+        }
+        
+        /* Indicators Section */
+        .indicators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space);
+            margin-top: var(--space-xl);
+        }
+        
+        .indicator-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: var(--space);
+            border: 1px solid var(--border);
+        }
+        
+        .indicator-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.5rem;
+            margin-bottom: var(--space-sm);
         }
         
         .indicator-value {
@@ -809,49 +1540,107 @@
         }
         
         .indicator-value.positive {
-            color: #27ae60;
+            color: #10b981;
         }
         
         .indicator-value.negative {
-            color: #e74c3c;
+            color: #ef4444;
         }
         
         .indicator-value.neutral {
-            color: #f39c12;
+            color: #f59e0b;
         }
         
         .indicator-bar {
             height: 6px;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--bg-tertiary);
             border-radius: 3px;
             overflow: hidden;
+            margin: var(--space-xs) 0;
         }
         
         .indicator-fill {
             height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
             border-radius: 3px;
-            transition: width 0.3s ease;
         }
         
-        @media (max-width: 768px) {
-            .chart-row {
+        .indicator-status {
+            font-size: 0.875rem;
+            color: var(--text-tertiary);
+            text-align: center;
+        }
+        
+        /* Dashboard Notifications */
+        .dashboard-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .dashboard-notification.success {
+            border-left: 4px solid #10b981;
+        }
+        
+        .dashboard-notification.info {
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .dashboard-notification.fade-out {
+            animation: slideOut 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .charts-row:first-child,
+            .charts-row:last-child {
                 grid-template-columns: 1fr;
             }
             
-            .sentiment-content {
+            .insights-content {
                 grid-template-columns: 1fr;
-            }
-            
-            .dashboard-controls {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: flex-start;
             }
             
             .options-controls {
                 flex-direction: column;
-                gap: 1rem;
                 align-items: flex-start;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .time-selector {
+                justify-content: center;
+            }
+            
+            .strategies-grid,
+            .news-grid,
+            .insights-stats {
+                grid-template-columns: 1fr;
             }
         }
     </style>
