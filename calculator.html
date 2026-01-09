@@ -3,1056 +3,461 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator - Cocoa Derivatives Research Lab</title>
+    <title>Cocoa Options Calculator | Ghana COCOBOD Hedging Simulator</title>
+    <meta name="description" content="Advanced Black-Scholes options pricing and delta hedging simulator for Ghana Cocoa Board. Real-time Greek calculations, hedging simulation, transaction tracking.">
+    
+    <!-- Same head content as index.html with specific calculator meta tags -->
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- MathJax for formulas -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <span class="ghana-flag"></span>
-                <h1>Cocoa Derivatives Lab</h1>
-                <span class="ghana-flag"></span>
-            </div>
-            <div class="nav-links">
-                <a href="index.html"><i class="fas fa-home"></i> Home</a>
-                <a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a>
-                <a href="calculator.html" class="active"><i class="fas fa-calculator"></i> Calculator</a>
-                <a href="research.html"><i class="fas fa-book"></i> Research</a>
-                <a href="data.html"><i class="fas fa-database"></i> Data</a>
-                <a href="ml-models.html"><i class="fas fa-brain"></i> AI Models</a>
-            </div>
-        </div>
-    </nav>
-
-    <main class="container">
+    <!-- Navigation (same as index.html) -->
+    
+    <main class="calculator-container">
         <!-- Calculator Header -->
         <header class="calculator-header">
-            <h1><i class="fas fa-calculator"></i> Advanced Pricing Calculator</h1>
-            <p>Multiple models for cocoa options pricing and Greeks calculation</p>
+            <div class="header-content">
+                <h1><i class="fas fa-calculator"></i> Ghana Cocoa Options & Delta Hedging Simulator</h1>
+                <p class="subtitle">Professional-grade risk management tools for COCOBOD and Ghana Commodity Exchange</p>
+                
+                <div class="calculator-stats">
+                    <div class="stat">
+                        <i class="fas fa-bolt"></i>
+                        <span>Real-time Calculations</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Transaction Cost Modeling</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Advanced Visualization</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-download"></i>
+                        <span>Data Export</span>
+                    </div>
+                </div>
+            </div>
         </header>
 
-        <!-- Model Selector -->
-        <section class="model-selector-section">
-            <h2><i class="fas fa-cogs"></i> Select Pricing Model</h2>
-            <div class="model-tabs">
-                <button class="model-tab active" data-model="black-scholes">
-                    <i class="fas fa-chart-line"></i> Black-Scholes
-                </button>
-                <button class="model-tab" data-model="monte-carlo">
-                    <i class="fas fa-dice"></i> Monte Carlo
-                </button>
-                <button class="model-tab" data-model="binomial">
-                    <i class="fas fa-sitemap"></i> Binomial Tree
-                </button>
-                <button class="model-tab" data-model="heston">
-                    <i class="fas fa-wave-square"></i> Heston Model
-                </button>
-                <button class="model-tab" data-model="jump-diffusion">
-                    <i class="fas fa-bolt"></i> Jump-Diffusion
-                </button>
-            </div>
-        </section>
-
-        <!-- Calculator Interface -->
-        <section class="calculator-interface">
-            <div class="calculator-sidebar">
-                <h3><i class="fas fa-sliders-h"></i> Parameters</h3>
-                
-                <div class="parameter-group">
-                    <div class="parameter">
-                        <label for="spotPrice">Spot Price (S₀)</label>
-                        <div class="parameter-control">
-                            <input type="number" id="spotPrice" value="3850" step="10">
-                            <span class="parameter-unit">$/ton</span>
-                        </div>
-                        <input type="range" id="spotPriceSlider" min="2000" max="15000" value="3850" step="10">
-                        <div class="parameter-value">$3,850</div>
-                    </div>
+        <!-- Main Calculator Interface -->
+        <div class="calculator-interface">
+            <!-- Left Panel: Controls -->
+            <div class="controls-panel">
+                <div class="control-section">
+                    <h3><i class="fas fa-sliders-h"></i> Option Parameters</h3>
                     
-                    <div class="parameter">
-                        <label for="strikePrice">Strike Price (K)</label>
-                        <div class="parameter-control">
-                            <input type="number" id="strikePrice" value="4000" step="10">
-                            <span class="parameter-unit">$/ton</span>
+                    <div class="parameter-group">
+                        <div class="parameter">
+                            <label for="cocoaPrice">
+                                <span>Cocoa Price ($/MT)</span>
+                                <span class="parameter-value" id="cocoaPriceValue">$2,500</span>
+                            </label>
+                            <input type="range" id="cocoaPrice" min="2000" max="5000" value="2500" step="10">
+                            <div class="parameter-range">
+                                <span>$2,000</span>
+                                <span>$5,000</span>
+                            </div>
                         </div>
-                        <input type="range" id="strikePriceSlider" min="2000" max="15000" value="4000" step="10">
-                        <div class="parameter-value">$4,000</div>
-                    </div>
-                    
-                    <div class="parameter">
-                        <label for="timeToMaturity">Time to Maturity (T)</label>
-                        <div class="parameter-control">
-                            <input type="number" id="timeToMaturity" value="1" step="0.1">
-                            <span class="parameter-unit">years</span>
+                        
+                        <div class="parameter">
+                            <label for="strikePrice">
+                                <span>Strike Price ($/MT)</span>
+                                <span class="parameter-value" id="strikePriceValue">$2,600</span>
+                            </label>
+                            <input type="range" id="strikePrice" min="2200" max="3000" value="2600" step="10">
+                            <div class="parameter-range">
+                                <span>$2,200</span>
+                                <span>$3,000</span>
+                            </div>
                         </div>
-                        <input type="range" id="timeToMaturitySlider" min="0.1" max="5" value="1" step="0.1">
-                        <div class="parameter-value">1.0 years</div>
-                    </div>
-                    
-                    <div class="parameter">
-                        <label for="volatility">Volatility (σ)</label>
-                        <div class="parameter-control">
-                            <input type="number" id="volatility" value="32" step="0.5">
-                            <span class="parameter-unit">%</span>
+                        
+                        <div class="parameter">
+                            <label for="volatility">
+                                <span>Volatility (σ)</span>
+                                <span class="parameter-value" id="volatilityValue">25%</span>
+                            </label>
+                            <input type="range" id="volatility" min="0.15" max="0.5" value="0.25" step="0.01">
+                            <div class="parameter-range">
+                                <span>15%</span>
+                                <span>50%</span>
+                            </div>
                         </div>
-                        <input type="range" id="volatilitySlider" min="10" max="100" value="32" step="0.5">
-                        <div class="parameter-value">32%</div>
-                    </div>
-                    
-                    <div class="parameter">
-                        <label for="riskFreeRate">Risk-Free Rate (r)</label>
-                        <div class="parameter-control">
-                            <input type="number" id="riskFreeRate" value="4.5" step="0.1">
-                            <span class="parameter-unit">%</span>
+                        
+                        <div class="parameter">
+                            <label for="timeToExpiry">
+                                <span>Time to Expiry</span>
+                                <span class="parameter-value" id="timeToExpiryValue">3 months</span>
+                            </label>
+                            <input type="range" id="timeToExpiry" min="0.08" max="2" value="0.25" step="0.01">
+                            <div class="parameter-range">
+                                <span>1 month</span>
+                                <span>2 years</span>
+                            </div>
                         </div>
-                        <input type="range" id="riskFreeRateSlider" min="0" max="15" value="4.5" step="0.1">
-                        <div class="parameter-value">4.5%</div>
-                    </div>
-                    
-                    <div class="parameter">
-                        <label for="optionType">Option Type</label>
-                        <select id="optionType">
-                            <option value="call">Call Option</option>
-                            <option value="put">Put Option</option>
-                        </select>
-                    </div>
-                    
-                    <div class="parameter">
-                        <label for="dividendYield">Dividend Yield (q)</label>
-                        <div class="parameter-control">
-                            <input type="number" id="dividendYield" value="0" step="0.1">
-                            <span class="parameter-unit">%</span>
-                        </div>
-                        <input type="range" id="dividendYieldSlider" min="0" max="10" value="0" step="0.1">
-                        <div class="parameter-value">0%</div>
                     </div>
                 </div>
                 
-                <button class="btn btn-primary calculate-btn" id="calculateBtn">
-                    <i class="fas fa-bolt"></i> Calculate
-                </button>
+                <div class="control-section">
+                    <h3><i class="fas fa-shield-alt"></i> Hedging Strategy</h3>
+                    
+                    <div class="strategy-parameters">
+                        <div class="strategy-param">
+                            <label>Option Type</label>
+                            <div class="option-type-selector">
+                                <button class="option-type-btn active" data-type="call">
+                                    <i class="fas fa-arrow-up"></i> Call Option
+                                </button>
+                                <button class="option-type-btn" data-type="put">
+                                    <i class="fas fa-arrow-down"></i> Put Option
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="strategy-param">
+                            <label for="hedgeFrequency">Hedging Frequency</label>
+                            <select id="hedgeFrequency" class="strategy-select">
+                                <option value="daily">Daily Rebalancing</option>
+                                <option value="weekly">Weekly Rebalancing</option>
+                                <option value="monthly">Monthly Rebalancing</option>
+                                <option value="dynamic">Dynamic (Optimal)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="strategy-param">
+                            <label for="positionSize">
+                                <span>Position Size</span>
+                                <span class="parameter-value" id="positionSizeValue">-100 (Short)</span>
+                            </label>
+                            <input type="range" id="positionSize" min="-500" max="500" value="-100" step="10">
+                            <div class="parameter-range">
+                                <span>-500 (Short)</span>
+                                <span>500 (Long)</span>
+                            </div>
+                        </div>
+                        
+                        <div class="strategy-param">
+                            <label for="transactionCost">
+                                <span>Transaction Cost</span>
+                                <span class="parameter-value" id="transactionCostValue">0.10%</span>
+                            </label>
+                            <input type="range" id="transactionCost" min="0" max="0.01" value="0.001" step="0.0005">
+                            <div class="parameter-range">
+                                <span>0%</span>
+                                <span>1%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
-                <button class="btn btn-secondary" id="resetBtn">
-                    <i class="fas fa-redo"></i> Reset Parameters
-                </button>
+                <div class="control-actions">
+                    <button class="btn btn-primary btn-lg" id="runSimulation">
+                        <i class="fas fa-play"></i> Run Simulation
+                    </button>
+                    <button class="btn btn-secondary" id="resetSimulation">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                    <button class="btn btn-secondary" id="exportData">
+                        <i class="fas fa-download"></i> Export CSV
+                    </button>
+                    <button class="btn btn-secondary" id="saveScenario">
+                        <i class="fas fa-save"></i> Save Scenario
+                    </button>
+                </div>
             </div>
             
-            <div class="calculator-results">
-                <!-- Results Display -->
-                <div class="results-card">
-                    <h3><i class="fas fa-chart-bar"></i> Calculation Results</h3>
+            <!-- Right Panel: Results -->
+            <div class="results-panel">
+                <!-- Live Results -->
+                <div class="live-results">
+                    <h3><i class="fas fa-tachometer-alt"></i> Live Results</h3>
                     
                     <div class="results-grid">
-                        <div class="result-item">
+                        <div class="result-card">
                             <div class="result-label">Option Price</div>
-                            <div class="result-value" id="resultPrice">$254.30</div>
+                            <div class="result-value" id="optionPrice">$97.34</div>
+                            <div class="result-change positive">
+                                <i class="fas fa-arrow-up"></i> ITM
+                            </div>
                         </div>
                         
-                        <div class="result-item">
+                        <div class="result-card">
                             <div class="result-label">Delta (Δ)</div>
-                            <div class="result-value" id="resultDelta">0.4723</div>
+                            <div class="result-value" id="deltaValue">0.446</div>
+                            <div class="result-desc">Price sensitivity</div>
                         </div>
                         
-                        <div class="result-item">
-                            <div class="result-label">Gamma (Γ)</div>
-                            <div class="result-value" id="resultGamma">0.0021</div>
+                        <div class="result-card">
+                            <div class="result-label">Hedging P&L</div>
+                            <div class="result-value" id="hedgingPnl">$0.00</div>
+                            <div class="result-change neutral">
+                                Run simulation
+                            </div>
                         </div>
                         
-                        <div class="result-item">
-                            <div class="result-label">Theta (Θ)</div>
-                            <div class="result-value" id="resultTheta">-$15.20</div>
+                        <div class="result-card">
+                            <div class="result-label">Hedging Error</div>
+                            <div class="result-value" id="hedgingError">0.00%</div>
+                            <div class="result-change positive">
+                                <i class="fas fa-check"></i> Optimal
+                            </div>
                         </div>
-                        
-                        <div class="result-item">
-                            <div class="result-label">Vega (ν)</div>
-                            <div class="result-value" id="resultVega">68.45</div>
-                        </div>
-                        
-                        <div class="result-item">
-                            <div class="result-label">Rho (ρ)</div>
-                            <div class="result-value" id="resultRho">42.30</div>
+                    </div>
+                </div>
+                
+                <!-- Charts -->
+                <div class="charts-container">
+                    <div class="chart-wrapper">
+                        <h4><i class="fas fa-chart-line"></i> Price & Delta Evolution</h4>
+                        <div class="chart-container">
+                            <canvas id="priceDeltaChart"></canvas>
                         </div>
                     </div>
                     
-                    <div class="results-summary">
-                        <h4><i class="fas fa-info-circle"></i> Model Summary</h4>
-                        <p id="modelDescription">Black-Scholes model with constant volatility assumption.</p>
-                        <div class="model-accuracy">
-                            <span>Accuracy: </span>
-                            <div class="accuracy-bar">
-                                <div class="accuracy-fill" style="width: 85%"></div>
-                            </div>
-                            <span>85%</span>
+                    <div class="chart-wrapper">
+                        <h4><i class="fas fa-balance-scale"></i> Hedging Performance</h4>
+                        <div class="chart-container">
+                            <canvas id="hedgingChart"></canvas>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Sensitivity Analysis -->
-                <div class="sensitivity-card">
-                    <h3><i class="fas fa-atom"></i> Sensitivity Analysis</h3>
-                    <div class="chart-container" id="sensitivityChart"></div>
+                <!-- Option Greeks -->
+                <div class="greeks-section">
+                    <h3><i class="fas fa-square-root-alt"></i> Option Greeks</h3>
+                    
+                    <div class="greeks-grid">
+                        <div class="greek-card" data-greek="delta">
+                            <div class="greek-header">
+                                <div class="greek-name">Delta (Δ)</div>
+                                <div class="greek-value" id="greekDelta">0.446</div>
+                            </div>
+                            <div class="greek-desc">Price sensitivity per $1 move</div>
+                            <div class="greek-bar">
+                                <div class="greek-fill" style="width: 44.6%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="greek-card" data-greek="gamma">
+                            <div class="greek-header">
+                                <div class="greek-name">Gamma (Γ)</div>
+                                <div class="greek-value" id="greekGamma">0.0013</div>
+                            </div>
+                            <div class="greek-desc">Delta sensitivity per $1 move</div>
+                            <div class="greek-bar">
+                                <div class="greek-fill" style="width: 20%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="greek-card" data-greek="theta">
+                            <div class="greek-header">
+                                <div class="greek-name">Theta (Θ)</div>
+                                <div class="greek-value" id="greekTheta">-0.8</div>
+                            </div>
+                            <div class="greek-desc">Time decay per day ($)</div>
+                            <div class="greek-bar negative">
+                                <div class="greek-fill" style="width: 40%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="greek-card" data-greek="vega">
+                            <div class="greek-header">
+                                <div class="greek-name">Vega (ν)</div>
+                                <div class="greek-value" id="greekVega">491.9</div>
+                            </div>
+                            <div class="greek-desc">Volatility sensitivity per 1%</div>
+                            <div class="greek-bar">
+                                <div class="greek-fill" style="width: 60%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="greek-card" data-greek="rho">
+                            <div class="greek-header">
+                                <div class="greek-name">Rho (ρ)</div>
+                                <div class="greek-value" id="greekRho">2.5</div>
+                            </div>
+                            <div class="greek-desc">Interest rate sensitivity per 1%</div>
+                            <div class="greek-bar">
+                                <div class="greek-fill" style="width: 25%"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
-                <!-- Payoff Diagram -->
-                <div class="payoff-card">
-                    <h3><i class="fas fa-project-diagram"></i> Payoff Diagram</h3>
-                    <div class="chart-container" id="payoffChart"></div>
+                <!-- Transactions Table -->
+                <div class="transactions-section">
+                    <h3><i class="fas fa-exchange-alt"></i> Rebalancing Transactions</h3>
+                    
+                    <div class="table-container">
+                        <table class="transactions-table">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Cocoa Price</th>
+                                    <th>Delta</th>
+                                    <th>Hedge Trade</th>
+                                    <th>Transaction Cost</th>
+                                    <th>P&L Impact</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactionsBody">
+                                <tr>
+                                    <td colspan="6" class="empty-message">
+                                        <i class="fas fa-play-circle"></i>
+                                        <p>Run simulation to see transactions</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Ghana Context Section -->
+        <section class="ghana-context-section">
+            <div class="context-header">
+                <h2><i class="fas fa-map-marker-alt"></i> Ghana Context & Policy Implications</h2>
+                <p>Practical applications for Ghana's cocoa industry and financial markets</p>
+            </div>
+            
+            <div class="context-grid">
+                <div class="context-card">
+                    <div class="context-icon">
+                        <i class="fas fa-industry"></i>
+                    </div>
+                    <div class="context-content">
+                        <h3>Ghana Cocoa Board (COCOBOD)</h3>
+                        <p>As the world's second-largest cocoa producer, Ghana's COCOBOD manages pricing, quality control, and farmer support. Delta hedging can help:</p>
+                        <ul>
+                            <li><strong>Stabilize farmer income</strong> against price volatility</li>
+                            <li><strong>Secure forward sales</strong> at predictable prices</li>
+                            <li><strong>Manage price risk</strong> in the Ghana Commodity Exchange (GCX)</li>
+                            <li><strong>Protect government revenue</strong> from cocoa exports</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="context-card">
+                    <div class="context-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="context-content">
+                        <h3>Ghana Commodity Exchange (GCX) Application</h3>
+                        <p>The GCX can use Black-Scholes modeling for:</p>
+                        <ul>
+                            <li><strong>Pricing cocoa futures and options</strong> contracts</li>
+                            <li><strong>Developing risk management tools</strong> for farmers</li>
+                            <li><strong>Creating structured products</strong> for price protection</li>
+                            <li><strong>Attracting international investors</strong> with hedged exposure</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="context-card">
+                    <div class="context-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="context-content">
+                        <h3>Research Extensions</h3>
+                        <p>Advanced topics for academic research:</p>
+                        <ul>
+                            <li><strong>Seasonality adjustments</strong> for cocoa harvest cycles</li>
+                            <li><strong>El Niño weather risk premiums</strong> in pricing</li>
+                            <li><strong>Stochastic volatility models</strong> (Heston) for cocoa</li>
+                            <li><strong>Monte Carlo simulation</strong> for worst-case scenarios</li>
+                            <li><strong>Multi-commodity hedging</strong> for diversified portfolios</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>
-
-        <!-- Model Comparison -->
-        <section class="comparison-section">
-            <h2><i class="fas fa-balance-scale"></i> Model Comparison</h2>
+        
+        <!-- Black-Scholes Formula -->
+        <section class="formula-section">
+            <div class="formula-header">
+                <h2><i class="fas fa-square-root-alt"></i> Black-Scholes-Merton Model</h2>
+                <p>Mathematical foundation for cocoa options pricing with convenience yield</p>
+            </div>
             
-            <div class="comparison-table">
-                <table>
-                    <thead>
+            <div class="formula-content">
+                <div class="formula-display">
+                    <div class="formula-equation">
+                        <p>For cocoa options with convenience yield (δ):</p>
+                        <div class="equation">
+                            \[C = S_0 e^{-\delta T} N(d_1) - K e^{-rT} N(d_2)\]
+                            \[P = K e^{-rT} N(-d_2) - S_0 e^{-\delta T} N(-d_1)\]
+                        </div>
+                        <p>where:</p>
+                        <div class="equation-vars">
+                            \[d_1 = \frac{\ln(S_0/K) + (r - \delta + \sigma^2/2)T}{\sigma\sqrt{T}}\]
+                            \[d_2 = d_1 - \sigma\sqrt{T}\]
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="formula-variables">
+                    <h3>Variables:</h3>
+                    <table class="variables-table">
                         <tr>
-                            <th>Model</th>
-                            <th>Call Price</th>
-                            <th>Put Price</th>
-                            <th>Delta</th>
-                            <th>Gamma</th>
-                            <th>Calculation Time</th>
-                            <th>Accuracy</th>
+                            <td>\(S_0\)</td>
+                            <td>= Current cocoa price ($/MT)</td>
                         </tr>
-                    </thead>
-                    <tbody id="comparisonTableBody">
-                        <!-- Model comparison data will be populated here -->
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- Advanced Features -->
-        <section class="advanced-features">
-            <h2><i class="fas fa-magic"></i> Advanced Features</h2>
-            
-            <div class="features-grid">
-                <div class="feature">
-                    <h3><i class="fas fa-bolt"></i> Implied Volatility</h3>
-                    <p>Calculate implied volatility from market prices</p>
-                    <button class="btn btn-secondary" id="calcImpliedVol">
-                        Calculate IV
-                    </button>
-                </div>
-                
-                <div class="feature">
-                    <h3><i class="fas fa-chart-area"></i> Greeks Surface</h3>
-                    <p>3D visualization of Greeks across strikes and maturities</p>
-                    <button class="btn btn-secondary" id="showGreeksSurface">
-                        Show Surface
-                    </button>
-                </div>
-                
-                <div class="feature">
-                    <h3><i class="fas fa-random"></i> Volatility Smile</h3>
-                    <p>Analyze volatility smile/skew patterns</p>
-                    <button class="btn btn-secondary" id="showVolatilitySmile">
-                        Analyze Smile
-                    </button>
-                </div>
-                
-                <div class="feature">
-                    <h3><i class="fas fa-download"></i> Export Results</h3>
-                    <p>Export calculations for further analysis</p>
-                    <button class="btn btn-primary" id="exportResults">
-                        Export Data
-                    </button>
+                        <tr>
+                            <td>\(K\)</td>
+                            <td>= Strike price ($/MT)</td>
+                        </tr>
+                        <tr>
+                            <td>\(T\)</td>
+                            <td>= Time to expiration (years)</td>
+                        </tr>
+                        <tr>
+                            <td>\(r\)</td>
+                            <td>= Risk-free interest rate</td>
+                        </tr>
+                        <tr>
+                            <td>\(\sigma\)</td>
+                            <td>= Cocoa price volatility</td>
+                        </tr>
+                        <tr>
+                            <td>\(\delta\)</td>
+                            <td>= Convenience yield (storage benefit)</td>
+                        </tr>
+                        <tr>
+                            <td>\(N(x)\)</td>
+                            <td>= Cumulative normal distribution</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Cocoa Derivatives Calculator</h4>
-                <p>Advanced pricing models for research and analysis</p>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Supported Models</h4>
-                <p>Black-Scholes • Monte Carlo • Binomial • Heston • Jump-Diffusion</p>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Accuracy Disclaimer</h4>
-                <p>Results are for research purposes only</p>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>© 2025 Ghana Cocoa Derivatives Research Lab • Calculator v3.0</p>
-        </div>
-    </footer>
+    <!-- Footer (same as index.html) -->
 
-    <script src="script.js"></script>
+    <!-- Load the advanced hedging simulator -->
+    <script src="cocoa-hedging.js"></script>
+    
     <script>
-        class CalculatorManager {
-            constructor() {
-                this.currentModel = 'black-scholes';
-                this.initializeParameters();
-                this.setupEventListeners();
-                this.calculate();
-                this.populateComparisonTable();
-                this.initializeCharts();
-            }
-            
-            initializeParameters() {
-                // Setup parameter sliders
-                const parameters = [
-                    {id: 'spotPrice', slider: 'spotPriceSlider', display: 'spotPrice', unit: '$'},
-                    {id: 'strikePrice', slider: 'strikePriceSlider', display: 'strikePrice', unit: '$'},
-                    {id: 'timeToMaturity', slider: 'timeToMaturitySlider', display: 'timeToMaturity', unit: 'years'},
-                    {id: 'volatility', slider: 'volatilitySlider', display: 'volatility', unit: '%'},
-                    {id: 'riskFreeRate', slider: 'riskFreeRateSlider', display: 'riskFreeRate', unit: '%'},
-                    {id: 'dividendYield', slider: 'dividendYieldSlider', display: 'dividendYield', unit: '%'}
-                ];
-                
-                parameters.forEach(param => {
-                    const input = document.getElementById(param.id);
-                    const slider = document.getElementById(param.slider);
-                    const display = document.getElementById(param.display + 'Value');
-                    
-                    const updateDisplay = () => {
-                        display.textContent = `${param.unit}${input.value}${param.unit === '%' ? '' : ''}`;
-                        slider.value = input.value;
-                    };
-                    
-                    input.addEventListener('input', () => {
-                        updateDisplay();
-                        this.calculate();
-                    });
-                    
-                    slider.addEventListener('input', () => {
-                        input.value = slider.value;
-                        updateDisplay();
-                        this.calculate();
-                    });
-                    
-                    updateDisplay();
-                });
-            }
-            
-            setupEventListeners() {
-                // Model tabs
-                document.querySelectorAll('.model-tab').forEach(tab => {
-                    tab.addEventListener('click', () => {
-                        document.querySelectorAll('.model-tab').forEach(t => t.classList.remove('active'));
-                        tab.classList.add('active');
-                        this.currentModel = tab.dataset.model;
-                        this.calculate();
-                        this.updateModelDescription();
-                    });
-                });
-                
-                // Calculate button
-                document.getElementById('calculateBtn').addEventListener('click', () => {
-                    this.calculate();
-                });
-                
-                // Reset button
-                document.getElementById('resetBtn').addEventListener('click', () => {
-                    this.resetParameters();
-                });
-                
-                // Option type change
-                document.getElementById('optionType').addEventListener('change', () => {
-                    this.calculate();
-                });
-                
-                // Advanced features
-                document.getElementById('calcImpliedVol').addEventListener('click', () => {
-                    this.calculateImpliedVolatility();
-                });
-                
-                document.getElementById('showGreeksSurface').addEventListener('click', () => {
-                    this.showGreeksSurface();
-                });
-                
-                document.getElementById('showVolatilitySmile').addEventListener('click', () => {
-                    this.showVolatilitySmile();
-                });
-                
-                document.getElementById('exportResults').addEventListener('click', () => {
-                    this.exportResults();
-                });
-            }
-            
-            getParameters() {
-                return {
-                    S: parseFloat(document.getElementById('spotPrice').value),
-                    K: parseFloat(document.getElementById('strikePrice').value),
-                    T: parseFloat(document.getElementById('timeToMaturity').value),
-                    sigma: parseFloat(document.getElementById('volatility').value) / 100,
-                    r: parseFloat(document.getElementById('riskFreeRate').value) / 100,
-                    q: parseFloat(document.getElementById('dividendYield').value) / 100,
-                    optionType: document.getElementById('optionType').value
-                };
-            }
-            
-            calculate() {
-                const params = this.getParameters();
-                let results;
-                
-                switch(this.currentModel) {
-                    case 'black-scholes':
-                        results = this.calculateBlackScholes(params);
-                        break;
-                    case 'monte-carlo':
-                        results = this.calculateMonteCarlo(params);
-                        break;
-                    case 'binomial':
-                        results = this.calculateBinomial(params);
-                        break;
-                    case 'heston':
-                        results = this.calculateHeston(params);
-                        break;
-                    case 'jump-diffusion':
-                        results = this.calculateJumpDiffusion(params);
-                        break;
-                }
-                
-                this.displayResults(results);
-                this.updateSensitivityChart(params);
-                this.updatePayoffChart(params, results.price);
-            }
-            
-            calculateBlackScholes(params) {
-                const {S, K, T, sigma, r, q, optionType} = params;
-                
-                const d1 = (Math.log(S / K) + (r - q + sigma * sigma / 2) * T) / (sigma * Math.sqrt(T));
-                const d2 = d1 - sigma * Math.sqrt(T);
-                
-                const normCDF = x => (1 + this.erf(x / Math.sqrt(2))) / 2;
-                const normPDF = x => Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
-                
-                let price, delta, gamma, theta, vega, rho;
-                
-                if(optionType === 'call') {
-                    price = S * Math.exp(-q * T) * normCDF(d1) - K * Math.exp(-r * T) * normCDF(d2);
-                    delta = Math.exp(-q * T) * normCDF(d1);
-                    rho = K * T * Math.exp(-r * T) * normCDF(d2) / 100;
-                } else {
-                    price = K * Math.exp(-r * T) * normCDF(-d2) - S * Math.exp(-q * T) * normCDF(-d1);
-                    delta = Math.exp(-q * T) * (normCDF(d1) - 1);
-                    rho = -K * T * Math.exp(-r * T) * normCDF(-d2) / 100;
-                }
-                
-                gamma = Math.exp(-q * T) * normPDF(d1) / (S * sigma * Math.sqrt(T));
-                vega = S * Math.exp(-q * T) * normPDF(d1) * Math.sqrt(T) / 100;
-                theta = (-S * Math.exp(-q * T) * normPDF(d1) * sigma / (2 * Math.sqrt(T)) - 
-                        r * K * Math.exp(-r * T) * (optionType === 'call' ? normCDF(d2) : normCDF(-d2)) + 
-                        q * S * Math.exp(-q * T) * (optionType === 'call' ? normCDF(d1) : normCDF(-d1))) / 365;
-                
-                return {price, delta, gamma, theta, vega, rho};
-            }
-            
-            calculateMonteCarlo(params) {
-                const {S, K, T, sigma, r, q, optionType} = params;
-                const nSimulations = 5000;
-                const nSteps = Math.floor(252 * T);
-                const dt = T / nSteps;
-                
-                let totalPayoff = 0;
-                
-                for(let i = 0; i < nSimulations; i++) {
-                    let St = S;
-                    
-                    for(let j = 0; j < nSteps; j++) {
-                        const drift = (r - q - 0.5 * sigma * sigma) * dt;
-                        const diffusion = sigma * Math.sqrt(dt) * this.randn_bm();
-                        St = St * Math.exp(drift + diffusion);
-                    }
-                    
-                    const payoff = optionType === 'call' ? Math.max(St - K, 0) : Math.max(K - St, 0);
-                    totalPayoff += payoff;
-                }
-                
-                const price = (totalPayoff / nSimulations) * Math.exp(-r * T);
-                
-                // Approximate Greeks using finite differences
-                const eps = 0.01;
-                const paramsUp = {...params, S: S * (1 + eps)};
-                const paramsDown = {...params, S: S * (1 - eps)};
-                
-                const priceUp = this.calculateBlackScholes(paramsUp).price;
-                const priceDown = this.calculateBlackScholes(paramsDown).price;
-                
-                const delta = (priceUp - priceDown) / (2 * eps * S);
-                const gamma = (priceUp - 2 * price + priceDown) / (eps * eps * S * S);
-                
-                return {
-                    price, 
-                    delta, 
-                    gamma, 
-                    theta: -15.2, 
-                    vega: 68.5, 
-                    rho: 42.3
-                };
-            }
-            
-            calculateBinomial(params) {
-                const {S, K, T, sigma, r, optionType} = params;
-                const n = 100; // steps
-                const dt = T / n;
-                const u = Math.exp(sigma * Math.sqrt(dt));
-                const d = 1 / u;
-                const p = (Math.exp(r * dt) - d) / (u - d);
-                
-                // Initialize option values at maturity
-                let optionValues = [];
-                for(let i = 0; i <= n; i++) {
-                    const St = S * Math.pow(u, n - i) * Math.pow(d, i);
-                    optionValues[i] = optionType === 'call' ? Math.max(St - K, 0) : Math.max(K - St, 0);
-                }
-                
-                // Backward induction
-                for(let j = n - 1; j >= 0; j--) {
-                    for(let i = 0; i <= j; i++) {
-                        optionValues[i] = Math.exp(-r * dt) * (p * optionValues[i] + (1 - p) * optionValues[i + 1]);
-                    }
-                }
-                
-                const price = optionValues[0];
-                
-                return {
-                    price,
-                    delta: 0.47,
-                    gamma: 0.002,
-                    theta: -15.0,
-                    vega: 67.8,
-                    rho: 41.5
-                };
-            }
-            
-            calculateHeston(params) {
-                // Simplified Heston model
-                const bsResults = this.calculateBlackScholes(params);
-                const adjustedPrice = bsResults.price * 0.98; // Adjust for stochastic vol
-                
-                return {
-                    price: adjustedPrice,
-                    delta: bsResults.delta * 0.99,
-                    gamma: bsResults.gamma * 1.1,
-                    theta: bsResults.theta * 1.05,
-                    vega: bsResults.vega * 1.2,
-                    rho: bsResults.rho
-                };
-            }
-            
-            calculateJumpDiffusion(params) {
-                // Merton jump-diffusion model
-                const {sigma} = params;
-                const lambda = 0.5; // jump intensity
-                const mu = -0.1; // mean jump size
-                const delta = 0.15; // jump volatility
-                
-                const effectiveVol = Math.sqrt(sigma * sigma + lambda * (mu * mu + delta * delta));
-                const adjustedParams = {...params, sigma: effectiveVol};
-                const bsResults = this.calculateBlackScholes(adjustedParams);
-                
-                return {
-                    price: bsResults.price * 1.05,
-                    delta: bsResults.delta * 1.02,
-                    gamma: bsResults.gamma * 1.15,
-                    theta: bsResults.theta * 1.1,
-                    vega: bsResults.vega * 1.3,
-                    rho: bsResults.rho
-                };
-            }
-            
-            displayResults(results) {
-                document.getElementById('resultPrice').textContent = `$${results.price.toFixed(2)}`;
-                document.getElementById('resultDelta').textContent = results.delta.toFixed(4);
-                document.getElementById('resultGamma').textContent = results.gamma.toFixed(4);
-                document.getElementById('resultTheta').textContent = `$${results.theta.toFixed(2)}`;
-                document.getElementById('resultVega').textContent = results.vega.toFixed(2);
-                document.getElementById('resultRho').textContent = results.rho.toFixed(2);
-                
-                // Color code based on values
-                this.colorCodeResult('resultDelta', results.delta, 0.3, 0.7);
-                this.colorCodeResult('resultGamma', results.gamma, 0.001, 0.005);
-            }
-            
-            colorCodeResult(elementId, value, low, high) {
-                const element = document.getElementById(elementId);
-                element.style.color = value < low ? '#e74c3c' : value > high ? '#27ae60' : '#f39c12';
-            }
-            
-            updateModelDescription() {
-                const descriptions = {
-                    'black-scholes': 'Black-Scholes model with constant volatility assumption.',
-                    'monte-carlo': 'Monte Carlo simulation with 5,000 paths for robust pricing.',
-                    'binomial': 'Binomial tree model with 100 time steps.',
-                    'heston': 'Heston stochastic volatility model accounting for vol clustering.',
-                    'jump-diffusion': 'Merton jump-diffusion model for price discontinuities.'
-                };
-                
-                document.getElementById('modelDescription').textContent = descriptions[this.currentModel];
-            }
-            
-            updateSensitivityChart(params) {
-                const strikes = Array.from({length: 15}, (_, i) => params.K * (0.8 + i * 0.03));
-                const prices = strikes.map(K => {
-                    const newParams = {...params, K};
-                    return this.calculateBlackScholes(newParams).price;
-                });
-                
-                const trace = {
-                    x: strikes,
-                    y: prices,
-                    type: 'scatter',
-                    mode: 'lines',
-                    line: {color: '#3498db', width: 3},
-                    name: 'Option Price'
-                };
-                
-                Plotly.newPlot('sensitivityChart', [trace], {
-                    title: 'Price vs Strike',
-                    xaxis: {title: 'Strike Price ($)'},
-                    yaxis: {title: 'Option Price ($)'},
-                    paper_bgcolor: 'rgba(0,0,0,0)',
-                    plot_bgcolor: 'rgba(0,0,0,0)',
-                    font: {color: '#ffffff'}
-                });
-            }
-            
-            updatePayoffChart(params, optionPrice) {
-                const spotPrices = Array.from({length: 21}, (_, i) => params.K * (0.7 + i * 0.03));
-                const payoffs = spotPrices.map(S => {
-                    if(params.optionType === 'call') {
-                        return Math.max(S - params.K, 0) - optionPrice;
-                    } else {
-                        return Math.max(params.K - S, 0) - optionPrice;
-                    }
-                });
-                
-                const trace = {
-                    x: spotPrices,
-                    y: payoffs,
-                    type: 'scatter',
-                    mode: 'lines',
-                    line: {color: '#27ae60', width: 3},
-                    fill: 'tozeroy',
-                    fillcolor: 'rgba(39, 174, 96, 0.2)',
-                    name: 'Profit/Loss'
-                };
-                
-                Plotly.newPlot('payoffChart', [trace], {
-                    title: 'Profit/Loss at Expiration',
-                    xaxis: {title: 'Spot Price at Expiration ($)'},
-                    yaxis: {title: 'Profit/Loss ($)'},
-                    shapes: [{
-                        type: 'line',
-                        x0: Math.min(...spotPrices),
-                        x1: Math.max(...spotPrices),
-                        y0: 0,
-                        y1: 0,
-                        line: {color: '#ffffff', width: 1, dash: 'dash'}
-                    }],
-                    paper_bgcolor: 'rgba(0,0,0,0)',
-                    plot_bgcolor: 'rgba(0,0,0,0)',
-                    font: {color: '#ffffff'}
-                });
-            }
-            
-            populateComparisonTable() {
-                const tableBody = document.getElementById('comparisonTableBody');
-                const models = ['Black-Scholes', 'Monte Carlo', 'Binomial', 'Heston', 'Jump-Diffusion'];
-                
-                models.forEach(model => {
-                    const row = document.createElement('tr');
-                    const callPrice = (250 + Math.random() * 50).toFixed(2);
-                    const putPrice = (200 + Math.random() * 40).toFixed(2);
-                    const delta = (0.4 + Math.random() * 0.2).toFixed(4);
-                    const gamma = (0.0015 + Math.random() * 0.001).toFixed(5);
-                    const time = (Math.random() * 100).toFixed(2);
-                    const accuracy = (80 + Math.random() * 15).toFixed(1);
-                    
-                    row.innerHTML = `
-                        <td>${model}</td>
-                        <td>$${callPrice}</td>
-                        <td>$${putPrice}</td>
-                        <td>${delta}</td>
-                        <td>${gamma}</td>
-                        <td>${time} ms</td>
-                        <td>${accuracy}%</td>
-                    `;
-                    
-                    tableBody.appendChild(row);
-                });
-            }
-            
-            initializeCharts() {
-                // Charts already initialized by update methods
-            }
-            
-            calculateImpliedVolatility() {
-                alert('Implied volatility calculation would be implemented here.');
-            }
-            
-            showGreeksSurface() {
-                alert('3D Greeks surface visualization would be shown here.');
-            }
-            
-            showVolatilitySmile() {
-                alert('Volatility smile analysis would be displayed here.');
-            }
-            
-            exportResults() {
-                const params = this.getParameters();
-                const results = this.calculateBlackScholes(params);
-                
-                const data = {
-                    parameters: params,
-                    results: results,
-                    model: this.currentModel,
-                    timestamp: new Date().toISOString()
-                };
-                
-                const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `cocoa-calculator-${new Date().toISOString().slice(0,10)}.json`;
-                a.click();
-                URL.revokeObjectURL(url);
-                
-                alert('Calculation results exported successfully!');
-            }
-            
-            resetParameters() {
-                document.getElementById('spotPrice').value = 3850;
-                document.getElementById('strikePrice').value = 4000;
-                document.getElementById('timeToMaturity').value = 1;
-                document.getElementById('volatility').value = 32;
-                document.getElementById('riskFreeRate').value = 4.5;
-                document.getElementById('dividendYield').value = 0;
-                
-                // Trigger updates
-                this.initializeParameters();
-                this.calculate();
-            }
-            
-            erf(x) {
-                // Error function approximation
-                const a1 = 0.254829592;
-                const a2 = -0.284496736;
-                const a3 = 1.421413741;
-                const a4 = -1.453152027;
-                const a5 = 1.061405429;
-                const p = 0.3275911;
-                
-                const sign = Math.sign(x);
-                x = Math.abs(x);
-                
-                const t = 1.0 / (1.0 + p * x);
-                const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
-                
-                return sign * y;
-            }
-            
-            randn_bm() {
-                let u = 0, v = 0;
-                while(u === 0) u = Math.random();
-                while(v === 0) v = Math.random();
-                return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
-            }
-        }
-        
         // Initialize calculator when page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            new CalculatorManager();
+        document.addEventListener('DOMContentLoaded', function() {
+            // This will be handled by cocoa-hedging.js
+            console.log('Cocoa Options Calculator initialized');
+            
+            // Update MathJax rendering
+            if (window.MathJax) {
+                MathJax.typeset();
+            }
         });
     </script>
-    
-    <style>
-        /* Calculator-specific styles */
-        .calculator-header {
-            margin-bottom: 2rem;
-            padding: 2rem;
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        /* Model Selector */
-        .model-selector-section {
-            margin-bottom: 2rem;
-        }
-        
-        .model-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-        
-        .model-tab {
-            padding: 1rem 1.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--radius);
-            color: #cbd5e1;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .model-tab:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
-        
-        .model-tab.active {
-            background: linear-gradient(135deg, var(--primary), #00704a);
-            color: white;
-            border-color: transparent;
-            box-shadow: var(--shadow);
-        }
-        
-        /* Calculator Interface */
-        .calculator-interface {
-            display: grid;
-            grid-template-columns: 350px 1fr;
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-        
-        .calculator-sidebar {
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .parameter-group {
-            margin: 1.5rem 0;
-        }
-        
-        .parameter {
-            margin-bottom: 1.5rem;
-        }
-        
-        .parameter label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #cbd5e1;
-        }
-        
-        .parameter-control {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .parameter-control input {
-            flex: 1;
-            padding: 0.75rem;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-            color: white;
-        }
-        
-        .parameter-unit {
-            color: #94a3b8;
-            font-size: 0.875rem;
-            min-width: 40px;
-        }
-        
-        .parameter input[type="range"] {
-            width: 100%;
-            margin: 0.5rem 0;
-        }
-        
-        .parameter-value {
-            text-align: center;
-            color: var(--secondary);
-            font-weight: 600;
-            margin-top: 0.5rem;
-        }
-        
-        .parameter select {
-            width: 100%;
-            padding: 0.75rem;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-            color: white;
-        }
-        
-        .calculate-btn {
-            width: 100%;
-            margin-bottom: 1rem;
-        }
-        
-        /* Results Display */
-        .calculator-results {
-            display: grid;
-            gap: 1.5rem;
-        }
-        
-        .results-card, .sensitivity-card, .payoff-card {
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-        
-        .result-item {
-            text-align: center;
-            padding: 1rem;
-            background: rgba(15, 23, 42, 0.6);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .result-label {
-            font-size: 0.875rem;
-            color: #94a3b8;
-            margin-bottom: 0.5rem;
-        }
-        
-        .result-value {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--secondary);
-        }
-        
-        .results-summary {
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .model-accuracy {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .accuracy-bar {
-            flex: 1;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        
-        .accuracy-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #27ae60, #2ecc71);
-            border-radius: 4px;
-        }
-        
-        /* Comparison Table */
-        .comparison-section {
-            margin-bottom: 3rem;
-        }
-        
-        .comparison-table {
-            overflow-x: auto;
-            margin-top: 1.5rem;
-        }
-        
-        .comparison-table table {
-            width: 100%;
-            border-collapse: collapse;
-            background: rgba(30, 41, 59, 0.8);
-        }
-        
-        .comparison-table th {
-            background: rgba(15, 23, 42, 0.9);
-            padding: 1rem;
-            text-align: left;
-            font-weight: 600;
-            color: var(--secondary);
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .comparison-table td {
-            padding: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .comparison-table tr:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-        
-        /* Advanced Features */
-        .advanced-features {
-            margin-bottom: 3rem;
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        
-        .feature {
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-        }
-        
-        .feature h3 {
-            margin-bottom: 0.5rem;
-        }
-        
-        .feature p {
-            color: #94a3b8;
-            font-size: 0.875rem;
-            margin-bottom: 1rem;
-        }
-        
-        @media (max-width: 1024px) {
-            .calculator-interface {
-                grid-template-columns: 1fr;
-            }
-            
-            .results-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .model-tabs {
-                flex-direction: column;
-            }
-            
-            .results-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
 </body>
 </html>
