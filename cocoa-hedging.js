@@ -1477,8 +1477,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         <p><i class="fas fa-github"></i> <strong>GitHub:</strong> <a href="https://github.com/emmanueladutwum123" target="_blank">@emmanueladutwum123</a></p>
                         <p><i class="fas fa-globe"></i> <strong>Website:</strong> <a href="https://emmanueladutwum123.github.io/ghana-cocoa-hedging/" target="_blank">Ghana Cocoa Hedging Platform</a></p>
                         <p><i class="fas fa-calculator"></i> <strong>Simulator Version:</strong> 3.1 (Black-Scholes with Convenience Yield)</p>
-                        <p><i class="fas fa-university"></i> <strong>Institution:</strong> Ghana Cocoa Board (COCOBOD) Research Platform</p>
-                        <p><i class="fas fa-flag"></i> <strong>Theme:</strong> 🇬🇭 Ghana Flag Colors (Red, Gold, Green, Black Star)</p>
+                        <p><i class="fas fa-university"></i> <strong>Institution:</strong> Soka University of America</p>
+                        <p><i class="fas fa-flag"></i> <strong>Theme:</strong> 🇬🇭 Ghana Flag Colors (Red, Gold, Green)</p>
                     </div>
                 `;
                 mainContent.appendChild(developerCredit);
