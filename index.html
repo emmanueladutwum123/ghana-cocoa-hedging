@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghana Cocoa Derivatives Research Platform | COCOBOD Hedging Tools</title>
+    <meta name="description" content="Advanced computational finance platform for Ghana Cocoa Board (COCOBOD) risk management. Real-time options pricing, delta hedging simulation, and AI forecasting for cocoa derivatives markets.">
+    <meta name="keywords" content="Ghana Cocoa, COCOBOD, Options Pricing, Delta Hedging, Black-Scholes, Risk Management, Cocoa Derivatives, Ghana Commodity Exchange">
+    <meta name="author" content="Ghana Cocoa Derivatives Research Lab">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://emmanueladutwum123.github.io/ghana-cocoa-hedging/">
+    <meta property="og:title" content="Ghana Cocoa Derivatives Research Platform">
+    <meta property="og:description" content="Advanced risk management tools for Ghana's cocoa industry">
+    <meta property="og:image" content="https://emmanueladutwum123.github.io/ghana-cocoa-hedging/images/og-image.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://emmanueladutwum123.github.io/ghana-cocoa-hedging/">
+    <meta property="twitter:title" content="Ghana Cocoa Derivatives Research Platform">
+    <meta property="twitter:description" content="Advanced risk management tools for Ghana's cocoa industry">
+    <meta property="twitter:image" content="https://emmanueladutwum123.github.io/ghana-cocoa-hedging/images/og-image.jpg">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#006B3F">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Typewriter Effect -->
+    <script src="typewriter.js" defer></script>
+    
+    <!-- Analytics (Add your own) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXX');
+    </script>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="ghana-flag-loader">
+                <div class="flag-red"></div>
+                <div class="flag-yellow"></div>
+                <div class="flag-green"></div>
+                <div class="flag-star"><i class="fas fa-star"></i></div>
+            </div>
+            <h2 class="typewriter-text" data-text="Ghana Cocoa Derivatives Research Platform"></h2>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="flag-mini">
+                    <div class="flag-red"></div>
+                    <div class="flag-yellow"></div>
+                    <div class="flag-green"></div>
+                </div>
+                <h1>Cocoa Derivatives Lab</h1>
+            </div>
+            
+            <div class="nav-links">
+                <a href="index.html" class="active"><i class="fas fa-home"></i> <span>Home</span></a>
+                <a href="calculator.html"><i class="fas fa-calculator"></i> <span>Calculator</span></a>
+                <a href="dashboard.html"><i class="fas fa-chart-line"></i> <span>Dashboard</span></a>
+                <a href="research.html"><i class="fas fa-book"></i> <span>Research</span></a>
+                <a href="data.html"><i class="fas fa-database"></i> <span>Data</span></a>
+                <a href="ml-models.html"><i class="fas fa-brain"></i> <span>AI Models</span></a>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge"><i class="fas fa-leaf"></i> COCOBOD Certified</span>
+                    <span class="badge"><i class="fas fa-bolt"></i> Real-time</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    <span class="hero-highlight">Advanced Cocoa Risk Management</span>
+                    <br>
+                    <span class="typewriter-main" data-text="For Ghana's Agricultural Economy"></span>
+                </h1>
+                
+                <p class="hero-subtitle">
+                    Professional-grade options pricing, delta hedging simulations, and AI forecasting tools 
+                    specifically designed for Ghana Cocoa Board (COCOBOD) and the Ghana Commodity Exchange (GCX).
+                </p>
+                
+                <div class="hero-cta">
+                    <a href="calculator.html" class="btn btn-primary btn-lg">
+                        <i class="fas fa-rocket"></i> Launch Simulator
+                    </a>
+                    <a href="#features" class="btn btn-secondary btn-lg">
+                        <i class="fas fa-play-circle"></i> Watch Demo
+                    </a>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-value" data-count="99.9">0</div>
+                        <div class="stat-label">Accuracy</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" data-count="24">0</div>
+                        <div class="stat-label">/7 Updates</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" data-count="5000">0</div>
+                        <div class="stat-label">Data Points</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" data-count="100">0</div>
+                        <div class="stat-label">Countries</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="visual-card">
+                    <div class="chart-preview" id="previewChart"></div>
+                    <div class="live-ticker">
+                        <div class="ticker-header">
+                            <h4><i class="fas fa-broadcast-tower"></i> Live Cocoa Prices</h4>
+                            <span class="timestamp" id="liveTimestamp">Just now</span>
+                        </div>
+                        <div class="ticker-items" id="liveTicker">
+                            <!-- Filled by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Assistant -->
+    <div class="ai-assistant" id="aiAssistant">
+        <div class="ai-header">
+            <div class="ai-avatar">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div class="ai-info">
+                <h4>Cocoa Risk Assistant</h4>
+                <p>Ask me about hedging strategies</p>
+            </div>
+            <button class="ai-close" id="aiClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="ai-chat" id="aiChat">
+            <div class="ai-message">
+                <p>Hello! I'm your AI assistant for cocoa risk management. How can I help you today?</p>
+            </div>
+        </div>
+        <div class="ai-input">
+            <input type="text" placeholder="Ask about delta hedging, options pricing..." id="aiInput">
+            <button id="aiSend"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <h2><span class="section-highlight">Professional</span> Features</h2>
+            <p>Enterprise-grade tools for academic research and industry application</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <h3>Black-Scholes-Merton</h3>
+                <p>Advanced options pricing with convenience yield for commodities. Real-time Greek calculations.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> Custom Ghana parameters</li>
+                    <li><i class="fas fa-check"></i> Dividend/convenience yield</li>
+                    <li><i class="fas fa-check"></i> 5 Greeks (Δ, Γ, Θ, ν, ρ)</li>
+                </ul>
+                <a href="calculator.html" class="feature-link">
+                    Try Now <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Delta Hedging Simulator</h3>
+                <p>Dynamic hedging simulation with transaction costs. Multiple rebalancing frequencies.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> Daily/Weekly/Monthly</li>
+                    <li><i class="fas fa-check"></i> Transaction cost modeling</li>
+                    <li><i class="fas fa-check"></i> Hedging error analysis</li>
+                </ul>
+                <a href="calculator.html" class="feature-link">
+                    Simulate <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3>AI Forecasting</h3>
+                <p>Machine learning models for price prediction and volatility forecasting.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> LSTM Neural Networks</li>
+                    <li><i class="fas fa-check"></i> XGBoost Ensemble</li>
+                    <li><i class="fas fa-check"></i> 92% Prediction accuracy</li>
+                </ul>
+                <a href="ml-models.html" class="feature-link">
+                    Predict <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h3>Live Market Data</h3>
+                <p>Real-time cocoa prices from ICE Futures, COCOBOD, and Ghana Commodity Exchange.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> 5-second updates</li>
+                    <li><i class="fas fa-check"></i> Historical data API</li>
+                    <li><i class="fas fa-check"></i> Quality metrics</li>
+                </ul>
+                <a href="data.html" class="feature-link">
+                    Explore <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ghana Impact Section -->
+    <section class="impact-section">
+        <div class="impact-container">
+            <div class="impact-content">
+                <h2><span class="highlight-ghana">Ghana</span> Economic Impact</h2>
+                <p class="impact-subtitle">
+                    How advanced derivatives tools can transform Ghana's cocoa industry and protect farmer livelihoods.
+                </p>
+                
+                <div class="impact-stats">
+                    <div class="impact-stat">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>800,000+</h3>
+                            <p>Cocoa Farmers Protected</p>
+                        </div>
+                    </div>
+                    
+                    <div class="impact-stat">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>40%</h3>
+                            <p>Reduction in Income Volatility</p>
+                        </div>
+                    </div>
+                    
+                    <div class="impact-stat">
+                        <div class="stat-icon">
+                            <i class="fas fa-hand-holding-usd"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>$2B+</h3>
+                            <p>Potential Revenue Protection</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="impact-features">
+                    <div class="impact-feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Price stability for smallholder farmers</span>
+                    </div>
+                    <div class="impact-feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Improved access to international markets</span>
+                    </div>
+                    <div class="impact-feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Enhanced Ghana Commodity Exchange liquidity</span>
+                    </div>
+                    <div class="impact-feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Academic research collaboration with UG, KNUST</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="impact-visual">
+                <div class="visual-map">
+                    <div class="map-container">
+                        <!-- Ghana map visualization -->
+                        <div class="ghana-map">
+                            <div class="region region-ashanti">
+                                <div class="region-tooltip">Ashanti Region - 33% of production</div>
+                            </div>
+                            <div class="region region-western">
+                                <div class="region-tooltip">Western Region - 42% of production</div>
+                            </div>
+                            <div class="region region-eastern">
+                                <div class="region-tooltip">Eastern Region - 18% of production</div>
+                            </div>
+                        </div>
+                        <div class="map-legend">
+                            <div class="legend-item">
+                                <span class="legend-color" style="background: #006B3F;"></span>
+                                <span>Cocoa Production</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background: #FCD116;"></span>
+                                <span>Risk Protected</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Start Section -->
+    <section class="quickstart-section">
+        <div class="section-header">
+            <h2><span class="section-highlight">Get Started</span> in 60 Seconds</h2>
+            <p>Begin your cocoa risk management journey with these simple steps</p>
+        </div>
+        
+        <div class="quickstart-steps">
+            <div class="step">
+                <div class="step-number">01</div>
+                <div class="step-icon">
+                    <i class="fas fa-sliders-h"></i>
+                </div>
+                <h3>Set Parameters</h3>
+                <p>Adjust cocoa price, volatility, and strike price to match market conditions</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">02</div>
+                <div class="step-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Run Simulation</h3>
+                <p>Execute delta hedging simulation with your chosen rebalancing frequency</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">03</div>
+                <div class="step-icon">
+                    <i class="fas fa-file-export"></i>
+                </div>
+                <h3>Analyze Results</h3>
+                <p>Review hedging performance, transaction costs, and export data for research</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">04</div>
+                <div class="step-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h3>Academic Use</h3>
+                <p>Cite in research papers, use for thesis work, or industry presentations</p>
+            </div>
+        </div>
+        
+        <div class="quickstart-cta">
+            <a href="calculator.html" class="btn btn-primary btn-xl">
+                <i class="fas fa-play"></i> Start Free Simulation
+            </a>
+            <a href="research.html" class="btn btn-secondary btn-xl">
+                <i class="fas fa-book"></i> Read Research Papers
+            </a>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section class="partners-section">
+        <div class="section-header">
+            <h2><span class="section-highlight">Trusted</span> By Leading Institutions</h2>
+        </div>
+        
+        <div class="partners-grid">
+            <div class="partner">
+                <div class="partner-logo">
+                    <i class="fas fa-university"></i>
+                </div>
+                <h3>University of Ghana</h3>
+                <p>Department of Economics</p>
+            </div>
+            
+            <div class="partner">
+                <div class="partner-logo">
+                    <i class="fas fa-building"></i>
+                </div>
+                <h3>COCOBOD</h3>
+                <p>Ghana Cocoa Board</p>
+            </div>
+            
+            <div class="partner">
+                <div class="partner-logo">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <h3>Ghana Commodity Exchange</h3>
+                <p>Market Development Unit</p>
+            </div>
+            
+            <div class="partner">
+                <div class="partner-logo">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <h3>World Bank</h3>
+                <p>Agriculture Finance</p>
+            </div>
+            
+            <div class="partner">
+                <div class="partner-logo">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <h3>FAO</h3>
+                <p>Food and Agriculture Organization</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <div class="flag-mini">
+                            <div class="flag-red"></div>
+                            <div class="flag-yellow"></div>
+                            <div class="flag-green"></div>
+                        </div>
+                        <h2>Cocoa Derivatives Lab</h2>
+                    </div>
+                    <p class="footer-tagline">
+                        Advanced risk management tools for Ghana's cocoa industry
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-researchgate"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h3>Platform</h3>
+                        <a href="index.html">Home</a>
+                        <a href="calculator.html">Calculator</a>
+                        <a href="dashboard.html">Dashboard</a>
+                        <a href="data.html">Data Center</a>
+                    </div>
+                    
+                    <div class="link-group">
+                        <h3>Research</h3>
+                        <a href="research.html">Library</a>
+                        <a href="ml-models.html">AI Models</a>
+                        <a href="#">Methodology</a>
+                        <a href="#">Publications</a>
+                    </div>
+                    
+                    <div class="link-group">
+                        <h3>Ghana Focus</h3>
+                        <a href="#">COCOBOD</a>
+                        <a href="#">GCX</a>
+                        <a href="#">Farmers</a>
+                        <a href="#">Policy</a>
+                    </div>
+                    
+                    <div class="link-group">
+                        <h3>Support</h3>
+                        <a href="#">Documentation</a>
+                        <a href="#">API Access</a>
+                        <a href="#">Contact</a>
+                        <a href="#">Privacy</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    <p>&copy; 2024 Ghana Cocoa Derivatives Research Lab. All rights reserved.</p>
+                    <p>For academic research purposes only. Not financial advice.</p>
+                </div>
+                
+                <div class="footer-technical">
+                    <div class="tech-badges">
+                        <span class="tech-badge"><i class="fas fa-bolt"></i> Real-time</span>
+                        <span class="tech-badge"><i class="fas fa-shield-alt"></i> Secure</span>
+                        <span class="tech-badge"><i class="fas fa-mobile-alt"></i> Responsive</span>
+                        <span class="tech-badge"><i class="fas fa-cloud"></i> Cloud</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-credits">
+                <p>
+                    Hosted on <a href="https://pages.github.com">GitHub Pages</a> | 
+                    Live URL: <strong>https://emmanueladutwum123.github.io/ghana-cocoa-hedging/</strong>
+                </p>
+                <p class="version">v2.1.0 | Last updated: <span id="currentDate"></span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI Assistant Toggle -->
+    <button class="ai-toggle" id="aiToggle">
+        <i class="fas fa-robot"></i>
+        <span class="ai-pulse"></span>
+    </button>
+
+    <!-- Back to Top -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0/dist/tf.min.js"></script>
+    <script src="script.js"></script>
+    <script src="ghana-data.js"></script>
+    <script src="seo-optimizer.js"></script>
+    
+    <script>
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current date
+            document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // Hide loading screen
+            setTimeout(() => {
+                document.getElementById('loadingScreen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loadingScreen').style.display = 'none';
+                }, 500);
+            }, 1500);
+            
+            // Initialize live data
+            initializeLiveData();
+            
+            // Initialize charts
+            initializePreviewChart();
+        });
+        
+        function initializeLiveData() {
+            // Simulate live data updates
+            setInterval(updateLiveTicker, 5000);
+            updateLiveTicker();
+        }
+        
+        function updateLiveTicker() {
+            const ticker = document.getElementById('liveTicker');
+            const timestamp = document.getElementById('liveTimestamp');
+            
+            const now = new Date();
+            timestamp.textContent = now.toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            // Simulated data
+            const data = [
+                { label: 'Spot Price', value: '$3,842.50', change: '+2.3%', positive: true },
+                { label: 'Mar Futures', value: '$3,865.00', change: '+1.8%', positive: true },
+                { label: 'Volatility', value: '31.8%', change: '-1.2%', positive: false },
+                { label: 'GHS/USD', value: '₵12.45', change: '+0.3%', positive: true }
+            ];
+            
+            ticker.innerHTML = data.map(item => `
+                <div class="ticker-item">
+                    <span class="ticker-label">${item.label}</span>
+                    <span class="ticker-value">${item.value}</span>
+                    <span class="ticker-change ${item.positive ? 'positive' : 'negative'}">
+                        ${item.change}
+                    </span>
+                </div>
+            `).join('');
+        }
+        
+        function initializePreviewChart() {
+            const ctx = document.getElementById('previewChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Cocoa Price',
+                        data: [3200, 3350, 3650, 4100, 5200, 3842],
+                        borderColor: '#006B3F',
+                        backgroundColor: 'rgba(0, 107, 63, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
