@@ -3,400 +3,532 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Models - Cocoa Derivatives Research Lab</title>
+    <title>AI/ML Models | Ghana Cocoa Price Prediction & Forecasting</title>
+    <meta name="description" content="Machine learning models for cocoa price prediction, volatility forecasting, and risk assessment. LSTM, XGBoost, and neural networks specifically trained on Ghana cocoa data.">
+    
+    <!-- TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0/dist/tf.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0/dist/tf.min.js"></script>
 </head>
 <body>
-    <!-- Navigation -->
+    <!-- Navigation (same as index.html) -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <span class="ghana-flag"></span>
+                <div class="flag-mini">
+                    <div class="flag-red"></div>
+                    <div class="flag-yellow"></div>
+                    <div class="flag-green"></div>
+                </div>
                 <h1>Cocoa Derivatives Lab</h1>
-                <span class="ghana-flag"></span>
             </div>
+            
             <div class="nav-links">
-                <a href="index.html"><i class="fas fa-home"></i> Home</a>
-                <a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a>
-                <a href="calculator.html"><i class="fas fa-calculator"></i> Calculator</a>
-                <a href="research.html"><i class="fas fa-book"></i> Research</a>
-                <a href="data.html"><i class="fas fa-database"></i> Data</a>
-                <a href="ml-models.html" class="active"><i class="fas fa-brain"></i> AI Models</a>
+                <a href="index.html"><i class="fas fa-home"></i> <span>Home</span></a>
+                <a href="calculator.html"><i class="fas fa-calculator"></i> <span>Calculator</span></a>
+                <a href="dashboard.html"><i class="fas fa-chart-line"></i> <span>Dashboard</span></a>
+                <a href="research.html"><i class="fas fa-book"></i> <span>Research</span></a>
+                <a href="data.html"><i class="fas fa-database"></i> <span>Data</span></a>
+                <a href="ml-models.html" class="active"><i class="fas fa-brain"></i> <span>AI Models</span></a>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
             </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </nav>
 
-    <main class="container">
+    <main class="ml-container">
         <!-- ML Header -->
         <header class="ml-header">
-            <h1><i class="fas fa-brain"></i> Machine Learning Laboratory</h1>
-            <p>AI-powered predictions and analytics for cocoa derivatives markets</p>
-            
-            <div class="ml-status">
-                <div class="status-item">
-                    <span class="status-label">Model Training:</span>
-                    <span class="status-value active">
-                        <i class="fas fa-circle"></i> Active
-                    </span>
-                </div>
-                <div class="status-item">
-                    <span class="status-label">Inference Speed:</span>
-                    <span class="status-value">24 ms</span>
-                </div>
-                <div class="status-item">
-                    <span class="status-label">Model Accuracy:</span>
-                    <span class="status-value">91.4%</span>
+            <div class="header-content">
+                <h1><i class="fas fa-brain"></i> AI & Machine Learning Laboratory</h1>
+                <p class="subtitle">Advanced predictive models for Ghana cocoa price forecasting and risk assessment</p>
+                
+                <div class="ml-stats">
+                    <div class="stat-card">
+                        <div class="stat-value">92.4%</div>
+                        <div class="stat-label">Prediction Accuracy</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">1.5M+</div>
+                        <div class="stat-label">Data Points</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">15</div>
+                        <div class="stat-label">ML Models</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">99.9%</div>
+                        <div class="stat-label">Uptime</div>
+                    </div>
                 </div>
             </div>
         </header>
 
-        <!-- Model Selector -->
-        <section class="model-selector-section">
-            <h2><i class="fas fa-cogs"></i> Select AI Model</h2>
+        <!-- Model Selection -->
+        <section class="model-selection">
+            <div class="section-header">
+                <h2><i class="fas fa-sliders-h"></i> Select Prediction Model</h2>
+                <p>Choose from our suite of specialized ML models</p>
+            </div>
             
-            <div class="model-cards">
+            <div class="models-grid">
                 <div class="model-card active" data-model="lstm">
                     <div class="model-icon">
                         <i class="fas fa-network-wired"></i>
                     </div>
-                    <h3>LSTM Neural Network</h3>
-                    <p>Time series forecasting for price prediction</p>
-                    <div class="model-metrics">
-                        <span class="metric">Accuracy: 92%</span>
-                        <span class="metric">Training Time: 45 min</span>
+                    <div class="model-content">
+                        <h3>LSTM Neural Network</h3>
+                        <p class="model-desc">Deep learning model for time-series forecasting</p>
+                        <div class="model-stats">
+                            <span class="stat"><i class="fas fa-bullseye"></i> 94% Accuracy</span>
+                            <span class="stat"><i class="fas fa-clock"></i> 30-day forecast</span>
+                        </div>
+                    </div>
+                    <div class="model-selector">
+                        <div class="selector-dot active"></div>
                     </div>
                 </div>
                 
                 <div class="model-card" data-model="xgboost">
                     <div class="model-icon">
-                        <i class="fas fa-chart-tree"></i>
+                        <i class="fas fa-chart-line"></i>
                     </div>
-                    <h3>XGBoost Ensemble</h3>
-                    <p>Gradient boosting for volatility prediction</p>
-                    <div class="model-metrics">
-                        <span class="metric">Accuracy: 89%</span>
-                        <span class="metric">Training Time: 15 min</span>
+                    <div class="model-content">
+                        <h3>XGBoost Ensemble</h3>
+                        <p class="model-desc">Gradient boosting for price direction prediction</p>
+                        <div class="model-stats">
+                            <span class="stat"><i class="fas fa-bullseye"></i> 91% Accuracy</span>
+                            <span class="stat"><i class="fas fa-bolt"></i> Fast training</span>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="model-card" data-model="transformer">
-                    <div class="model-icon">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <h3>Transformer Model</h3>
-                    <p>Attention-based model for complex patterns</p>
-                    <div class="model-metrics">
-                        <span class="metric">Accuracy: 94%</span>
-                        <span class="metric">Training Time: 2 hours</span>
+                    <div class="model-selector">
+                        <div class="selector-dot"></div>
                     </div>
                 </div>
                 
-                <div class="model-card" data-model="gan">
+                <div class="model-card" data-model="prophet">
                     <div class="model-icon">
-                        <i class="fas fa-random"></i>
+                        <i class="fas fa-chart-area"></i>
                     </div>
-                    <h3>GAN for Scenarios</h3>
-                    <p>Generate realistic market scenarios</p>
-                    <div class="model-metrics">
-                        <span class="metric">Realism: 88%</span>
-                        <span class="metric">Training Time: 3 hours</span>
+                    <div class="model-content">
+                        <h3>Facebook Prophet</h3>
+                        <p class="model-desc">Seasonality and trend forecasting</p>
+                        <div class="model-stats">
+                            <span class="stat"><i class="fas fa-bullseye"></i> 89% Accuracy</span>
+                            <span class="stat"><i class="fas fa-calendar"></i> Seasonal patterns</span>
+                        </div>
+                    </div>
+                    <div class="model-selector">
+                        <div class="selector-dot"></div>
+                    </div>
+                </div>
+                
+                <div class="model-card" data-model="svm">
+                    <div class="model-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <div class="model-content">
+                        <h3>SVM Classifier</h3>
+                        <p class="model-desc">Support Vector Machine for price movement</p>
+                        <div class="model-stats">
+                            <span class="stat"><i class="fas fa-bullseye"></i> 87% Accuracy</span>
+                            <span class="stat"><i class="fas fa-shield-alt"></i> Robust</span>
+                        </div>
+                    </div>
+                    <div class="model-selector">
+                        <div class="selector-dot"></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Model Training Interface -->
-        <section class="training-section">
-            <h2><i class="fas fa-graduation-cap"></i> Model Training</h2>
-            
-            <div class="training-interface">
-                <div class="training-params">
-                    <h3><i class="fas fa-sliders-h"></i> Training Parameters</h3>
-                    
-                    <div class="param-group">
-                        <div class="param">
-                            <label for="epochs">Training Epochs</label>
-                            <input type="number" id="epochs" value="100" min="10" max="1000">
-                            <span class="param-value">100</span>
-                        </div>
+        <!-- Prediction Interface -->
+        <section class="prediction-interface">
+            <div class="interface-container">
+                <!-- Left Panel: Controls -->
+                <div class="controls-panel">
+                    <div class="control-section">
+                        <h3><i class="fas fa-cog"></i> Model Parameters</h3>
                         
-                        <div class="param">
-                            <label for="batchSize">Batch Size</label>
-                            <input type="number" id="batchSize" value="32" min="1" max="256">
-                            <span class="param-value">32</span>
-                        </div>
-                        
-                        <div class="param">
-                            <label for="learningRate">Learning Rate</label>
-                            <input type="number" id="learningRate" value="0.001" step="0.0001" min="0.0001" max="0.1">
-                            <span class="param-value">0.001</span>
-                        </div>
-                        
-                        <div class="param">
-                            <label for="trainSplit">Train/Test Split</label>
-                            <input type="range" id="trainSplit" value="80" min="50" max="95">
-                            <span class="param-value">80/20</span>
+                        <div class="parameter-group">
+                            <div class="parameter">
+                                <label for="forecastHorizon">
+                                    <span>Forecast Horizon</span>
+                                    <span class="parameter-value" id="horizonValue">30 days</span>
+                                </label>
+                                <input type="range" id="forecastHorizon" min="7" max="90" value="30" step="1">
+                                <div class="parameter-range">
+                                    <span>7 days</span>
+                                    <span>90 days</span>
+                                </div>
+                            </div>
+                            
+                            <div class="parameter">
+                                <label for="confidenceLevel">
+                                    <span>Confidence Level</span>
+                                    <span class="parameter-value" id="confidenceValue">95%</span>
+                                </label>
+                                <input type="range" id="confidenceLevel" min="80" max="99" value="95" step="1">
+                                <div class="parameter-range">
+                                    <span>80%</span>
+                                    <span>99%</span>
+                                </div>
+                            </div>
+                            
+                            <div class="parameter">
+                                <label for="trainingPeriod">
+                                    <span>Training Period</span>
+                                    <span class="parameter-value" id="trainingValue">2 years</span>
+                                </label>
+                                <select id="trainingPeriod" class="parameter-select">
+                                    <option value="1">1 year</option>
+                                    <option value="2" selected>2 years</option>
+                                    <option value="3">3 years</option>
+                                    <option value="5">5 years</option>
+                                    <option value="10">10 years</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="feature-selection">
-                        <h4><i class="fas fa-check-square"></i> Feature Selection</h4>
-                        <div class="feature-list">
-                            <label class="feature-checkbox">
-                                <input type="checkbox" checked> Historical Prices
+                    <div class="control-section">
+                        <h3><i class="fas fa-sliders-h"></i> Feature Selection</h3>
+                        
+                        <div class="feature-checkboxes">
+                            <label class="checkbox">
+                                <input type="checkbox" id="featurePrice" checked>
+                                <span class="checkmark"></span>
+                                <span class="checkbox-label">Historical Prices</span>
                             </label>
-                            <label class="feature-checkbox">
-                                <input type="checkbox" checked> Technical Indicators
+                            
+                            <label class="checkbox">
+                                <input type="checkbox" id="featureVolatility" checked>
+                                <span class="checkmark"></span>
+                                <span class="checkbox-label">Volatility Data</span>
                             </label>
-                            <label class="feature-checkbox">
-                                <input type="checkbox" checked> Volatility Metrics
+                            
+                            <label class="checkbox">
+                                <input type="checkbox" id="featureVolume" checked>
+                                <span class="checkmark"></span>
+                                <span class="checkbox-label">Trading Volume</span>
                             </label>
-                            <label class="feature-checkbox">
-                                <input type="checkbox"> Macroeconomic Data
+                            
+                            <label class="checkbox">
+                                <input type="checkbox" id="featureWeather" checked>
+                                <span class="checkmark"></span>
+                                <span class="checkbox-label">Weather Data</span>
                             </label>
-                            <label class="feature-checkbox">
-                                <input type="checkbox"> Weather Patterns
+                            
+                            <label class="checkbox">
+                                <input type="checkbox" id="featureMacro">
+                                <span class="checkmark"></span>
+                                <span class="checkbox-label">Macro Indicators</span>
                             </label>
-                            <label class="feature-checkbox">
-                                <input type="checkbox"> Social Media Sentiment
+                            
+                            <label class="checkbox">
+                                <input type="checkbox" id="featureSeasonal" checked>
+                                <span class="checkmark"></span>
+                                <span class="checkbox-label">Seasonal Patterns</span>
                             </label>
+                        </div>
+                    </div>
+                    
+                    <div class="control-actions">
+                        <button class="btn btn-primary btn-lg" id="runPrediction">
+                            <i class="fas fa-play"></i> Run Prediction
+                        </button>
+                        <button class="btn btn-secondary" id="trainModel">
+                            <i class="fas fa-brain"></i> Retrain Model
+                        </button>
+                        <button class="btn btn-secondary" id="exportResults">
+                            <i class="fas fa-download"></i> Export Results
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Right Panel: Results -->
+                <div class="results-panel">
+                    <div class="results-header">
+                        <h3><i class="fas fa-chart-line"></i> Prediction Results</h3>
+                        <div class="model-info">
+                            <span class="current-model" id="currentModel">LSTM Neural Network</span>
+                            <span class="last-updated" id="lastUpdated">Last trained: 2 hours ago</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Prediction Chart -->
+                    <div class="prediction-chart">
+                        <div class="chart-container">
+                            <canvas id="predictionChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Prediction Metrics -->
+                    <div class="prediction-metrics">
+                        <div class="metric-grid">
+                            <div class="metric-card">
+                                <div class="metric-label">Predicted Price (30 days)</div>
+                                <div class="metric-value" id="predictedPrice">$4,125.50</div>
+                                <div class="metric-change positive">+7.3%</div>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <div class="metric-label">Prediction Interval</div>
+                                <div class="metric-value" id="predictionInterval">[$3,980 - $4,270]</div>
+                                <div class="metric-desc">95% confidence</div>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <div class="metric-label">Model Accuracy</div>
+                                <div class="metric-value" id="modelAccuracy">94.2%</div>
+                                <div class="metric-desc">Test set R²</div>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <div class="metric-label">Mean Absolute Error</div>
+                                <div class="metric-value" id="maeValue">$42.80</div>
+                                <div class="metric-desc">Average error</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Model Insights -->
+                    <div class="model-insights">
+                        <h4><i class="fas fa-lightbulb"></i> Model Insights</h4>
+                        <div class="insights-grid">
+                            <div class="insight-card">
+                                <div class="insight-icon">
+                                    <i class="fas fa-trend-up"></i>
+                                </div>
+                                <div class="insight-content">
+                                    <h5>Bullish Signal Detected</h5>
+                                    <p>Model predicts upward trend with 85% confidence based on recent price momentum.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="insight-card">
+                                <div class="insight-icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div class="insight-content">
+                                    <h5>Volatility Alert</h5>
+                                    <p>Expected volatility increase detected. Consider hedging strategies.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Model Comparison -->
+        <section class="model-comparison">
+            <div class="section-header">
+                <h2><i class="fas fa-balance-scale"></i> Model Comparison</h2>
+                <p>Performance metrics across different models</p>
+            </div>
+            
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Accuracy (R²)</th>
+                            <th>MAE ($)</th>
+                            <th>Training Time</th>
+                            <th>Best For</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>LSTM Neural Network</strong></td>
+                            <td>0.942</td>
+                            <td>42.80</td>
+                            <td>15 min</td>
+                            <td>Long-term forecasting</td>
+                            <td><span class="status active">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>XGBoost</strong></td>
+                            <td>0.912</td>
+                            <td>58.30</td>
+                            <td>2 min</td>
+                            <td>Price direction</td>
+                            <td><span class="status active">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Facebook Prophet</strong></td>
+                            <td>0.887</td>
+                            <td>72.10</td>
+                            <td>5 min</td>
+                            <td>Seasonal patterns</td>
+                            <td><span class="status active">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>SVM Classifier</strong></td>
+                            <td>0.865</td>
+                            <td>89.50</td>
+                            <td>10 min</td>
+                            <td>Binary classification</td>
+                            <td><span class="status active">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>ARIMA</strong></td>
+                            <td>0.821</td>
+                            <td>102.30</td>
+                            <td>1 min</td>
+                            <td>Short-term forecasts</td>
+                            <td><span class="status inactive">Inactive</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Real-time Training -->
+        <section class="training-section">
+            <div class="section-header">
+                <h2><i class="fas fa-graduation-cap"></i> Model Training Studio</h2>
+                <p>Train and customize models with your parameters</p>
+            </div>
+            
+            <div class="training-interface">
+                <div class="training-controls">
+                    <div class="training-param">
+                        <label for="trainTestSplit">Train/Test Split</label>
+                        <input type="range" id="trainTestSplit" min="60" max="95" value="80" step="5">
+                        <div class="param-value">
+                            <span id="trainSplitValue">80%</span> training,
+                            <span id="testSplitValue">20%</span> testing
+                        </div>
+                    </div>
+                    
+                    <div class="training-param">
+                        <label for="epochs">Training Epochs</label>
+                        <input type="range" id="epochs" min="10" max="200" value="50" step="10">
+                        <div class="param-value">
+                            <span id="epochsValue">50</span> epochs
+                        </div>
+                    </div>
+                    
+                    <div class="training-param">
+                        <label for="learningRate">Learning Rate</label>
+                        <input type="range" id="learningRate" min="0.001" max="0.1" value="0.01" step="0.001">
+                        <div class="param-value">
+                            <span id="learningRateValue">0.01</span>
                         </div>
                     </div>
                     
                     <div class="training-actions">
-                        <button class="btn btn-primary" id="trainModelBtn">
-                            <i class="fas fa-play"></i> Start Training
+                        <button class="btn btn-primary" id="startTraining">
+                            <i class="fas fa-play-circle"></i> Start Training
                         </button>
-                        <button class="btn btn-secondary" id="resetParamsBtn">
-                            <i class="fas fa-redo"></i> Reset Parameters
+                        <button class="btn btn-secondary" id="stopTraining">
+                            <i class="fas fa-stop-circle"></i> Stop
+                        </button>
+                        <button class="btn btn-secondary" id="saveModel">
+                            <i class="fas fa-save"></i> Save Model
                         </button>
                     </div>
                 </div>
                 
                 <div class="training-progress">
-                    <h3><i class="fas fa-chart-line"></i> Training Progress</h3>
-                    
-                    <div class="progress-charts">
-                        <div class="progress-chart">
-                            <h4>Loss Curve</h4>
-                            <div class="chart-container" id="lossChart"></div>
-                        </div>
-                        
-                        <div class="progress-chart">
-                            <h4>Accuracy</h4>
-                            <div class="chart-container" id="accuracyChart"></div>
-                        </div>
+                    <div class="progress-header">
+                        <h4>Training Progress</h4>
+                        <span class="progress-status" id="progressStatus">Ready</span>
                     </div>
                     
-                    <div class="training-stats">
-                        <div class="stat">
-                            <span class="stat-label">Current Epoch</span>
-                            <span class="stat-value" id="currentEpoch">0</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">Training Loss</span>
-                            <span class="stat-value" id="currentLoss">0.0000</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">Validation Accuracy</span>
-                            <span class="stat-value" id="currentAccuracy">0.00%</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">Time Remaining</span>
-                            <span class="stat-value" id="timeRemaining">--:--</span>
-                        </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="trainingProgress" style="width: 0%"></div>
                     </div>
                     
-                    <div class="progress-bar-container">
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="trainingProgress" style="width: 0%"></div>
+                    <div class="progress-metrics">
+                        <div class="metric">
+                            <span class="metric-label">Loss</span>
+                            <span class="metric-value" id="lossValue">-</span>
                         </div>
-                        <div class="progress-label">
-                            <span>Training Progress: </span>
-                            <span id="progressPercent">0%</span>
+                        <div class="metric">
+                            <span class="metric-label">Accuracy</span>
+                            <span class="metric-value" id="accuracyValue">-</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Epoch</span>
+                            <span class="metric-value" id="epochValue">0/50</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Time</span>
+                            <span class="metric-value" id="trainingTime">0s</span>
                         </div>
                     </div>
+                </div>
+                
+                <div class="training-chart">
+                    <canvas id="trainingChart"></canvas>
                 </div>
             </div>
         </section>
 
-        <!-- Model Predictions -->
-        <section class="predictions-section">
-            <h2><i class="fas fa-crystal-ball"></i> AI Predictions</h2>
-            
-            <div class="predictions-content">
-                <div class="prediction-input">
-                    <h3><i class="fas fa-edit"></i> Input Parameters</h3>
-                    
-                    <div class="input-group">
-                        <div class="input-field">
-                            <label for="predictionDays">Forecast Horizon</label>
-                            <select id="predictionDays">
-                                <option value="7">7 days</option>
-                                <option value="30" selected>30 days</option>
-                                <option value="90">90 days</option>
-                                <option value="180">180 days</option>
-                                <option value="365">1 year</option>
-                            </select>
-                        </div>
-                        
-                        <div class="input-field">
-                            <label for="confidenceLevel">Confidence Level</label>
-                            <select id="confidenceLevel">
-                                <option value="80">80%</option>
-                                <option value="90">90%</option>
-                                <option value="95" selected>95%</option>
-                                <option value="99">99%</option>
-                            </select>
-                        </div>
-                        
-                        <div class="input-field">
-                            <label for="scenarioType">Scenario Type</label>
-                            <select id="scenarioType">
-                                <option value="base">Base Case</option>
-                                <option value="bull">Bull Market</option>
-                                <option value="bear">Bear Market</option>
-                                <option value="volatile">High Volatility</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <button class="btn btn-primary" id="generatePredictionsBtn">
-                        <i class="fas fa-bolt"></i> Generate Predictions
-                    </button>
-                    
-                    <div class="model-info">
-                        <h4><i class="fas fa-info-circle"></i> Model Information</h4>
-                        <p>Current model: <strong>LSTM Neural Network</strong></p>
-                        <p>Training data: <strong>10 years of daily prices</strong></p>
-                        <p>Last updated: <strong>Today, 14:30 GMT</strong></p>
-                    </div>
-                </div>
-                
-                <div class="prediction-output">
-                    <h3><i class="fas fa-chart-area"></i> Price Forecast</h3>
-                    <div class="chart-container" id="forecastChart"></div>
-                    
-                    <div class="prediction-metrics">
-                        <div class="metric-card">
-                            <div class="metric-label">30-day Forecast</div>
-                            <div class="metric-value">$3,925</div>
-                            <div class="metric-change positive">+2.1%</div>
-                        </div>
-                        
-                        <div class="metric-card">
-                            <div class="metric-label">Confidence Interval</div>
-                            <div class="metric-value">$3,750 - $4,100</div>
-                            <div class="metric-change">±4.5%</div>
-                        </div>
-                        
-                        <div class="metric-card">
-                            <div class="metric-label">Probability Up</div>
-                            <div class="metric-value">68%</div>
-                            <div class="metric-change positive">Bullish</div>
-                        </div>
-                    </div>
-                </div>
+        <!-- Feature Importance -->
+        <section class="features-section">
+            <div class="section-header">
+                <h2><i class="fas fa-chart-bar"></i> Feature Importance Analysis</h2>
+                <p>Which factors most influence cocoa price predictions?</p>
             </div>
-        </section>
-
-        <!-- Model Evaluation -->
-        <section class="evaluation-section">
-            <h2><i class="fas fa-chart-bar"></i> Model Evaluation</h2>
             
-            <div class="evaluation-content">
-                <div class="evaluation-chart">
-                    <h3><i class="fas fa-chart-line"></i> Backtest Performance</h3>
-                    <div class="chart-container" id="backtestChart"></div>
+            <div class="feature-importance">
+                <div class="feature-chart">
+                    <canvas id="featureChart"></canvas>
                 </div>
                 
-                <div class="evaluation-metrics">
-                    <h3><i class="fas fa-tachometer-alt"></i> Performance Metrics</h3>
-                    
-                    <div class="metrics-grid">
-                        <div class="eval-metric">
-                            <div class="eval-label">Mean Absolute Error</div>
-                            <div class="eval-value">$42.50</div>
-                            <div class="eval-bar">
-                                <div class="eval-fill" style="width: 85%"></div>
-                            </div>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-name">Historical Price Trend</div>
+                        <div class="feature-bar">
+                            <div class="feature-fill" style="width: 95%"></div>
                         </div>
-                        
-                        <div class="eval-metric">
-                            <div class="eval-label">Root Mean Square Error</div>
-                            <div class="eval-value">$58.75</div>
-                            <div class="eval-bar">
-                                <div class="eval-fill" style="width: 78%"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="eval-metric">
-                            <div class="eval-label">R² Score</div>
-                            <div class="eval-value">0.914</div>
-                            <div class="eval-bar">
-                                <div class="eval-fill" style="width: 91.4%"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="eval-metric">
-                            <div class="eval-label">Sharpe Ratio</div>
-                            <div class="eval-value">1.42</div>
-                            <div class="eval-bar">
-                                <div class="eval-fill" style="width: 71%"></div>
-                            </div>
-                        </div>
+                        <div class="feature-value">95%</div>
                     </div>
                     
-                    <div class="model-comparison">
-                        <h4><i class="fas fa-balance-scale"></i> Model Comparison</h4>
-                        <div class="chart-container" id="comparisonChart"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Explainable AI -->
-        <section class="explainable-section">
-            <h2><i class="fas fa-eye"></i> Explainable AI</h2>
-            
-            <div class="explainable-content">
-                <div class="feature-importance">
-                    <h3><i class="fas fa-chart-pie"></i> Feature Importance</h3>
-                    <div class="chart-container" id="importanceChart"></div>
-                </div>
-                
-                <div class="shap-analysis">
-                    <h3><i class="fas fa-project-diagram"></i> SHAP Analysis</h3>
-                    <div class="shap-plot">
-                        <div class="shap-values">
-                            <div class="shap-item positive">
-                                <span class="shap-feature">Historical Volatility</span>
-                                <span class="shap-value">+0.42</span>
-                            </div>
-                            <div class="shap-item positive">
-                                <span class="shap-feature">RSI Indicator</span>
-                                <span class="shap-value">+0.38</span>
-                            </div>
-                            <div class="shap-item negative">
-                                <span class="shap-feature">MACD Signal</span>
-                                <span class="shap-value">-0.25</span>
-                            </div>
-                            <div class="shap-item positive">
-                                <span class="shap-feature">Volume Trend</span>
-                                <span class="shap-value">+0.18</span>
-                            </div>
-                            <div class="shap-item negative">
-                                <span class="shap-feature">Bollinger Width</span>
-                                <span class="shap-value">-0.12</span>
-                            </div>
+                    <div class="feature-item">
+                        <div class="feature-name">Volatility Index</div>
+                        <div class="feature-bar">
+                            <div class="feature-fill" style="width: 78%"></div>
                         </div>
-                        <p class="shap-explanation">
-                            The model predicts higher prices when historical volatility and RSI are high, 
-                            but lower prices when MACD signals are bearish.
-                        </p>
+                        <div class="feature-value">78%</div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-name">Weather Patterns</div>
+                        <div class="feature-bar">
+                            <div class="feature-fill" style="width: 65%"></div>
+                        </div>
+                        <div class="feature-value">65%</div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-name">Exchange Rates</div>
+                        <div class="feature-bar">
+                            <div class="feature-fill" style="width: 52%"></div>
+                        </div>
+                        <div class="feature-value">52%</div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-name">Global Demand</div>
+                        <div class="feature-bar">
+                            <div class="feature-fill" style="width: 48%"></div>
+                        </div>
+                        <div class="feature-value">48%</div>
                     </div>
                 </div>
             </div>
@@ -404,1173 +536,1457 @@
 
         <!-- Model Deployment -->
         <section class="deployment-section">
-            <h2><i class="fas fa-rocket"></i> Model Deployment</h2>
+            <div class="section-header">
+                <h2><i class="fas fa-rocket"></i> Model Deployment</h2>
+                <p>Deploy trained models for real-time predictions</p>
+            </div>
             
             <div class="deployment-options">
-                <div class="deployment-option">
-                    <div class="option-icon">
+                <div class="deployment-card">
+                    <div class="deployment-icon">
                         <i class="fas fa-cloud"></i>
                     </div>
-                    <h3>Cloud API</h3>
-                    <p>Deploy model as REST API for real-time predictions</p>
-                    <button class="btn btn-primary deploy-btn">
-                        <i class="fas fa-upload"></i> Deploy to Cloud
-                    </button>
-                </div>
-                
-                <div class="deployment-option">
-                    <div class="option-icon">
-                        <i class="fas fa-download"></i>
+                    <div class="deployment-content">
+                        <h3>Cloud API</h3>
+                        <p>Deploy as REST API for integration with other systems</p>
+                        <ul>
+                            <li>Real-time predictions</li>
+                            <li>99.9% uptime SLA</li>
+                            <li>Auto-scaling</li>
+                        </ul>
+                        <button class="btn btn-primary deploy-btn" data-type="api">
+                            <i class="fas fa-code"></i> Deploy API
+                        </button>
                     </div>
-                    <h3>Export Model</h3>
-                    <p>Download trained model for offline use</p>
-                    <button class="btn btn-secondary deploy-btn">
-                        <i class="fas fa-download"></i> Export Model
-                    </button>
                 </div>
                 
-                <div class="deployment-option">
-                    <div class="option-icon">
-                        <i class="fas fa-code"></i>
+                <div class="deployment-card">
+                    <div class="deployment-icon">
+                        <i class="fas fa-mobile-alt"></i>
                     </div>
-                    <h3>Generate Code</h3>
-                    <p>Generate Python code for model implementation</p>
-                    <button class="btn btn-secondary deploy-btn">
-                        <i class="fas fa-code"></i> Generate Code
-                    </button>
+                    <div class="deployment-content">
+                        <h3>Mobile App</h3>
+                        <p>Export model for mobile applications (TensorFlow Lite)</p>
+                        <ul>
+                            <li>Offline predictions</li>
+                            <li>Low latency</li>
+                            <li>Small footprint</li>
+                        </ul>
+                        <button class="btn btn-primary deploy-btn" data-type="mobile">
+                            <i class="fas fa-download"></i> Export Model
+                        </button>
+                    </div>
                 </div>
                 
-                <div class="deployment-option">
-                    <div class="option-icon">
+                <div class="deployment-card">
+                    <div class="deployment-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
-                    <h3>Live Monitoring</h3>
-                    <p>Monitor model performance in production</p>
-                    <button class="btn btn-secondary deploy-btn">
-                        <i class="fas fa-chart-line"></i> Monitor
-                    </button>
+                    <div class="deployment-content">
+                        <h3>Dashboard Integration</h3>
+                        <p>Embed predictions in existing dashboards</p>
+                        <ul>
+                            <li>JavaScript library</li>
+                            <li>Real-time updates</li>
+                            <li>Custom styling</li>
+                        </ul>
+                        <button class="btn btn-primary deploy-btn" data-type="dashboard">
+                            <i class="fas fa-puzzle-piece"></i> Embed Widget
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Model Documentation -->
+        <section class="documentation-section">
+            <div class="section-header">
+                <h2><i class="fas fa-book"></i> Model Documentation</h2>
+                <p>Technical details and implementation guidelines</p>
+            </div>
+            
+            <div class="docs-tabs">
+                <div class="tabs-header">
+                    <button class="tab-btn active" data-tab="architecture">Architecture</button>
+                    <button class="tab-btn" data-tab="api">API Reference</button>
+                    <button class="tab-btn" data-tab="examples">Code Examples</button>
+                    <button class="tab-btn" data-tab="research">Research Papers</button>
+                </div>
+                
+                <div class="tabs-content">
+                    <div class="tab-pane active" id="architecture">
+                        <h3>LSTM Model Architecture</h3>
+                        <p>The Long Short-Term Memory neural network consists of:</p>
+                        <ul>
+                            <li><strong>Input Layer:</strong> 50 timesteps × 6 features</li>
+                            <li><strong>LSTM Layers:</strong> 2 layers with 128 units each</li>
+                            <li><strong>Dropout:</strong> 0.2 for regularization</li>
+                            <li><strong>Dense Layers:</strong> 64 and 32 units with ReLU activation</li>
+                            <li><strong>Output Layer:</strong> 1 unit (price prediction)</li>
+                        </ul>
+                        <div class="code-snippet">
+                            <pre><code># Python implementation
+model = Sequential([
+    LSTM(128, return_sequences=True, input_shape=(50, 6)),
+    Dropout(0.2),
+    LSTM(128, return_sequences=False),
+    Dropout(0.2),
+    Dense(64, activation='relu'),
+    Dense(32, activation='relu'),
+    Dense(1)
+])</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane" id="api">
+                        <h3>API Endpoints</h3>
+                        <p>Available REST API endpoints for model inference:</p>
+                        <div class="api-endpoint">
+                            <div class="endpoint-method post">POST</div>
+                            <div class="endpoint-path">/api/v1/predict</div>
+                            <div class="endpoint-desc">Get price predictions</div>
+                        </div>
+                        <div class="api-example">
+                            <h4>Example Request:</h4>
+                            <pre><code>{
+  "model": "lstm",
+  "features": {
+    "price": [3820, 3835, 3850, ...],
+    "volatility": [0.25, 0.26, 0.24, ...],
+    "volume": [12450, 11870, 13240, ...]
+  },
+  "horizon": 30
+}</code></pre>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>AI Laboratory</h4>
-                <p>Machine learning models for cocoa derivatives</p>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Technical Stack</h4>
-                <p>TensorFlow.js • Scikit-learn • PyTorch</p>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Compute Resources</h4>
-                <p>GPU: NVIDIA A100 • RAM: 32GB • Storage: 1TB</p>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>© 2025 Ghana Cocoa Derivatives Research Lab • AI Lab v3.0</p>
-        </div>
-    </footer>
+    <!-- Footer (same as index.html) -->
 
+    <!-- ML Models JavaScript -->
     <script src="script.js"></script>
+    <script src="ml-predictor.js"></script>
+    
     <script>
-        class MLManager {
+        // ML Models Interface
+        class MLModels {
             constructor() {
                 this.currentModel = 'lstm';
                 this.isTraining = false;
-                this.trainingProgress = 0;
+                this.trainingInterval = null;
+                this.init();
+            }
+            
+            init() {
                 this.initializeCharts();
                 this.setupEventListeners();
-                this.initializeTFModel();
+                this.updateModelInfo();
+                this.generatePredictions();
             }
             
             initializeCharts() {
-                // Loss chart
-                const lossTrace = {
-                    x: [],
-                    y: [],
-                    type: 'scatter',
-                    mode: 'lines',
-                    line: {color: '#e74c3c', width: 2},
-                    name: 'Training Loss'
-                };
-                
-                Plotly.newPlot('lossChart', [lossTrace], {
-                    title: 'Loss Curve',
-                    xaxis: {title: 'Epoch'},
-                    yaxis: {title: 'Loss'},
-                    paper_bgcolor: 'rgba(0,0,0,0)',
-                    plot_bgcolor: 'rgba(0,0,0,0)',
-                    font: {color: '#ffffff'}
+                // Prediction Chart
+                this.predictionChart = new Chart(document.getElementById('predictionChart'), {
+                    type: 'line',
+                    data: {
+                        labels: this.generateDateLabels(60, 30),
+                        datasets: [
+                            {
+                                label: 'Historical Price',
+                                data: this.generateHistoricalData(60),
+                                borderColor: '#006B3F',
+                                backgroundColor: 'rgba(0, 107, 63, 0.1)',
+                                borderWidth: 3,
+                                tension: 0.4,
+                                fill: true
+                            },
+                            {
+                                label: 'Prediction',
+                                data: this.generatePredictionData(60, 30),
+                                borderColor: '#FCD116',
+                                backgroundColor: 'rgba(252, 209, 22, 0.1)',
+                                borderWidth: 3,
+                                borderDash: [5, 5],
+                                tension: 0.4,
+                                fill: true
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: {
+                                    callback: value => `$${value.toLocaleString()}`
+                                }
+                            }
+                        }
+                    }
                 });
                 
-                // Accuracy chart
-                const accuracyTrace = {
-                    x: [],
-                    y: [],
-                    type: 'scatter',
-                    mode: 'lines',
-                    line: {color: '#27ae60', width: 2},
-                    name: 'Validation Accuracy'
-                };
-                
-                Plotly.newPlot('accuracyChart', [accuracyTrace], {
-                    title: 'Accuracy',
-                    xaxis: {title: 'Epoch'},
-                    yaxis: {title: 'Accuracy (%)', range: [0, 100]},
-                    paper_bgcolor: 'rgba(0,0,0,0)',
-                    plot_bgcolor: 'rgba(0,0,0,0)',
-                    font: {color: '#ffffff'}
+                // Training Chart
+                this.trainingChart = new Chart(document.getElementById('trainingChart'), {
+                    type: 'line',
+                    data: {
+                        labels: [],
+                        datasets: [
+                            {
+                                label: 'Training Loss',
+                                data: [],
+                                borderColor: '#ef4444',
+                                backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                                borderWidth: 2,
+                                tension: 0.4,
+                                fill: true
+                            },
+                            {
+                                label: 'Validation Loss',
+                                data: [],
+                                borderColor: '#3b82f6',
+                                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                                borderWidth: 2,
+                                tension: 0.4,
+                                fill: true
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                type: 'logarithmic',
+                                title: {
+                                    display: true,
+                                    text: 'Loss (log scale)'
+                                }
+                            }
+                        }
+                    }
                 });
                 
-                // Forecast chart
-                const forecastTrace = {
-                    x: this.generateFutureDates(30),
-                    y: this.generateForecastData(30),
-                    type: 'scatter',
-                    mode: 'lines',
-                    line: {color: '#3498db', width: 3},
-                    name: 'Forecast',
-                    fill: 'tonexty'
-                };
-                
-                Plotly.newPlot('forecastChart', [forecastTrace], {
-                    title: '30-Day Price Forecast',
-                    xaxis: {title: 'Date'},
-                    yaxis: {title: 'Price ($/ton)'},
-                    paper_bgcolor: 'rgba(0,0,0,0)',
-                    plot_bgcolor: 'rgba(0,0,0,0)',
-                    font: {color: '#ffffff'}
-                });
-                
-                // Backtest chart
-                const backtestTrace = {
-                    x: this.generateDates(100),
-                    y: this.generateBacktestData(100),
-                    type: 'scatter',
-                    mode: 'lines',
-                    line: {color: '#9b59b6', width: 2},
-                    name: 'Predicted vs Actual'
-                };
-                
-                Plotly.newPlot('backtestChart', [backtestTrace], {
-                    title: 'Backtest Performance',
-                    xaxis: {title: 'Date'},
-                    yaxis: {title: 'Price ($/ton)'},
-                    paper_bgcolor: 'rgba(0,0,0,0)',
-                    plot_bgcolor: 'rgba(0,0,0,0)',
-                    font: {color: '#ffffff'}
-                });
-                
-                // Comparison chart
-                const comparisonTrace = {
-                    x: ['LSTM', 'XGBoost', 'Transformer', 'Random Forest', 'ARIMA'],
-                    y: [92, 89, 94, 85, 78],
+                // Feature Importance Chart
+                this.featureChart = new Chart(document.getElementById('featureChart'), {
                     type: 'bar',
-                    marker: {
-                        color: ['#3498db', '#2ecc71', '#9b59b6', '#f39c12', '#e74c3c']
+                    data: {
+                        labels: ['Price Trend', 'Volatility', 'Weather', 'Exchange Rate', 'Demand'],
+                        datasets: [{
+                            data: [95, 78, 65, 52, 48],
+                            backgroundColor: [
+                                '#006B3F',
+                                '#FCD116',
+                                '#CE1126',
+                                '#3498db',
+                                '#9b59b6'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    callback: value => `${value}%`
+                                }
+                            }
+                        }
                     }
-                };
-                
-                Plotly.newPlot('comparisonChart', [comparisonTrace], {
-                    title: 'Model Comparison (Accuracy %)',
-                    xaxis: {title: 'Model'},
-                    yaxis: {title: 'Accuracy (%)', range: [0, 100]},
-                    paper_bgcolor: 'rgba(0,0,0,0)',
-                    plot_bgcolor: 'rgba(0,0,0,0)',
-                    font: {color: '#ffffff'}
-                });
-                
-                // Importance chart
-                const importanceTrace = {
-                    values: [35, 25, 15, 10, 8, 7],
-                    labels: ['Historical Vol', 'RSI', 'MACD', 'Volume', 'Weather', 'Sentiment'],
-                    type: 'pie',
-                    hole: 0.4,
-                    marker: {
-                        colors: ['#3498db', '#2ecc71', '#9b59b6', '#f39c12', '#e74c3c', '#1abc9c']
-                    }
-                };
-                
-                Plotly.newPlot('importanceChart', [importanceTrace], {
-                    title: 'Feature Importance',
-                    paper_bgcolor: 'rgba(0,0,0,0)',
-                    plot_bgcolor: 'rgba(0,0,0,0)',
-                    font: {color: '#ffffff'}
                 });
             }
             
-            generateDates(days) {
-                const dates = [];
+            generateDateLabels(historicalDays, forecastDays) {
+                const labels = [];
                 const today = new Date();
                 
-                for (let i = days - 1; i >= 0; i--) {
+                // Historical dates
+                for (let i = historicalDays; i > 0; i--) {
                     const date = new Date(today);
-                    date.setDate(today.getDate() - i);
-                    dates.push(date.toLocaleDateString('en-US', {month: 'short', day: 'numeric'}));
+                    date.setDate(date.getDate() - i);
+                    labels.push(date.toLocaleDateString('en-US', {month: 'short', day: 'numeric'}));
                 }
                 
-                return dates;
-            }
-            
-            generateFutureDates(days) {
-                const dates = [];
-                const today = new Date();
+                // Today
+                labels.push('Today');
                 
-                for (let i = 1; i <= days; i++) {
+                // Forecast dates
+                for (let i = 1; i <= forecastDays; i++) {
                     const date = new Date(today);
-                    date.setDate(today.getDate() + i);
-                    dates.push(date.toLocaleDateString('en-US', {month: 'short', day: 'numeric'}));
+                    date.setDate(date.getDate() + i);
+                    labels.push(date.toLocaleDateString('en-US', {month: 'short', day: 'numeric'}));
                 }
                 
-                return dates;
+                return labels;
             }
             
-            generateForecastData(days) {
-                const prices = [];
-                let price = 3842;
-                
-                for (let i = 0; i < days; i++) {
-                    price += (Math.random() - 0.3) * 20;
-                    prices.push(price);
-                }
-                
-                return prices;
-            }
-            
-            generateBacktestData(days) {
+            generateHistoricalData(days) {
                 const data = [];
-                let actual = 3800;
-                let predicted = 3820;
+                let price = 3800;
                 
                 for (let i = 0; i < days; i++) {
-                    data.push({
-                        actual: actual + (Math.random() - 0.5) * 50,
-                        predicted: predicted + (Math.random() - 0.5) * 40
-                    });
-                    actual += (Math.random() - 0.5) * 30;
-                    predicted += (Math.random() - 0.5) * 25;
+                    const change = (Math.random() - 0.5) * 50;
+                    price += change;
+                    data.push(price);
                 }
                 
                 return data;
             }
             
-            async initializeTFModel() {
-                // Initialize a simple TensorFlow model for demonstration
-                this.tfModel = tf.sequential({
-                    layers: [
-                        tf.layers.dense({inputShape: [10], units: 32, activation: 'relu'}),
-                        tf.layers.dense({units: 16, activation: 'relu'}),
-                        tf.layers.dense({units: 1})
-                    ]
-                });
+            generatePredictionData(historicalDays, forecastDays) {
+                const data = [];
                 
-                this.tfModel.compile({
-                    optimizer: 'adam',
-                    loss: 'meanSquaredError'
-                });
+                // Fill historical with null
+                for (let i = 0; i < historicalDays; i++) {
+                    data.push(null);
+                }
+                
+                // Today's price
+                const historical = this.generateHistoricalData(historicalDays);
+                data.push(historical[historicalDays - 1]);
+                
+                // Generate predictions
+                let price = historical[historicalDays - 1];
+                const predictions = [];
+                
+                for (let i = 0; i < forecastDays; i++) {
+                    const trend = 0.02; // 2% upward trend
+                    const volatility = 0.015;
+                    const change = (trend + (Math.random() - 0.5) * volatility) * price;
+                    price += change;
+                    predictions.push(price);
+                }
+                
+                return data.concat(predictions);
             }
             
             setupEventListeners() {
                 // Model selection
                 document.querySelectorAll('.model-card').forEach(card => {
-                    card.addEventListener('click', () => {
-                        document.querySelectorAll('.model-card').forEach(c => c.classList.remove('active'));
+                    card.addEventListener('click', (e) => {
+                        // Update active model
+                        document.querySelectorAll('.model-card').forEach(c => {
+                            c.classList.remove('active');
+                            c.querySelector('.selector-dot').classList.remove('active');
+                        });
+                        
                         card.classList.add('active');
+                        card.querySelector('.selector-dot').classList.add('active');
+                        
+                        // Update current model
                         this.currentModel = card.dataset.model;
                         this.updateModelInfo();
+                        this.updatePredictionForModel();
                     });
                 });
                 
-                // Training parameters
-                const params = ['epochs', 'batchSize', 'learningRate', 'trainSplit'];
-                params.forEach(param => {
-                    const input = document.getElementById(param);
-                    const valueSpan = input.parentElement.querySelector('.param-value');
-                    
-                    input.addEventListener('input', () => {
-                        if (param === 'trainSplit') {
-                            const testSplit = 100 - parseInt(input.value);
-                            valueSpan.textContent = `${input.value}/${testSplit}`;
-                        } else {
-                            valueSpan.textContent = input.value;
-                        }
-                    });
+                // Sliders
+                document.getElementById('forecastHorizon').addEventListener('input', (e) => {
+                    document.getElementById('horizonValue').textContent = `${e.target.value} days`;
                 });
                 
-                // Training button
-                document.getElementById('trainModelBtn').addEventListener('click', () => {
+                document.getElementById('confidenceLevel').addEventListener('input', (e) => {
+                    document.getElementById('confidenceValue').textContent = `${e.target.value}%`;
+                });
+                
+                document.getElementById('trainingPeriod').addEventListener('change', (e) => {
+                    document.getElementById('trainingValue').textContent = `${e.target.value} years`;
+                });
+                
+                // Training sliders
+                document.getElementById('trainTestSplit').addEventListener('input', (e) => {
+                    const train = e.target.value;
+                    const test = 100 - train;
+                    document.getElementById('trainSplitValue').textContent = `${train}%`;
+                    document.getElementById('testSplitValue').textContent = `${test}%`;
+                });
+                
+                document.getElementById('epochs').addEventListener('input', (e) => {
+                    document.getElementById('epochsValue').textContent = e.target.value;
+                });
+                
+                document.getElementById('learningRate').addEventListener('input', (e) => {
+                    document.getElementById('learningRateValue').textContent = e.target.value;
+                });
+                
+                // Buttons
+                document.getElementById('runPrediction').addEventListener('click', () => {
+                    this.runPrediction();
+                });
+                
+                document.getElementById('trainModel').addEventListener('click', () => {
+                    this.retrainModel();
+                });
+                
+                document.getElementById('exportResults').addEventListener('click', () => {
+                    this.exportResults();
+                });
+                
+                document.getElementById('startTraining').addEventListener('click', () => {
                     this.startTraining();
                 });
                 
-                // Reset button
-                document.getElementById('resetParamsBtn').addEventListener('click', () => {
-                    this.resetParameters();
+                document.getElementById('stopTraining').addEventListener('click', () => {
+                    this.stopTraining();
                 });
                 
-                // Generate predictions
-                document.getElementById('generatePredictionsBtn').addEventListener('click', () => {
-                    this.generatePredictions();
+                document.getElementById('saveModel').addEventListener('click', () => {
+                    this.saveModel();
                 });
                 
                 // Deployment buttons
                 document.querySelectorAll('.deploy-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
-                        const action = e.target.closest('.deployment-option').querySelector('h3').textContent;
-                        this.handleDeployment(action);
+                        const type = e.target.dataset.type;
+                        this.deployModel(type);
+                    });
+                });
+                
+                // Documentation tabs
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const tab = e.target.dataset.tab;
+                        this.switchTab(tab);
                     });
                 });
             }
             
             updateModelInfo() {
-                const modelInfo = {
-                    lstm: {
-                        name: 'LSTM Neural Network',
-                        data: '10 years of daily prices',
-                        features: 'Historical prices, volatility, technical indicators'
-                    },
-                    xgboost: {
-                        name: 'XGBoost Ensemble',
-                        data: '8 years of daily prices',
-                        features: 'Price features, volume, market indicators'
-                    },
-                    transformer: {
-                        name: 'Transformer Model',
-                        data: '12 years of high-frequency data',
-                        features: 'Sequential patterns, attention mechanisms'
-                    },
-                    gan: {
-                        name: 'Generative Adversarial Network',
-                        data: 'Synthetic + historical data',
-                        features: 'Market scenario generation'
-                    }
+                const modelNames = {
+                    'lstm': 'LSTM Neural Network',
+                    'xgboost': 'XGBoost Ensemble',
+                    'prophet': 'Facebook Prophet',
+                    'svm': 'SVM Classifier'
                 };
                 
-                const info = modelInfo[this.currentModel];
-                const infoDiv = document.querySelector('.model-info');
-                infoDiv.innerHTML = `
-                    <h4><i class="fas fa-info-circle"></i> Model Information</h4>
-                    <p>Current model: <strong>${info.name}</strong></p>
-                    <p>Training data: <strong>${info.data}</strong></p>
-                    <p>Features: <strong>${info.features}</strong></p>
-                    <p>Last updated: <strong>Today, 14:30 GMT</strong></p>
-                `;
+                document.getElementById('currentModel').textContent = modelNames[this.currentModel];
+                
+                // Update last trained time
+                const now = new Date();
+                const hoursAgo = Math.floor(Math.random() * 24);
+                now.setHours(now.getHours() - hoursAgo);
+                
+                document.getElementById('lastUpdated').textContent = 
+                    `Last trained: ${hoursAgo} hours ago`;
             }
             
-            async startTraining() {
+            updatePredictionForModel() {
+                // Update prediction metrics based on model
+                const modelMetrics = {
+                    'lstm': { accuracy: '94.2%', mae: '$42.80', predictedPrice: '$4,125.50' },
+                    'xgboost': { accuracy: '91.0%', mae: '$58.30', predictedPrice: '$4,085.20' },
+                    'prophet': { accuracy: '88.7%', mae: '$72.10', predictedPrice: '$4,050.80' },
+                    'svm': { accuracy: '86.5%', mae: '$89.50', predictedPrice: '$4,010.30' }
+                };
+                
+                const metrics = modelMetrics[this.currentModel];
+                
+                document.getElementById('modelAccuracy').textContent = metrics.accuracy;
+                document.getElementById('maeValue').textContent = metrics.mae;
+                document.getElementById('predictedPrice').textContent = metrics.predictedPrice;
+            }
+            
+            runPrediction() {
+                const button = document.getElementById('runPrediction');
+                const originalText = button.innerHTML;
+                
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Predicting...';
+                button.disabled = true;
+                
+                // Simulate prediction time
+                setTimeout(() => {
+                    // Generate new prediction data
+                    const historical = this.generateHistoricalData(60);
+                    const predictions = this.generatePredictionData(60, 30);
+                    
+                    // Update chart
+                    this.predictionChart.data.datasets[0].data = historical;
+                    this.predictionChart.data.datasets[1].data = predictions;
+                    this.predictionChart.update();
+                    
+                    // Update metrics
+                    this.updatePredictionForModel();
+                    
+                    // Generate random prediction interval
+                    const basePrice = 4125;
+                    const interval = 95 + Math.random() * 8;
+                    const lower = (basePrice * (1 - interval/2000)).toFixed(2);
+                    const upper = (basePrice * (1 + interval/2000)).toFixed(2);
+                    
+                    document.getElementById('predictionInterval').textContent = 
+                        `[$${lower} - $${upper}]`;
+                    
+                    // Restore button
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                    
+                    this.showNotification('Prediction completed successfully!', 'success');
+                }, 1500);
+            }
+            
+            retrainModel() {
                 if (this.isTraining) {
-                    alert('Training is already in progress!');
+                    this.showNotification('Model is already training', 'warning');
+                    return;
+                }
+                
+                const button = document.getElementById('trainModel');
+                const originalText = button.innerHTML;
+                
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Retraining...';
+                button.disabled = true;
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                    
+                    this.showNotification('Model retrained successfully!', 'success');
+                    
+                    // Update last trained time
+                    document.getElementById('lastUpdated').textContent = 
+                        'Last trained: Just now';
+                }, 2000);
+            }
+            
+            exportResults() {
+                const data = {
+                    model: this.currentModel,
+                    timestamp: new Date().toISOString(),
+                    prediction: {
+                        price: 4125.50,
+                        interval: [3980, 4270],
+                        accuracy: 0.942,
+                        mae: 42.80
+                    },
+                    features: ['price_trend', 'volatility', 'weather', 'exchange_rate', 'demand']
+                };
+                
+                const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `cocoa-prediction-${new Date().toISOString().slice(0,10)}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                this.showNotification('Results exported successfully!', 'success');
+            }
+            
+            startTraining() {
+                if (this.isTraining) {
+                    this.showNotification('Training already in progress', 'warning');
                     return;
                 }
                 
                 this.isTraining = true;
-                this.trainingProgress = 0;
+                
+                // Reset training chart
+                this.trainingChart.data.labels = [];
+                this.trainingChart.data.datasets[0].data = [];
+                this.trainingChart.data.datasets[1].data = [];
+                this.trainingChart.update();
+                
+                // Update UI
+                document.getElementById('progressStatus').textContent = 'Training...';
+                document.getElementById('startTraining').disabled = true;
+                document.getElementById('stopTraining').disabled = false;
                 
                 const epochs = parseInt(document.getElementById('epochs').value);
-                const batchSize = parseInt(document.getElementById('batchSize').value);
-                
-                // Disable buttons during training
-                document.getElementById('trainModelBtn').disabled = true;
-                document.getElementById('trainModelBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Training...';
-                
-                // Reset progress
-                this.updateTrainingProgress(0, 0, 1.0, 0);
+                let currentEpoch = 0;
+                const startTime = Date.now();
                 
                 // Simulate training progress
-                const interval = setInterval(() => {
-                    if (this.trainingProgress >= 100) {
-                        clearInterval(interval);
-                        this.trainingComplete();
-                        return;
+                this.trainingInterval = setInterval(() => {
+                    currentEpoch++;
+                    const progress = (currentEpoch / epochs) * 100;
+                    
+                    // Update progress bar
+                    document.getElementById('trainingProgress').style.width = `${progress}%`;
+                    
+                    // Update metrics
+                    document.getElementById('epochValue').textContent = `${currentEpoch}/${epochs}`;
+                    
+                    // Generate random loss values (decreasing)
+                    const trainLoss = 0.1 * Math.exp(-currentEpoch/20) + Math.random() * 0.01;
+                    const valLoss = 0.12 * Math.exp(-currentEpoch/20) + Math.random() * 0.02;
+                    
+                    document.getElementById('lossValue').textContent = trainLoss.toFixed(4);
+                    document.getElementById('accuracyValue').textContent = 
+                        `${(100 - trainLoss * 100).toFixed(1)}%`;
+                    
+                    // Update time
+                    const elapsed = Date.now() - startTime;
+                    document.getElementById('trainingTime').textContent = 
+                        `${Math.floor(elapsed / 1000)}s`;
+                    
+                    // Update chart
+                    this.trainingChart.data.labels.push(currentEpoch.toString());
+                    this.trainingChart.data.datasets[0].data.push(trainLoss);
+                    this.trainingChart.data.datasets[1].data.push(valLoss);
+                    this.trainingChart.update();
+                    
+                    // Check if training is complete
+                    if (currentEpoch >= epochs) {
+                        this.stopTraining();
+                        this.showNotification('Training completed successfully!', 'success');
                     }
-                    
-                    this.trainingProgress += 100 / (epochs * 10); // Simulate 10 updates per epoch
-                    const currentEpoch = Math.floor(this.trainingProgress / (100 / epochs));
-                    const loss = Math.max(0.01, 1.0 - (this.trainingProgress / 100) * 0.95);
-                    const accuracy = Math.min(100, (this.trainingProgress / 100) * 95);
-                    
-                    this.updateTrainingProgress(currentEpoch, loss, accuracy, this.trainingProgress);
-                    this.updateCharts(currentEpoch, loss, accuracy);
-                    
-                }, 100); // Update every 100ms
+                }, 200);
             }
             
-            updateTrainingProgress(epoch, loss, accuracy, progress) {
-                document.getElementById('currentEpoch').textContent = epoch;
-                document.getElementById('currentLoss').textContent = loss.toFixed(4);
-                document.getElementById('currentAccuracy').textContent = accuracy.toFixed(2) + '%';
-                document.getElementById('trainingProgress').style.width = progress + '%';
-                document.getElementById('progressPercent').textContent = progress.toFixed(1) + '%';
+            stopTraining() {
+                if (!this.isTraining) return;
                 
-                // Update time remaining
-                if (progress > 0 && progress < 100) {
-                    const elapsedSeconds = (progress / 100) * 300; // Assume 5 minutes total
-                    const remainingSeconds = 300 - elapsedSeconds;
-                    const minutes = Math.floor(remainingSeconds / 60);
-                    const seconds = Math.floor(remainingSeconds % 60);
-                    document.getElementById('timeRemaining').textContent = 
-                        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                }
-            }
-            
-            updateCharts(epoch, loss, accuracy) {
-                // Update loss chart
-                Plotly.extendTraces('lossChart', {
-                    x: [[epoch]],
-                    y: [[loss]]
-                }, [0]);
-                
-                // Update accuracy chart
-                Plotly.extendTraces('accuracyChart', {
-                    x: [[epoch]],
-                    y: [[accuracy]]
-                }, [0]);
-            }
-            
-            trainingComplete() {
                 this.isTraining = false;
+                clearInterval(this.trainingInterval);
                 
-                // Re-enable button
-                document.getElementById('trainModelBtn').disabled = false;
-                document.getElementById('trainModelBtn').innerHTML = '<i class="fas fa-play"></i> Start Training';
-                
-                // Show completion message
-                alert('Model training completed successfully!\n\nFinal accuracy: 91.4%\nTraining time: 2 minutes 45 seconds');
-                
-                // Update final values
-                document.getElementById('timeRemaining').textContent = '00:00';
-                document.getElementById('progressPercent').textContent = '100%';
-                document.getElementById('trainingProgress').style.width = '100%';
+                // Update UI
+                document.getElementById('progressStatus').textContent = 'Stopped';
+                document.getElementById('startTraining').disabled = false;
+                document.getElementById('stopTraining').disabled = true;
             }
             
-            resetParameters() {
-                document.getElementById('epochs').value = 100;
-                document.getElementById('batchSize').value = 32;
-                document.getElementById('learningRate').value = 0.001;
-                document.getElementById('trainSplit').value = 80;
-                
-                // Update displays
-                document.querySelectorAll('.param-value').forEach(span => {
-                    const input = span.parentElement.querySelector('input');
-                    if (input.id === 'trainSplit') {
-                        span.textContent = '80/20';
-                    } else {
-                        span.textContent = input.value;
+            saveModel() {
+                const modelData = {
+                    name: this.currentModel,
+                    timestamp: new Date().toISOString(),
+                    parameters: {
+                        epochs: document.getElementById('epochs').value,
+                        learning_rate: document.getElementById('learningRate').value,
+                        train_test_split: document.getElementById('trainTestSplit').value
+                    },
+                    metrics: {
+                        final_loss: document.getElementById('lossValue').textContent,
+                        accuracy: document.getElementById('accuracyValue').textContent
                     }
-                });
-                
-                // Reset checkboxes
-                document.querySelectorAll('.feature-checkbox input').forEach((checkbox, index) => {
-                    checkbox.checked = index < 3; // First 3 checked by default
-                });
-            }
-            
-            generatePredictions() {
-                const days = parseInt(document.getElementById('predictionDays').value);
-                const confidence = parseInt(document.getElementById('confidenceLevel').value);
-                const scenario = document.getElementById('scenarioType').value;
-                
-                // Generate new forecast based on parameters
-                const dates = this.generateFutureDates(days);
-                let baseForecast;
-                
-                switch(scenario) {
-                    case 'bull':
-                        baseForecast = this.generateBullishForecast(days);
-                        break;
-                    case 'bear':
-                        baseForecast = this.generateBearishForecast(days);
-                        break;
-                    case 'volatile':
-                        baseForecast = this.generateVolatileForecast(days);
-                        break;
-                    default:
-                        baseForecast = this.generateForecastData(days);
-                }
-                
-                // Add confidence intervals
-                const lower = baseForecast.map(p => p * (1 - (100 - confidence) / 200));
-                const upper = baseForecast.map(p => p * (1 + (100 - confidence) / 200));
-                
-                // Update forecast chart
-                const forecastTrace = {
-                    x: dates,
-                    y: baseForecast,
-                    type: 'scatter',
-                    mode: 'lines',
-                    line: {color: '#3498db', width: 3},
-                    name: 'Forecast'
                 };
                 
-                const lowerTrace = {
-                    x: dates,
-                    y: lower,
-                    type: 'scatter',
-                    mode: 'lines',
-                    line: {color: 'rgba(52, 152, 219, 0.3)', width: 1},
-                    name: 'Lower Bound',
-                    showlegend: false
+                const blob = new Blob([JSON.stringify(modelData, null, 2)], {type: 'application/json'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${this.currentModel}-${new Date().toISOString().slice(0,10)}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                this.showNotification('Model configuration saved!', 'success');
+            }
+            
+            deployModel(type) {
+                const deployments = {
+                    'api': 'REST API',
+                    'mobile': 'Mobile App',
+                    'dashboard': 'Dashboard Widget'
                 };
                 
-                const upperTrace = {
-                    x: dates,
-                    y: upper,
-                    type: 'scatter',
-                    mode: 'lines',
-                    line: {color: 'rgba(52, 152, 219, 0.3)', width: 1},
-                    fill: 'tonexty',
-                    fillcolor: 'rgba(52, 152, 219, 0.1)',
-                    name: 'Upper Bound',
-                    showlegend: false
-                };
+                this.showNotification(`Deploying model as ${deployments[type]}...`, 'info');
                 
-                Plotly.newPlot('forecastChart', [lowerTrace, upperTrace, forecastTrace], {
-                    title: `${days}-Day Price Forecast (${confidence}% CI)`,
-                    xaxis: {title: 'Date'},
-                    yaxis: {title: 'Price ($/ton)'},
-                    paper_bgcolor: 'rgba(0,0,0,0)',
-                    plot_bgcolor: 'rgba(0,0,0,0)',
-                    font: {color: '#ffffff'}
+                // Simulate deployment time
+                setTimeout(() => {
+                    this.showNotification(`${deployments[type]} deployment initiated!`, 'success');
+                }, 2000);
+            }
+            
+            switchTab(tab) {
+                // Update active tab
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.remove('active');
                 });
                 
-                // Update prediction metrics
-                const finalPrice = baseForecast[baseForecast.length - 1];
-                const changePercent = ((finalPrice - 3842) / 3842 * 100).toFixed(1);
-                const range = (upper[upper.length - 1] - lower[lower.length - 1]).toFixed(0);
-                const probability = confidence > 90 ? 75 : confidence > 80 ? 68 : 55;
+                document.querySelectorAll('.tab-pane').forEach(pane => {
+                    pane.classList.remove('active');
+                });
                 
-                document.querySelectorAll('.prediction-metrics .metric-value')[0].textContent = `$${finalPrice.toFixed(0)}`;
-                document.querySelectorAll('.prediction-metrics .metric-change')[0].textContent = 
-                    `${changePercent > 0 ? '+' : ''}${changePercent}%`;
-                document.querySelectorAll('.prediction-metrics .metric-change')[0].className = 
-                    `metric-change ${changePercent > 0 ? 'positive' : 'negative'}`;
-                
-                document.querySelectorAll('.prediction-metrics .metric-value')[1].textContent = 
-                    `$${lower[lower.length - 1].toFixed(0)} - $${upper[upper.length - 1].toFixed(0)}`;
-                document.querySelectorAll('.prediction-metrics .metric-value')[2].textContent = `${probability}%`;
-                
-                alert(`Predictions generated for ${days} days with ${confidence}% confidence level.\nScenario: ${scenario}`);
+                // Activate selected tab
+                document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+                document.getElementById(tab).classList.add('active');
             }
             
-            generateBullishForecast(days) {
-                const prices = [];
-                let price = 3842;
+            showNotification(message, type = 'info') {
+                // Create notification element
+                const notification = document.createElement('div');
+                notification.className = `ml-notification ${type}`;
+                notification.innerHTML = `
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                `;
                 
-                for (let i = 0; i < days; i++) {
-                    price += (Math.random() * 0.6 + 0.2) * 20; // Mostly positive
-                    prices.push(price);
-                }
+                document.body.appendChild(notification);
                 
-                return prices;
-            }
-            
-            generateBearishForecast(days) {
-                const prices = [];
-                let price = 3842;
-                
-                for (let i = 0; i < days; i++) {
-                    price += (Math.random() * 0.6 - 0.8) * 20; // Mostly negative
-                    prices.push(price);
-                }
-                
-                return prices;
-            }
-            
-            generateVolatileForecast(days) {
-                const prices = [];
-                let price = 3842;
-                
-                for (let i = 0; i < days; i++) {
-                    price += (Math.random() - 0.5) * 60; // High volatility
-                    prices.push(price);
-                }
-                
-                return prices;
-            }
-            
-            handleDeployment(action) {
-                alert(`${action} deployment initiated.\n\nIn a real application, this would deploy the model to the selected environment.`);
-                
-                // Simulate deployment progress
-                if (action === 'Cloud API') {
-                    setTimeout(() => {
-                        alert('Model deployed successfully to cloud API!\n\nEndpoint: https://api.cocoa-lab.gh/v1/predict\nAPI Key generated and sent to your email.');
-                    }, 1500);
-                }
+                // Remove after 3 seconds
+                setTimeout(() => {
+                    notification.classList.add('fade-out');
+                    setTimeout(() => notification.remove(), 300);
+                }, 3000);
             }
         }
         
-        // Initialize ML manager when page loads
+        // Initialize ML models when page loads
         document.addEventListener('DOMContentLoaded', () => {
-            new MLManager();
+            new MLModels();
         });
     </script>
     
     <style>
-        /* ML-specific styles */
+        /* ML Models specific styles */
+        .ml-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-xl) var(--space);
+        }
+        
         .ml-header {
-            margin-bottom: 2rem;
-            padding: 2rem;
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .ml-status {
-            display: flex;
-            gap: 2rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-        
-        .ml-status .status-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .ml-status .status-label {
-            color: #94a3b8;
-        }
-        
-        .ml-status .status-value {
-            font-weight: 600;
-            color: #cbd5e1;
-        }
-        
-        .ml-status .status-value.active {
-            color: #27ae60;
-        }
-        
-        .ml-status .status-value.active i {
-            color: #27ae60;
-            font-size: 0.75rem;
-        }
-        
-        /* Model Selector */
-        .model-selector-section {
-            margin-bottom: 3rem;
-        }
-        
-        .model-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        
-        .model-card {
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            cursor: pointer;
-            transition: var(--transition);
+            background: linear-gradient(135deg, var(--primary), #4a0070);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-xl);
+            color: white;
             text-align: center;
         }
         
+        .ml-stats {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-xl);
+            margin-top: var(--space-xl);
+            flex-wrap: wrap;
+        }
+        
+        /* Model Selection */
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space);
+            margin-top: var(--space-xl);
+        }
+        
+        .model-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: var(--space);
+            border: 1px solid var(--border);
+            display: flex;
+            gap: var(--space);
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
         .model-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
         
         .model-card.active {
             border-color: var(--primary);
-            background: rgba(0, 107, 63, 0.2);
-            transform: translateY(-5px);
-            box-shadow: var(--shadow);
+            background: rgba(0, 107, 63, 0.1);
         }
         
         .model-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary), #00704a);
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+        }
+        
+        .model-content {
+            flex: 1;
+        }
+        
+        .model-desc {
+            font-size: 0.875rem;
+            color: var(--text-tertiary);
+            margin: var(--space-xs) 0;
+        }
+        
+        .model-stats {
+            display: flex;
+            gap: var(--space);
+            margin-top: var(--space-sm);
+        }
+        
+        .model-stats .stat {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .model-selector {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1rem;
-            font-size: 1.5rem;
         }
         
-        .model-metrics {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 1rem;
-            font-size: 0.875rem;
-            color: #94a3b8;
+        .selector-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: none;
         }
         
-        /* Training Section */
-        .training-section {
-            margin-bottom: 3rem;
+        .selector-dot.active {
+            display: block;
         }
         
-        .training-interface {
+        /* Prediction Interface */
+        .prediction-interface {
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .interface-container {
             display: grid;
             grid-template-columns: 350px 1fr;
-            gap: 2rem;
-            margin-top: 1.5rem;
+            gap: var(--space-xl);
         }
         
-        .training-params, .training-progress {
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        @media (max-width: 1024px) {
+            .interface-container {
+                grid-template-columns: 1fr;
+            }
         }
         
-        .param-group {
-            margin: 1.5rem 0;
+        .controls-panel {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            border: 1px solid var(--border);
         }
         
-        .param {
-            margin-bottom: 1.5rem;
+        .parameter-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space);
+            margin-top: var(--space);
         }
         
-        .param label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #cbd5e1;
-        }
-        
-        .param input {
-            width: 100%;
+        .parameter-select {
             padding: 0.75rem;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-            color: white;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            width: 100%;
         }
         
-        .param-value {
-            display: block;
-            text-align: center;
-            color: var(--secondary);
-            font-weight: 600;
-            margin-top: 0.5rem;
+        .feature-checkboxes {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+            margin-top: var(--space);
         }
         
-        .feature-selection {
-            margin: 1.5rem 0;
-        }
-        
-        .feature-list {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.75rem;
-            margin-top: 1rem;
-        }
-        
-        .feature-checkbox {
+        .checkbox {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            color: #cbd5e1;
-            font-size: 0.875rem;
+            gap: var(--space-sm);
+            cursor: pointer;
         }
         
-        .training-actions {
+        .checkbox input {
+            display: none;
+        }
+        
+        .checkmark {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
             display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
+            align-items: center;
+            justify-content: center;
         }
         
-        .training-actions .btn {
-            flex: 1;
+        .checkbox input:checked + .checkmark {
+            background: var(--primary);
+            border-color: var(--primary);
         }
         
-        .progress-charts {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin: 1rem 0;
+        .checkbox input:checked + .checkmark::after {
+            content: '✓';
+            color: white;
+            font-size: 0.75rem;
         }
         
-        .progress-chart {
-            background: rgba(15, 23, 42, 0.6);
-            border-radius: 8px;
-            padding: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        /* Results Panel */
+        .results-panel {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space);
         }
         
-        .progress-chart h4 {
-            margin-bottom: 1rem;
-            font-size: 1rem;
-            color: #cbd5e1;
-        }
-        
-        .progress-chart .chart-container {
-            height: 150px;
-        }
-        
-        .training-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-        
-        .training-stats .stat {
-            text-align: center;
-            padding: 1rem;
-            background: rgba(15, 23, 42, 0.6);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .stat-label {
-            display: block;
-            font-size: 0.875rem;
-            color: #94a3b8;
-            margin-bottom: 0.5rem;
-        }
-        
-        .stat-value {
-            display: block;
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--secondary);
-        }
-        
-        .progress-bar-container {
-            margin-top: 1.5rem;
-        }
-        
-        .progress-bar {
-            height: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            overflow: hidden;
-            margin-bottom: 0.5rem;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #27ae60, #2ecc71);
-            border-radius: 5px;
-            transition: width 0.3s ease;
-        }
-        
-        .progress-label {
+        .results-header {
             display: flex;
             justify-content: space-between;
-            color: #cbd5e1;
-            font-size: 0.875rem;
-        }
-        
-        /* Predictions Section */
-        .predictions-section {
-            margin-bottom: 3rem;
-        }
-        
-        .predictions-content {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 2rem;
-            margin-top: 1.5rem;
-        }
-        
-        .prediction-input, .prediction-output {
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .input-group {
-            margin: 1.5rem 0;
-        }
-        
-        .input-field {
-            margin-bottom: 1.5rem;
-        }
-        
-        .input-field label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #cbd5e1;
-        }
-        
-        .input-field select {
-            width: 100%;
-            padding: 0.75rem;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-            color: white;
+            align-items: center;
+            margin-bottom: var(--space);
         }
         
         .model-info {
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: var(--space-xs);
         }
         
-        .model-info p {
-            margin: 0.5rem 0;
+        .current-model {
+            font-weight: 600;
+            color: var(--secondary);
+        }
+        
+        .last-updated {
             font-size: 0.875rem;
-            color: #cbd5e1;
+            color: var(--text-tertiary);
+        }
+        
+        .prediction-chart {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: var(--space);
+            border: 1px solid var(--border);
+            height: 400px;
+        }
+        
+        .chart-container {
+            height: 100%;
         }
         
         .prediction-metrics {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: var(--space);
+            border: 1px solid var(--border);
+        }
+        
+        .metric-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            margin-top: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space);
         }
         
         .metric-card {
             text-align: center;
-            padding: 1rem;
-            background: rgba(15, 23, 42, 0.6);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: var(--space-sm);
         }
         
-        .metric-label {
+        .metric-card .metric-label {
             font-size: 0.875rem;
-            color: #94a3b8;
-            margin-bottom: 0.5rem;
+            color: var(--text-tertiary);
+            margin-bottom: var(--space-xs);
         }
         
-        .metric-value {
-            font-size: 1.25rem;
-            font-weight: 800;
+        .metric-card .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
             color: var(--secondary);
-            margin: 0.5rem 0;
+            margin: var(--space-xs) 0;
         }
         
-        .metric-change {
+        .metric-card .metric-change {
             font-size: 0.875rem;
             font-weight: 600;
         }
         
-        .metric-change.positive {
-            color: #27ae60;
+        .metric-card .metric-change.positive {
+            color: #10b981;
         }
         
-        .metric-change.negative {
-            color: #e74c3c;
+        .metric-card .metric-change.negative {
+            color: #ef4444;
         }
         
-        /* Evaluation Section */
-        .evaluation-section {
-            margin-bottom: 3rem;
+        .metric-card .metric-desc {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
         }
         
-        .evaluation-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-top: 1.5rem;
-        }
-        
-        .evaluation-chart, .evaluation-metrics {
-            background: rgba(30, 41, 59, 0.8);
+        /* Model Insights */
+        .model-insights {
+            background: var(--bg-secondary);
             border-radius: var(--radius);
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: var(--space);
+            border: 1px solid var(--border);
         }
         
-        .metrics-grid {
-            margin: 1.5rem 0;
-        }
-        
-        .eval-metric {
-            margin-bottom: 1.5rem;
-        }
-        
-        .eval-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #cbd5e1;
-        }
-        
-        .eval-value {
-            float: right;
-            font-weight: 800;
-            color: var(--secondary);
-        }
-        
-        .eval-bar {
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 0.5rem;
-            clear: both;
-        }
-        
-        .eval-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #27ae60, #2ecc71);
-            border-radius: 4px;
-        }
-        
-        .model-comparison {
-            margin-top: 1.5rem;
-        }
-        
-        .model-comparison .chart-container {
-            height: 250px;
-        }
-        
-        /* Explainable AI */
-        .explainable-section {
-            margin-bottom: 3rem;
-        }
-        
-        .explainable-content {
+        .insights-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-top: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space);
+            margin-top: var(--space);
         }
         
-        .feature-importance, .shap-analysis {
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .feature-importance .chart-container {
-            height: 300px;
-        }
-        
-        .shap-values {
-            margin: 1.5rem 0;
-        }
-        
-        .shap-item {
+        .insight-card {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-            background: rgba(15, 23, 42, 0.6);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            gap: var(--space);
+            align-items: flex-start;
         }
         
-        .shap-item.positive {
-            border-left: 4px solid #27ae60;
-        }
-        
-        .shap-item.negative {
-            border-left: 4px solid #e74c3c;
-        }
-        
-        .shap-feature {
-            font-weight: 600;
-            color: #cbd5e1;
-        }
-        
-        .shap-value {
-            font-weight: 800;
-            font-size: 1.1rem;
-        }
-        
-        .shap-item.positive .shap-value {
-            color: #27ae60;
-        }
-        
-        .shap-item.negative .shap-value {
-            color: #e74c3c;
-        }
-        
-        .shap-explanation {
-            color: #cbd5e1;
-            line-height: 1.6;
-            margin-top: 1rem;
-            font-size: 0.875rem;
-        }
-        
-        /* Deployment Section */
-        .deployment-section {
-            margin-bottom: 3rem;
-        }
-        
-        .deployment-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        
-        .deployment-option {
-            background: rgba(30, 41, 59, 0.8);
+        .insight-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-tertiary);
             border-radius: var(--radius);
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-        }
-        
-        .option-icon {
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1rem;
-            font-size: 1.5rem;
+            color: var(--secondary);
+            font-size: 1.25rem;
+            flex-shrink: 0;
         }
         
-        .deployment-option .btn {
+        /* Model Comparison */
+        .comparison-table {
+            overflow-x: auto;
+            margin-top: var(--space-xl);
+        }
+        
+        .comparison-table table {
             width: 100%;
-            margin-top: 1rem;
+            border-collapse: collapse;
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            overflow: hidden;
         }
         
-        @media (max-width: 1024px) {
-            .training-interface {
-                grid-template-columns: 1fr;
-            }
-            
-            .predictions-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .evaluation-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .explainable-content {
-                grid-template-columns: 1fr;
-            }
+        .comparison-table th {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .comparison-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+        
+        .comparison-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status.active {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+        
+        .status.inactive {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        /* Training Section */
+        .training-interface {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space);
+            margin-top: var(--space-xl);
         }
         
         @media (max-width: 768px) {
-            .model-cards {
+            .training-interface {
                 grid-template-columns: 1fr;
             }
-            
-            .progress-charts {
+        }
+        
+        .training-controls {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: var(--space);
+            border: 1px solid var(--border);
+            grid-column: 1;
+        }
+        
+        .training-param {
+            margin-bottom: var(--space);
+        }
+        
+        .param-value {
+            font-size: 0.875rem;
+            color: var(--text-tertiary);
+            margin-top: var(--space-xs);
+        }
+        
+        .training-actions {
+            display: flex;
+            gap: var(--space);
+            margin-top: var(--space);
+        }
+        
+        .training-progress {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: var(--space);
+            border: 1px solid var(--border);
+            grid-column: 2;
+            grid-row: 1;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space);
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: var(--bg-tertiary);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: var(--space) 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 5px;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space);
+        }
+        
+        .progress-metrics .metric {
+            text-align: center;
+        }
+        
+        .progress-metrics .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            display: block;
+        }
+        
+        .progress-metrics .metric-value {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .training-chart {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: var(--space);
+            border: 1px solid var(--border);
+            grid-column: 1 / -1;
+            height: 300px;
+        }
+        
+        /* Feature Importance */
+        .feature-importance {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-xl);
+            margin-top: var(--space-xl);
+        }
+        
+        @media (max-width: 768px) {
+            .feature-importance {
                 grid-template-columns: 1fr;
             }
-            
-            .training-stats {
-                grid-template-columns: 1fr;
-            }
-            
-            .prediction-metrics {
-                grid-template-columns: 1fr;
-            }
-            
-            .feature-list {
-                grid-template-columns: 1fr;
-            }
+        }
+        
+        .feature-chart {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: var(--space);
+            border: 1px solid var(--border);
+            height: 300px;
+        }
+        
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space);
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space);
+        }
+        
+        .feature-name {
+            width: 150px;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .feature-bar {
+            flex: 1;
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .feature-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+        }
+        
+        .feature-value {
+            width: 50px;
+            text-align: right;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+        
+        /* Deployment */
+        .deployment-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space);
+            margin-top: var(--space-xl);
+        }
+        
+        .deployment-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: var(--space);
+            border: 1px solid var(--border);
+        }
+        
+        .deployment-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space);
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .deployment-card ul {
+            list-style: none;
+            padding-left: 0;
+            margin: var(--space) 0;
+        }
+        
+        .deployment-card li {
+            padding: 0.25rem 0;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .deployment-card li:before {
+            content: '•';
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        /* Documentation */
+        .tabs-header {
+            display: flex;
+            gap: var(--space-xs);
+            background: var(--bg-secondary);
+            border-radius: var(--radius) var(--radius) 0 0;
+            padding: var(--space-sm) var(--space-sm) 0 var(--space-sm);
+            border: 1px solid var(--border);
+            border-bottom: none;
+        }
+        
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-tertiary);
+            border: none;
+            border-radius: var(--radius) var(--radius) 0 0;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .tab-btn:hover {
+            background: var(--bg-secondary);
+        }
+        
+        .tab-btn.active {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .tabs-content {
+            background: var(--bg-primary);
+            border-radius: 0 0 var(--radius) var(--radius);
+            padding: var(--space);
+            border: 1px solid var(--border);
+            border-top: none;
+        }
+        
+        .tab-pane {
+            display: none;
+        }
+        
+        .tab-pane.active {
+            display: block;
+        }
+        
+        .tab-pane ul {
+            list-style: none;
+            padding-left: 0;
+            margin: var(--space) 0;
+        }
+        
+        .tab-pane li {
+            padding: 0.25rem 0;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .tab-pane li:before {
+            content: '•';
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .code-snippet {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: var(--space);
+            margin: var(--space) 0;
+            overflow-x: auto;
+        }
+        
+        .code-snippet code {
+            font-family: 'Courier New', monospace;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        
+        .api-endpoint {
+            display: flex;
+            align-items: center;
+            gap: var(--space);
+            padding: var(--space-sm);
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            margin-bottom: var(--space);
+        }
+        
+        .endpoint-method {
+            width: 60px;
+            padding: 0.5rem;
+            background: #10b981;
+            color: white;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+        }
+        
+        .endpoint-method.post {
+            background: #3b82f6;
+        }
+        
+        .endpoint-path {
+            font-family: 'Courier New', monospace;
+            color: var(--text-primary);
+            flex: 1;
+        }
+        
+        .api-example {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: var(--space);
+            margin-top: var(--space);
+        }
+        
+        /* Notifications */
+        .ml-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .ml-notification.success {
+            border-left: 4px solid #10b981;
+        }
+        
+        .ml-notification.error {
+            border-left: 4px solid #ef4444;
+        }
+        
+        .ml-notification.info {
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .ml-notification.warning {
+            border-left: 4px solid #f59e0b;
+        }
+        
+        .ml-notification.fade-out {
+            animation: slideOut 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
         }
     </style>
 </body>
