@@ -1,1167 +1,1529 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Research Library - Cocoa Derivatives Research Lab</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <span class="ghana-flag"></span>
-                <h1>Cocoa Derivatives Lab</h1>
-                <span class="ghana-flag"></span>
-            </div>
-            <div class="nav-links">
-                <a href="index.html"><i class="fas fa-home"></i> Home</a>
-                <a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a>
-                <a href="calculator.html"><i class="fas fa-calculator"></i> Calculator</a>
-                <a href="research.html" class="active"><i class="fas fa-book"></i> Research</a>
-                <a href="data.html"><i class="fas fa-database"></i> Data</a>
-                <a href="ml-models.html"><i class="fas fa-brain"></i> AI Models</a>
-            </div>
-        </div>
-    </nav>
+<!-- Add this to research.html where you left off -->
+<script>
+    // Continue the ResearchLibrary class...
 
-    <main class="container">
-        <!-- Research Header -->
-        <header class="research-header">
-            <h1><i class="fas fa-graduation-cap"></i> Academic Research Library</h1>
-            <p>Collection of academic papers, research studies, and policy documents on cocoa derivatives</p>
-            
-            <div class="research-stats">
-                <div class="stat">
-                    <h3>47</h3>
-                    <p>Research Papers</p>
-                </div>
-                <div class="stat">
-                    <h3>12</h3>
-                    <p>Policy Documents</p>
-                </div>
-                <div class="stat">
-                    <h3>8</h3>
-                    <p>PhD Theses</p>
-                </div>
-                <div class="stat">
-                    <h3>23</h3>
-                    <p>Conference Papers</p>
-                </div>
-            </div>
-        </header>
-
-        <!-- Search and Filter -->
-        <section class="search-section">
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Search research papers, authors, or keywords...">
-                <button class="btn btn-primary">
-                    <i class="fas fa-search"></i> Search
-                </button>
-            </div>
-            
-            <div class="filter-section">
-                <div class="filter-group">
-                    <span class="filter-label">Filter by:</span>
-                    <select class="filter-select">
-                        <option>All Categories</option>
-                        <option>Options Pricing</option>
-                        <option>Risk Management</option>
-                        <option>Market Structure</option>
-                        <option>Policy Analysis</option>
-                        <option>Machine Learning</option>
-                    </select>
-                    
-                    <select class="filter-select">
-                        <option>All Years</option>
-                        <option>2024</option>
-                        <option>2023</option>
-                        <option>2022</option>
-                        <option>2021</option>
-                        <option>2020 & Earlier</option>
-                    </select>
-                    
-                    <select class="filter-select">
-                        <option>All Journals</option>
-                        <option>Journal of Derivatives</option>
-                        <option>Agricultural Economics</option>
-                        <option>Emerging Markets Review</option>
-                        <option>African Finance Journal</option>
-                    </select>
-                </div>
-                
-                <div class="sort-group">
-                    <span class="sort-label">Sort by:</span>
-                    <select class="sort-select">
-                        <option>Most Recent</option>
-                        <option>Most Cited</option>
-                        <option>Alphabetical</option>
-                        <option>Relevance</option>
-                    </select>
-                </div>
-            </div>
-        </section>
-
-        <!-- Featured Research -->
-        <section class="featured-research">
-            <h2><i class="fas fa-star"></i> Featured Research</h2>
-            
-            <div class="featured-papers">
-                <div class="featured-paper">
-                    <div class="paper-badge">
-                        <span class="badge new">NEW</span>
-                        <span class="badge cited">Highly Cited</span>
-                    </div>
-                    <h3>Stochastic Modeling of Cocoa Price Dynamics in Ghana</h3>
-                    <div class="paper-meta">
-                        <span class="author">Ofori-Amanfo, K. et al.</span>
-                        <span class="year">2024</span>
-                        <span class="journal">Journal of Agricultural Economics</span>
-                    </div>
-                    <p class="paper-abstract">
-                        This study develops a stochastic volatility model for cocoa prices, incorporating 
-                        seasonal effects and macroeconomic variables specific to the Ghanaian market.
-                    </p>
-                    <div class="paper-actions">
-                        <button class="btn btn-secondary">
-                            <i class="fas fa-file-pdf"></i> Download PDF
-                        </button>
-                        <button class="btn btn-outline">
-                            <i class="fas fa-quote-right"></i> Cite
-                        </button>
-                        <span class="citation-count">
-                            <i class="fas fa-quote-left"></i> 42 citations
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="featured-paper">
-                    <div class="paper-badge">
-                        <span class="badge policy">POLICY</span>
-                    </div>
-                    <h3>Options Trading Framework for Ghana Commodity Exchange</h3>
-                    <div class="paper-meta">
-                        <span class="author">COCOBOD Research Division</span>
-                        <span class="year">2023</span>
-                        <span class="journal">Policy Brief</span>
-                    </div>
-                    <p class="paper-abstract">
-                        A comprehensive framework for introducing options trading on the GCX, 
-                        including regulatory requirements and risk management protocols.
-                    </p>
-                    <div class="paper-actions">
-                        <button class="btn btn-secondary">
-                            <i class="fas fa-file-pdf"></i> Download PDF
-                        </button>
-                        <button class="btn btn-outline">
-                            <i class="fas fa-quote-right"></i> Cite
-                        </button>
-                        <span class="citation-count">
-                            <i class="fas fa-quote-left"></i> 18 citations
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Research Categories -->
-        <section class="categories-section">
-            <h2><i class="fas fa-folder"></i> Research Categories</h2>
-            
-            <div class="categories-grid">
-                <div class="category-card" data-category="pricing">
-                    <div class="category-icon">
-                        <i class="fas fa-calculator"></i>
-                    </div>
-                    <h3>Options Pricing</h3>
-                    <p>14 papers</p>
-                </div>
-                
-                <div class="category-card" data-category="risk">
-                    <div class="category-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Risk Management</h3>
-                    <p>12 papers</p>
-                </div>
-                
-                <div class="category-card" data-category="market">
-                    <div class="category-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Market Structure</h3>
-                    <p>8 papers</p>
-                </div>
-                
-                <div class="category-card" data-category="policy">
-                    <div class="category-icon">
-                        <i class="fas fa-landmark"></i>
-                    </div>
-                    <h3>Policy Analysis</h3>
-                    <p>7 papers</p>
-                </div>
-                
-                <div class="category-card" data-category="ml">
-                    <div class="category-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h3>Machine Learning</h3>
-                    <p>6 papers</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Research Papers Grid -->
-        <section class="papers-section">
-            <h2><i class="fas fa-book-open"></i> Research Papers</h2>
-            
-            <div class="papers-grid" id="papersGrid">
-                <!-- Papers will be populated by JavaScript -->
-            </div>
-            
-            <div class="pagination">
-                <button class="pagination-btn prev">
-                    <i class="fas fa-chevron-left"></i> Previous
-                </button>
-                <div class="page-numbers">
-                    <span class="page-number active">1</span>
-                    <span class="page-number">2</span>
-                    <span class="page-number">3</span>
-                    <span class="page-number">4</span>
-                    <span class="page-number">5</span>
-                </div>
-                <button class="pagination-btn next">
-                    Next <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
-        </section>
-
-        <!-- Research Institutions -->
-        <section class="institutions-section">
-            <h2><i class="fas fa-university"></i> Collaborating Institutions</h2>
-            
-            <div class="institutions-grid">
-                <div class="institution">
-                    <div class="institution-logo">
-                        <i class="fas fa-university"></i>
-                    </div>
-                    <h3>University of Ghana</h3>
-                    <p>Department of Economics</p>
-                </div>
-                
-                <div class="institution">
-                    <div class="institution-logo">
-                        <i class="fas fa-building"></i>
-                    </div>
-                    <h3>Ghana Cocoa Board</h3>
-                    <p>Research & Planning Division</p>
-                </div>
-                
-                <div class="institution">
-                    <div class="institution-logo">
-                        <i class="fas fa-exchange-alt"></i>
-                    </div>
-                    <h3>Ghana Commodity Exchange</h3>
-                    <p>Market Development Unit</p>
-                </div>
-                
-                <div class="institution">
-                    <div class="institution-logo">
-                        <i class="fas fa-globe"></i>
-                    </div>
-                    <h3>World Bank</h3>
-                    <p>Agricultural Finance Division</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Submit Research -->
-        <section class="submit-section">
-            <div class="submit-card">
-                <h3><i class="fas fa-paper-plane"></i> Submit Your Research</h3>
-                <p>Contribute to our research library by submitting your papers on cocoa derivatives</p>
-                <button class="btn btn-primary">
-                    <i class="fas fa-upload"></i> Submit Paper
-                </button>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Research Library</h4>
-                <p>Academic papers and research on cocoa derivatives</p>
-                <div class="footer-links">
-                    <a href="#"><i class="fas fa-database"></i> Open Access</a>
-                    <a href="#"><i class="fas fa-balance-scale"></i> Copyright</a>
-                    <a href="#"><i class="fas fa-question-circle"></i> FAQ</a>
-                </div>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Contact Researchers</h4>
-                <p>research@cocoa-lab.gh</p>
-                <p>+233 24 123 4567</p>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Open Access Policy</h4>
-                <p>All research papers are available under Creative Commons license</p>
-            </div>
-        </div>
+    renderPagination() {
+        const totalPages = Math.ceil(this.filteredPapers.length / this.itemsPerPage);
+        const pagination = document.getElementById('pagination');
         
-        <div class="footer-bottom">
-            <p>© 2025 Ghana Cocoa Derivatives Research Lab • Research Library v1.2</p>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
-    <script>
-        class ResearchLibrary {
-            constructor() {
-                this.papers = this.generateSamplePapers();
-                this.currentPage = 1;
-                this.itemsPerPage = 6;
-                this.initialize();
-            }
-            
-            initialize() {
-                this.populatePapersGrid();
-                this.setupEventListeners();
-                this.setupSearch();
-            }
-            
-            generateSamplePapers() {
-                return [
-                    {
-                        id: 1,
-                        title: "Black-Scholes Adaptation for Cocoa Options",
-                        authors: ["Agyei-Ampomah, S.", "Mensah, K."],
-                        year: 2023,
-                        journal: "Journal of Derivatives",
-                        abstract: "Adaptation of Black-Scholes model for cocoa options pricing with Ghana-specific parameters.",
-                        category: "pricing",
-                        citations: 28,
-                        featured: true,
-                        tags: ["options", "pricing", "black-scholes"]
-                    },
-                    {
-                        id: 2,
-                        title: "Risk Management Strategies for Cocoa Farmers",
-                        authors: ["Abu-Ntim, J.", "Osei, B."],
-                        year: 2024,
-                        journal: "Agricultural Finance Review",
-                        abstract: "Analysis of hedging strategies using options to protect smallholder farmers.",
-                        category: "risk",
-                        citations: 15,
-                        featured: false,
-                        tags: ["hedging", "farmers", "risk"]
-                    },
-                    {
-                        id: 3,
-                        title: "Machine Learning for Cocoa Price Forecasting",
-                        authors: ["Owusu, E.", "Appiah, M."],
-                        year: 2024,
-                        journal: "Computational Economics",
-                        abstract: "LSTM neural networks for cocoa price prediction with 92% accuracy.",
-                        category: "ml",
-                        citations: 22,
-                        featured: true,
-                        tags: ["ml", "forecasting", "neural-networks"]
-                    },
-                    {
-                        id: 4,
-                        title: "Ghana Commodity Exchange Market Structure",
-                        authors: ["COCOBOD Research Team"],
-                        year: 2023,
-                        journal: "Market Analysis Report",
-                        abstract: "Comprehensive analysis of GCX market structure and potential for derivatives.",
-                        category: "market",
-                        citations: 12,
-                        featured: false,
-                        tags: ["gcx", "market", "structure"]
-                    },
-                    {
-                        id: 5,
-                        title: "Policy Framework for Agricultural Derivatives",
-                        authors: ["Bank of Ghana", "Ministry of Finance"],
-                        year: 2024,
-                        journal: "Policy Document",
-                        abstract: "Regulatory framework for introducing commodity derivatives in Ghana.",
-                        category: "policy",
-                        citations: 8,
-                        featured: true,
-                        tags: ["policy", "regulation", "derivatives"]
-                    },
-                    {
-                        id: 6,
-                        title: "Volatility Modeling in Emerging Commodity Markets",
-                        authors: ["Tothmihaly, A.", "Gyamfi, D."],
-                        year: 2022,
-                        journal: "Emerging Markets Review",
-                        abstract: "GARCH models for cocoa volatility with regime-switching capabilities.",
-                        category: "pricing",
-                        citations: 34,
-                        featured: false,
-                        tags: ["volatility", "garch", "emerging-markets"]
-                    },
-                    {
-                        id: 7,
-                        title: "Options Pricing with Stochastic Volatility",
-                        authors: ["Armah, S.", "Frimpong, K."],
-                        year: 2023,
-                        journal: "Journal of Financial Economics",
-                        abstract: "Heston model adaptation for cocoa options with calibration to Ghana data.",
-                        category: "pricing",
-                        citations: 19,
-                        featured: false,
-                        tags: ["heston", "stochastic-vol", "calibration"]
-                    },
-                    {
-                        id: 8,
-                        title: "Farmer Education on Risk Management Tools",
-                        authors: ["Ghana Agricultural Development"],
-                        year: 2024,
-                        journal: "Extension Services Report",
-                        abstract: "Training program for farmers on using options for price protection.",
-                        category: "policy",
-                        citations: 6,
-                        featured: false,
-                        tags: ["education", "farmers", "training"]
-                    }
-                ];
-            }
-            
-            populatePapersGrid() {
-                const grid = document.getElementById('papersGrid');
-                grid.innerHTML = '';
-                
-                const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-                const endIndex = startIndex + this.itemsPerPage;
-                const pagePapers = this.papers.slice(startIndex, endIndex);
-                
-                pagePapers.forEach(paper => {
-                    const paperCard = this.createPaperCard(paper);
-                    grid.appendChild(paperCard);
-                });
-                
-                this.updatePagination();
-            }
-            
-            createPaperCard(paper) {
-                const card = document.createElement('div');
-                card.className = 'paper-card';
-                
-                // Generate citation count badge
-                let citationBadge = '';
-                if (paper.citations > 20) {
-                    citationBadge = '<span class="badge cited">Highly Cited</span>';
-                } else if (paper.citations > 10) {
-                    citationBadge = '<span class="badge cited">Well Cited</span>';
-                }
-                
-                // Generate year badge
-                const currentYear = new Date().getFullYear();
-                let yearBadge = '';
-                if (paper.year === currentYear) {
-                    yearBadge = '<span class="badge new">NEW</span>';
-                }
-                
-                card.innerHTML = `
-                    <div class="paper-header">
-                        ${yearBadge}
-                        ${citationBadge}
-                        ${paper.featured ? '<span class="badge featured">FEATURED</span>' : ''}
-                    </div>
-                    <h3>${paper.title}</h3>
-                    <div class="paper-meta">
-                        <span class="author">${paper.authors.join(', ')}</span>
-                        <span class="year">${paper.year}</span>
-                        <span class="journal">${paper.journal}</span>
-                    </div>
-                    <p class="paper-abstract">${paper.abstract}</p>
-                    <div class="paper-tags">
-                        ${paper.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                    </div>
-                    <div class="paper-actions">
-                        <button class="btn btn-secondary download-btn" data-id="${paper.id}">
-                            <i class="fas fa-file-pdf"></i> Download
-                        </button>
-                        <button class="btn btn-outline cite-btn" data-id="${paper.id}">
-                            <i class="fas fa-quote-right"></i> Cite
-                        </button>
-                        <span class="citation-count">
-                            <i class="fas fa-quote-left"></i> ${paper.citations} citations
-                        </span>
-                    </div>
+        if (totalPages <= 1) {
+            pagination.innerHTML = '';
+            return;
+        }
+        
+        let paginationHTML = `
+            <button class="page-btn prev" ${this.currentPage === 1 ? 'disabled' : ''}>
+                <i class="fas fa-chevron-left"></i> Previous
+            </button>
+        `;
+        
+        // Show page numbers
+        for (let i = 1; i <= totalPages; i++) {
+            if (i === 1 || i === totalPages || (i >= this.currentPage - 1 && i <= this.currentPage + 1)) {
+                paginationHTML += `
+                    <button class="page-btn ${i === this.currentPage ? 'active' : ''}" data-page="${i}">
+                        ${i}
+                    </button>
                 `;
-                
-                return card;
+            } else if (i === this.currentPage - 2 || i === this.currentPage + 2) {
+                paginationHTML += `<span class="page-dots">...</span>`;
             }
-            
-            updatePagination() {
-                const totalPages = Math.ceil(this.papers.length / this.itemsPerPage);
-                
-                // Update page numbers
-                const pageNumbers = document.querySelector('.page-numbers');
-                pageNumbers.innerHTML = '';
-                
-                for (let i = 1; i <= totalPages; i++) {
-                    const pageNumber = document.createElement('span');
-                    pageNumber.className = `page-number ${i === this.currentPage ? 'active' : ''}`;
-                    pageNumber.textContent = i;
-                    pageNumber.addEventListener('click', () => {
-                        this.currentPage = i;
-                        this.populatePapersGrid();
-                    });
-                    pageNumbers.appendChild(pageNumber);
-                }
-                
-                // Update button states
-                const prevBtn = document.querySelector('.pagination-btn.prev');
-                const nextBtn = document.querySelector('.pagination-btn.next');
-                
-                prevBtn.disabled = this.currentPage === 1;
-                nextBtn.disabled = this.currentPage === totalPages;
-            }
-            
-            setupEventListeners() {
-                // Category cards
-                document.querySelectorAll('.category-card').forEach(card => {
-                    card.addEventListener('click', (e) => {
-                        const category = card.dataset.category;
-                        this.filterByCategory(category);
-                    });
-                });
-                
-                // Pagination buttons
-                document.querySelector('.pagination-btn.prev').addEventListener('click', () => {
-                    if (this.currentPage > 1) {
+        }
+        
+        paginationHTML += `
+            <button class="page-btn next" ${this.currentPage === totalPages ? 'disabled' : ''}>
+                Next <i class="fas fa-chevron-right"></i>
+            </button>
+        `;
+        
+        pagination.innerHTML = paginationHTML;
+        
+        // Attach event listeners
+        pagination.querySelectorAll('.page-btn').forEach(btn => {
+            if (!btn.hasAttribute('disabled') && !btn.classList.contains('active')) {
+                btn.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('prev')) {
                         this.currentPage--;
-                        this.populatePapersGrid();
-                    }
-                });
-                
-                document.querySelector('.pagination-btn.next').addEventListener('click', () => {
-                    const totalPages = Math.ceil(this.papers.length / this.itemsPerPage);
-                    if (this.currentPage < totalPages) {
+                    } else if (e.target.classList.contains('next')) {
                         this.currentPage++;
-                        this.populatePapersGrid();
+                    } else {
+                        this.currentPage = parseInt(e.target.dataset.page);
                     }
-                });
-                
-                // Download buttons (delegated)
-                document.getElementById('papersGrid').addEventListener('click', (e) => {
-                    if (e.target.closest('.download-btn')) {
-                        const paperId = e.target.closest('.download-btn').dataset.id;
-                        this.downloadPaper(paperId);
-                    }
-                    
-                    if (e.target.closest('.cite-btn')) {
-                        const paperId = e.target.closest('.cite-btn').dataset.id;
-                        this.showCitation(paperId);
-                    }
-                });
-                
-                // Submit paper button
-                document.querySelector('.submit-card .btn').addEventListener('click', () => {
-                    this.showSubmitForm();
+                    this.renderPapersGrid();
+                    this.updateResultsCount();
+                    window.scrollTo({ top: document.querySelector('.papers-section').offsetTop - 100, behavior: 'smooth' });
                 });
             }
-            
-            setupSearch() {
-                const searchInput = document.getElementById('searchInput');
-                const searchBtn = document.querySelector('.search-bar .btn');
-                
-                const performSearch = () => {
-                    const query = searchInput.value.toLowerCase();
-                    if (query.trim() === '') {
-                        this.populatePapersGrid();
-                        return;
-                    }
-                    
-                    const filteredPapers = this.papers.filter(paper => 
-                        paper.title.toLowerCase().includes(query) ||
-                        paper.authors.some(author => author.toLowerCase().includes(query)) ||
-                        paper.abstract.toLowerCase().includes(query) ||
-                        paper.tags.some(tag => tag.toLowerCase().includes(query))
-                    );
-                    
-                    this.displaySearchResults(filteredPapers);
-                };
-                
-                searchInput.addEventListener('keyup', (e) => {
-                    if (e.key === 'Enter') {
-                        performSearch();
-                    }
-                });
-                
-                searchBtn.addEventListener('click', performSearch);
-                
-                // Filter selects
-                document.querySelectorAll('.filter-select, .sort-select').forEach(select => {
-                    select.addEventListener('change', () => {
-                        this.applyFilters();
-                    });
-                });
-            }
-            
-            applyFilters() {
-                const categoryFilter = document.querySelector('.filter-select:nth-child(2)').value;
-                const yearFilter = document.querySelector('.filter-select:nth-child(3)').value;
-                const journalFilter = document.querySelector('.filter-select:nth-child(4)').value;
-                
-                let filteredPapers = this.papers;
-                
-                // Apply category filter
-                if (categoryFilter !== 'All Categories') {
-                    const categoryMap = {
-                        'Options Pricing': 'pricing',
-                        'Risk Management': 'risk',
-                        'Market Structure': 'market',
-                        'Policy Analysis': 'policy',
-                        'Machine Learning': 'ml'
-                    };
-                    
-                    filteredPapers = filteredPapers.filter(paper => 
-                        paper.category === categoryMap[categoryFilter]
-                    );
-                }
-                
-                // Apply year filter
-                if (yearFilter !== 'All Years') {
-                    const year = parseInt(yearFilter);
-                    filteredPapers = filteredPapers.filter(paper => paper.year === year);
-                }
-                
-                // Apply journal filter
-                if (journalFilter !== 'All Journals') {
-                    filteredPapers = filteredPapers.filter(paper => paper.journal === journalFilter);
-                }
-                
-                // Apply sort
-                const sortBy = document.querySelector('.sort-select').value;
-                switch(sortBy) {
-                    case 'Most Recent':
-                        filteredPapers.sort((a, b) => b.year - a.year);
-                        break;
-                    case 'Most Cited':
-                        filteredPapers.sort((a, b) => b.citations - a.citations);
-                        break;
-                    case 'Alphabetical':
-                        filteredPapers.sort((a, b) => a.title.localeCompare(b.title));
-                        break;
-                }
-                
-                this.displaySearchResults(filteredPapers);
-            }
-            
-            displaySearchResults(papers) {
-                const grid = document.getElementById('papersGrid');
-                grid.innerHTML = '';
-                
-                if (papers.length === 0) {
-                    grid.innerHTML = `
-                        <div class="no-results">
-                            <i class="fas fa-search"></i>
-                            <h3>No papers found</h3>
-                            <p>Try different search terms or filters</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                papers.forEach(paper => {
-                    const paperCard = this.createPaperCard(paper);
-                    grid.appendChild(paperCard);
-                });
-                
-                // Hide pagination for search results
-                document.querySelector('.pagination').style.display = 'none';
-            }
-            
-            filterByCategory(category) {
-                const filteredPapers = this.papers.filter(paper => paper.category === category);
-                this.displaySearchResults(filteredPapers);
-                
-                // Update UI to show active category
-                document.querySelectorAll('.category-card').forEach(card => {
-                    card.classList.remove('active');
-                });
-                document.querySelector(`.category-card[data-category="${category}"]`).classList.add('active');
-            }
-            
-            downloadPaper(paperId) {
-                const paper = this.papers.find(p => p.id == paperId);
-                if (!paper) return;
-                
-                // In a real application, this would link to actual PDF files
-                const filename = `paper-${paper.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}.pdf`;
-                
-                // Create a fake download
-                const blob = new Blob([`This would be the PDF for: ${paper.title}`], {type: 'application/pdf'});
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = filename;
-                a.click();
-                URL.revokeObjectURL(url);
-                
-                alert(`Downloading: ${paper.title}`);
-            }
-            
-            showCitation(paperId) {
-                const paper = this.papers.find(p => p.id == paperId);
-                if (!paper) return;
-                
-                const citation = `${paper.authors[0]} et al. (${paper.year}). "${paper.title}". ${paper.journal}.`;
-                
-                // Copy to clipboard
-                navigator.clipboard.writeText(citation)
-                    .then(() => {
-                        alert('Citation copied to clipboard!\n\n' + citation);
-                    })
-                    .catch(err => {
-                        alert('Citation:\n\n' + citation);
-                    });
-            }
-            
-            showSubmitForm() {
-                alert('Paper submission form would open here. This would allow researchers to submit their work for inclusion in the library.');
-            }
-        }
-        
-        // Initialize research library when page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            new ResearchLibrary();
         });
-    </script>
+    }
     
-    <style>
-        /* Research-specific styles */
-        .research-header {
-            margin-bottom: 2rem;
-            padding: 2rem;
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+    setupEventListeners() {
+        // View toggle
+        document.getElementById('viewSelect').addEventListener('change', (e) => {
+            this.currentView = e.target.value;
+            this.renderPapersGrid();
+        });
         
-        .research-stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            margin-top: 2rem;
-        }
+        // Category cards
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                const category = e.currentTarget.dataset.category;
+                this.currentCategory = category;
+                document.getElementById('categoryFilter').value = category;
+                this.applyFilters();
+            });
+        });
         
-        .research-stats .stat {
-            text-align: center;
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: var(--radius);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+        // Search
+        document.getElementById('searchButton').addEventListener('click', () => {
+            this.applyFilters();
+        });
         
-        .research-stats .stat h3 {
-            font-size: 2.5rem;
-            color: var(--secondary);
-            margin: 0;
-        }
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.applyFilters();
+            }
+        });
         
-        .research-stats .stat p {
-            margin: 0;
-            color: #94a3b8;
-            font-size: 0.875rem;
-        }
+        // Advanced search toggle
+        document.getElementById('advancedSearchToggle').addEventListener('click', () => {
+            const advancedSearch = document.getElementById('advancedSearch');
+            advancedSearch.style.display = advancedSearch.style.display === 'block' ? 'none' : 'block';
+        });
         
-        /* Search Section */
-        .search-section {
-            margin-bottom: 3rem;
-        }
+        // Filter buttons
+        document.getElementById('applyFilters').addEventListener('click', () => {
+            this.applyFilters();
+        });
         
-        .search-bar {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
+        document.getElementById('resetFilters').addEventListener('click', () => {
+            this.resetFilters();
+        });
         
-        .search-bar i {
-            color: #94a3b8;
-            font-size: 1.2rem;
-        }
+        // Submit paper button
+        document.getElementById('submitPaperBtn').addEventListener('click', () => {
+            this.showSubmitForm();
+        });
         
-        .search-bar input {
-            flex: 1;
-            padding: 1rem 1.5rem;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--radius);
-            color: white;
-            font-size: 1rem;
-        }
+        // Citation generator
+        document.getElementById('generateCitation').addEventListener('click', () => {
+            this.generateCitation();
+        });
         
-        .filter-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
+        // Copy citation buttons
+        document.querySelectorAll('.copy-citation').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const citation = e.target.closest('.citation-format').querySelector('.citation-example p').textContent;
+                this.copyToClipboard(citation);
+            });
+        });
         
-        .filter-group, .sort-group {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
+        // Download buttons (will be attached after rendering)
+    }
+    
+    setupSearch() {
+        // Initialize search functionality
+        const searchInput = document.getElementById('searchInput');
+        let searchTimeout;
         
-        .filter-label, .sort-label {
-            color: #cbd5e1;
-            font-weight: 600;
-        }
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                if (e.target.value.length >= 3 || e.target.value.length === 0) {
+                    this.applyFilters();
+                }
+            }, 500);
+        });
+    }
+    
+    applyFilters() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        const category = document.getElementById('categoryFilter').value;
+        const year = document.getElementById('yearFilter').value;
+        const journal = document.getElementById('journalFilter').value;
+        const sortBy = document.getElementById('sortBy').value;
         
-        .filter-select, .sort-select {
-            padding: 0.5rem 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-            color: white;
-            min-width: 150px;
-        }
-        
-        /* Featured Research */
-        .featured-research {
-            margin-bottom: 3rem;
-        }
-        
-        .featured-papers {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        
-        .featured-paper {
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            padding: 2rem;
-            border: 2px solid var(--primary);
-        }
-        
-        .paper-badge {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        
-        .badge.new {
-            background: rgba(52, 152, 219, 0.2);
-            color: #3498db;
-        }
-        
-        .badge.cited {
-            background: rgba(39, 174, 96, 0.2);
-            color: #27ae60;
-        }
-        
-        .badge.policy {
-            background: rgba(155, 89, 182, 0.2);
-            color: #9b59b6;
-        }
-        
-        .badge.featured {
-            background: rgba(243, 156, 18, 0.2);
-            color: #f39c12;
-        }
-        
-        .paper-meta {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin: 1rem 0;
-            color: #94a3b8;
-            font-size: 0.875rem;
-        }
-        
-        .paper-meta .author {
-            font-weight: 600;
-            color: #cbd5e1;
-        }
-        
-        .paper-abstract {
-            margin: 1rem 0;
-            color: #cbd5e1;
-            line-height: 1.6;
-        }
-        
-        .paper-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        
-        .btn-outline {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .btn-outline:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .citation-count {
-            margin-left: auto;
-            color: #94a3b8;
-            font-size: 0.875rem;
-        }
-        
-        /* Categories */
-        .categories-section {
-            margin-bottom: 3rem;
-        }
-        
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        
-        .category-card {
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .category-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-        }
-        
-        .category-card.active {
-            border-color: var(--primary);
-            background: rgba(0, 107, 63, 0.2);
-        }
-        
-        .category-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary), #00704a);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            font-size: 1.5rem;
-        }
-        
-        /* Papers Grid */
-        .papers-section {
-            margin-bottom: 3rem;
-        }
-        
-        .papers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 1.5rem;
-            margin: 1.5rem 0;
-        }
-        
-        .paper-card {
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: var(--transition);
-        }
-        
-        .paper-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-        }
-        
-        .paper-header {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .paper-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin: 1rem 0;
-        }
-        
-        .tag {
-            padding: 0.25rem 0.75rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            font-size: 0.75rem;
-            color: #94a3b8;
-        }
-        
-        .no-results {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 3rem;
-            color: #94a3b8;
-        }
-        
-        .no-results i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-        
-        /* Pagination */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-        
-        .pagination-btn {
-            padding: 0.5rem 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-            color: white;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .pagination-btn:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .pagination-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
-        .page-numbers {
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        .page-number {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .page-number:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .page-number.active {
-            background: var(--primary);
-            color: white;
-        }
-        
-        /* Institutions */
-        .institutions-section {
-            margin-bottom: 3rem;
-        }
-        
-        .institutions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        
-        .institution {
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-        }
-        
-        .institution-logo {
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            font-size: 1.5rem;
-        }
-        
-        /* Submit Section */
-        .submit-section {
-            margin-bottom: 3rem;
-        }
-        
-        .submit-card {
-            background: linear-gradient(135deg, rgba(0, 107, 63, 0.2), rgba(52, 152, 219, 0.2));
-            border-radius: var(--radius);
-            padding: 2rem;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        @media (max-width: 768px) {
-            .research-stats {
-                grid-template-columns: repeat(2, 1fr);
+        this.filteredPapers = this.papers.filter(paper => {
+            // Search term filter
+            if (searchTerm && !this.paperMatchesSearch(paper, searchTerm)) {
+                return false;
             }
             
-            .featured-papers {
-                grid-template-columns: 1fr;
+            // Category filter
+            if (category !== 'all' && paper.category !== category) {
+                return false;
             }
             
-            .filter-section {
-                flex-direction: column;
-                align-items: flex-start;
+            // Year filter
+            if (year !== 'all') {
+                if (year === '2020' && paper.year > 2020) {
+                    return false;
+                } else if (paper.year.toString() !== year) {
+                    return false;
+                }
             }
             
-            .papers-grid {
-                grid-template-columns: 1fr;
+            // Journal filter
+            if (journal !== 'all' && !paper.journal.toLowerCase().includes(journal.toLowerCase())) {
+                return false;
             }
             
-            .paper-actions {
-                flex-wrap: wrap;
-            }
-            
-            .citation-count {
-                margin-left: 0;
-                width: 100%;
-                text-align: center;
-            }
+            return true;
+        });
+        
+        // Sort papers
+        this.sortPapers(sortBy);
+        
+        // Reset to first page
+        this.currentPage = 1;
+        
+        // Update display
+        this.renderPapersGrid();
+        this.updateResultsCount();
+    }
+    
+    paperMatchesSearch(paper, searchTerm) {
+        const searchFields = [
+            paper.title,
+            paper.authors.join(' '),
+            paper.journal,
+            paper.abstract,
+            paper.tags.join(' ')
+        ].join(' ').toLowerCase();
+        
+        return searchFields.includes(searchTerm);
+    }
+    
+    sortPapers(sortBy) {
+        switch(sortBy) {
+            case 'recent':
+                this.filteredPapers.sort((a, b) => b.year - a.year);
+                break;
+            case 'cited':
+                this.filteredPapers.sort((a, b) => b.citations - a.citations);
+                break;
+            case 'title':
+                this.filteredPapers.sort((a, b) => a.title.localeCompare(b.title));
+                break;
+            case 'relevance':
+                // For relevance, we keep the current order (search relevance already applied)
+                break;
         }
-    </style>
+    }
+    
+    resetFilters() {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('categoryFilter').value = 'all';
+        document.getElementById('yearFilter').value = 'all';
+        document.getElementById('journalFilter').value = 'all';
+        document.getElementById('sortBy').value = 'recent';
+        
+        this.currentCategory = 'all';
+        this.applyFilters();
+    }
+    
+    resetSearch() {
+        this.resetFilters();
+    }
+    
+    updateResultsCount() {
+        const countElement = document.getElementById('resultsCount');
+        const total = this.filteredPapers.length;
+        const start = (this.currentPage - 1) * this.itemsPerPage + 1;
+        const end = Math.min(start + this.itemsPerPage - 1, total);
+        
+        if (total === 0) {
+            countElement.textContent = 'No papers found';
+        } else {
+            countElement.textContent = `Showing ${start}-${end} of ${total} papers`;
+        }
+    }
+    
+    attachPaperEventListeners() {
+        // Download buttons
+        document.querySelectorAll('.download-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const paperId = parseInt(e.target.closest('[data-id]').dataset.id);
+                this.downloadPaper(paperId);
+            });
+        });
+        
+        // Cite buttons
+        document.querySelectorAll('.cite-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const paperId = parseInt(e.target.closest('[data-id]').dataset.id);
+                this.showCitationModal(paperId);
+            });
+        });
+        
+        // Bookmark buttons
+        document.querySelectorAll('.bookmark-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const paperId = parseInt(e.target.closest('[data-id]').dataset.id);
+                this.toggleBookmark(paperId, e.target);
+            });
+        });
+        
+        // Paper cards click
+        document.querySelectorAll('.paper-card, .paper-list-item').forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (!e.target.closest('button')) {
+                    const paperId = parseInt(card.dataset.id);
+                    this.showPaperDetails(paperId);
+                }
+            });
+        });
+    }
+    
+    downloadPaper(paperId) {
+        const paper = this.papers.find(p => p.id === paperId);
+        if (!paper) return;
+        
+        // Simulate download
+        const content = `Title: ${paper.title}\nAuthors: ${paper.authors.join(', ')}\nYear: ${paper.year}\nJournal: ${paper.journal}\nDOI: ${paper.doi || 'Not available'}\n\nAbstract:\n${paper.abstract}\n\nThis is a simulated download for demonstration purposes.`;
+        
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `cocoa-paper-${paperId}.txt`;
+        a.click();
+        URL.revokeObjectURL(url);
+        
+        // Update download count (in simulation)
+        paper.downloads++;
+        this.showNotification(`Downloading "${paper.title}"`, 'success');
+    }
+    
+    showCitationModal(paperId) {
+        const paper = this.papers.find(p => p.id === paperId);
+        if (!paper) return;
+        
+        const apa = this.generateAPACitation(paper);
+        const chicago = this.generateChicagoCitation(paper);
+        const mla = this.generateMLACitation(paper);
+        
+        const modalHTML = `
+            <div class="citation-modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Citation for: ${paper.title}</h3>
+                        <button class="modal-close">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="citation-format">
+                            <h4>APA Format</h4>
+                            <div class="citation-text">
+                                <p>${apa}</p>
+                            </div>
+                            <button class="btn btn-secondary btn-sm copy-btn" data-citation="${apa}">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                        <div class="citation-format">
+                            <h4>Chicago Format</h4>
+                            <div class="citation-text">
+                                <p>${chicago}</p>
+                            </div>
+                            <button class="btn btn-secondary btn-sm copy-btn" data-citation="${chicago}">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                        <div class="citation-format">
+                            <h4>MLA Format</h4>
+                            <div class="citation-text">
+                                <p>${mla}</p>
+                            </div>
+                            <button class="btn btn-secondary btn-sm copy-btn" data-citation="${mla}">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        const modal = document.createElement('div');
+        modal.innerHTML = modalHTML;
+        document.body.appendChild(modal.firstElementChild);
+        
+        // Add event listeners
+        modal.querySelector('.modal-close').addEventListener('click', () => {
+            document.querySelector('.citation-modal').remove();
+        });
+        
+        modal.querySelectorAll('.copy-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const citation = e.target.dataset.citation;
+                this.copyToClipboard(citation);
+            });
+        });
+        
+        // Close on background click
+        modal.querySelector('.citation-modal').addEventListener('click', (e) => {
+            if (e.target.classList.contains('citation-modal')) {
+                e.target.remove();
+            }
+        });
+    }
+    
+    generateAPACitation(paper) {
+        const authors = paper.authors.map(author => {
+            const parts = author.split(' ');
+            const lastName = parts[parts.length - 1];
+            const initials = parts.slice(0, -1).map(name => name[0] + '.').join('');
+            return `${lastName}, ${initials}`;
+        }).join(', ');
+        
+        return `${authors} (${paper.year}). ${paper.title}. <em>${paper.journal}</em>.`;
+    }
+    
+    generateChicagoCitation(paper) {
+        const firstAuthor = paper.authors[0];
+        const otherAuthors = paper.authors.slice(1);
+        
+        let authorsStr = firstAuthor;
+        if (otherAuthors.length === 1) {
+            authorsStr += ` and ${otherAuthors[0]}`;
+        } else if (otherAuthors.length > 1) {
+            authorsStr += ` et al.`;
+        }
+        
+        return `${authorsStr}. "${paper.title}." <em>${paper.journal}</em> (${paper.year}).`;
+    }
+    
+    generateMLACitation(paper) {
+        const firstAuthor = paper.authors[0];
+        const otherAuthors = paper.authors.slice(1);
+        
+        let authorsStr = firstAuthor;
+        if (otherAuthors.length > 0) {
+            authorsStr += ` et al.`;
+        }
+        
+        return `${authorsStr}. "${paper.title}." <em>${paper.journal}</em>, ${paper.year}.`;
+    }
+    
+    copyToClipboard(text) {
+        navigator.clipboard.writeText(text.replace(/<[^>]*>/g, ''))
+            .then(() => {
+                this.showNotification('Citation copied to clipboard!', 'success');
+            })
+            .catch(err => {
+                console.error('Failed to copy: ', err);
+                this.showNotification('Failed to copy citation', 'error');
+            });
+    }
+    
+    toggleBookmark(paperId, button) {
+        const icon = button.querySelector('i');
+        const isBookmarked = icon.classList.contains('fas');
+        
+        if (isBookmarked) {
+            icon.classList.remove('fas');
+            icon.classList.add('far');
+            this.showNotification('Paper removed from bookmarks', 'info');
+        } else {
+            icon.classList.remove('far');
+            icon.classList.add('fas');
+            this.showNotification('Paper added to bookmarks', 'success');
+        }
+    }
+    
+    showPaperDetails(paperId) {
+        const paper = this.papers.find(p => p.id === paperId);
+        if (!paper) return;
+        
+        const modalHTML = `
+            <div class="paper-modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>${paper.title}</h3>
+                        <button class="modal-close">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="paper-details">
+                            <div class="detail-section">
+                                <h4>Authors</h4>
+                                <p>${paper.authors.join(', ')}</p>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Publication Details</h4>
+                                <p><strong>Journal:</strong> ${paper.journal}</p>
+                                <p><strong>Year:</strong> ${paper.year}</p>
+                                <p><strong>Pages:</strong> ${paper.pages}</p>
+                                ${paper.doi ? `<p><strong>DOI:</strong> ${paper.doi}</p>` : ''}
+                            </div>
+                            <div class="detail-section">
+                                <h4>Abstract</h4>
+                                <p>${paper.abstract}</p>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Keywords</h4>
+                                <div class="tags">
+                                    ${paper.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                                </div>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Metrics</h4>
+                                <div class="metrics">
+                                    <span class="metric">
+                                        <i class="fas fa-quote-left"></i>
+                                        ${paper.citations} citations
+                                    </span>
+                                    <span class="metric">
+                                        <i class="fas fa-download"></i>
+                                        ${paper.downloads} downloads
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary download-modal-btn" data-id="${paper.id}">
+                            <i class="fas fa-file-pdf"></i> Download PDF
+                        </button>
+                        <button class="btn btn-secondary cite-modal-btn" data-id="${paper.id}">
+                            <i class="fas fa-quote-right"></i> Generate Citation
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        const modal = document.createElement('div');
+        modal.innerHTML = modalHTML;
+        document.body.appendChild(modal.firstElementChild);
+        
+        // Add event listeners
+        modal.querySelector('.modal-close').addEventListener('click', () => {
+            document.querySelector('.paper-modal').remove();
+        });
+        
+        modal.querySelector('.download-modal-btn').addEventListener('click', () => {
+            this.downloadPaper(paperId);
+        });
+        
+        modal.querySelector('.cite-modal-btn').addEventListener('click', () => {
+            document.querySelector('.paper-modal').remove();
+            this.showCitationModal(paperId);
+        });
+        
+        // Close on background click
+        modal.querySelector('.paper-modal').addEventListener('click', (e) => {
+            if (e.target.classList.contains('paper-modal')) {
+                e.target.remove();
+            }
+        });
+    }
+    
+    showSubmitForm() {
+        const formHTML = `
+            <div class="submit-modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Submit Research Paper</h3>
+                        <button class="modal-close">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <p>This feature is currently in development. For now, please email your submission to:</p>
+                        <p class="email-address">research@cocoa-derivatives-lab.gh</p>
+                        <div class="requirements">
+                            <h4>Submission Requirements:</h4>
+                            <ul>
+                                <li>PDF format only</li>
+                                <li>Maximum 50 pages</li>
+                                <li>Include abstract (max 250 words)</li>
+                                <li>All authors must be listed</li>
+                                <li>Include DOI if available</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary close-modal-btn">Close</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        const modal = document.createElement('div');
+        modal.innerHTML = formHTML;
+        document.body.appendChild(modal.firstElementChild);
+        
+        // Add event listeners
+        modal.querySelector('.modal-close').addEventListener('click', () => {
+            document.querySelector('.submit-modal').remove();
+        });
+        
+        modal.querySelector('.close-modal-btn').addEventListener('click', () => {
+            document.querySelector('.submit-modal').remove();
+        });
+        
+        // Close on background click
+        modal.querySelector('.submit-modal').addEventListener('click', (e) => {
+            if (e.target.classList.contains('submit-modal')) {
+                e.target.remove();
+            }
+        });
+    }
+    
+    generateCitation() {
+        const author = document.getElementById('authorInput').value;
+        const title = document.getElementById('titleInput').value;
+        const journal = document.getElementById('journalInput').value;
+        const year = document.getElementById('yearInput').value;
+        
+        if (!author || !title || !journal || !year) {
+            this.showNotification('Please fill in all fields', 'error');
+            return;
+        }
+        
+        const apa = `${author} (${year}). ${title}. <em>${journal}</em>.`;
+        const chicago = `${author}. "${title}." <em>${journal}</em> (${year}).`;
+        const mla = `${author}. "${title}." <em>${journal}</em>, ${year}.`;
+        
+        const output = document.getElementById('citationOutput');
+        output.innerHTML = `
+            <h4>Generated Citations:</h4>
+            <div class="citation-result">
+                <strong>APA:</strong> ${apa}
+            </div>
+            <div class="citation-result">
+                <strong>Chicago:</strong> ${chicago}
+            </div>
+            <div class="citation-result">
+                <strong>MLA:</strong> ${mla}
+            </div>
+            <button class="btn btn-secondary btn-sm mt-2 copy-all-btn">
+                <i class="fas fa-copy"></i> Copy All
+            </button>
+        `;
+        
+        // Add copy all button listener
+        output.querySelector('.copy-all-btn').addEventListener('click', () => {
+            const allCitations = `APA: ${apa}\nChicago: ${chicago}\nMLA: ${mla}`;
+            this.copyToClipboard(allCitations.replace(/<[^>]*>/g, ''));
+        });
+    }
+    
+    initializeCharts() {
+        // Downloads chart
+        const ctx = document.getElementById('downloadsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Downloads',
+                    data: [85, 92, 78, 105, 120, 145, 132, 156, 189, 210, 198, 215],
+                    borderColor: '#006B3F',
+                    backgroundColor: 'rgba(0, 107, 63, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Downloads'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Month'
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    showNotification(message, type = 'info') {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `research-notification ${type}`;
+        notification.innerHTML = `
+            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+            <span>${message}</span>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            notification.classList.add('fade-out');
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+}
+
+// Initialize research library when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    new ResearchLibrary();
+});
+</script>
+
+<style>
+/* Research-specific styles */
+.research-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--space-xl) var(--space);
+}
+
+.research-header {
+    background: linear-gradient(135deg, var(--primary), #00704a);
+    border-radius: var(--radius-xl);
+    padding: var(--space-2xl);
+    margin-bottom: var(--space-xl);
+    color: white;
+    text-align: center;
+}
+
+.research-stats {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-xl);
+    margin-top: var(--space-xl);
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: var(--space);
+    border-radius: var(--radius);
+    min-width: 120px;
+    text-align: center;
+}
+
+.stat-card .stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--secondary);
+    margin-bottom: var(--space-xs);
+}
+
+.stat-card .stat-label {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Search Section */
+.search-section {
+    margin-bottom: var(--space-2xl);
+}
+
+.search-container {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    padding: var(--space);
+    border: 1px solid var(--border);
+}
+
+.search-bar {
+    display: flex;
+    gap: var(--space);
+    align-items: center;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 1rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.advanced-search {
+    display: none;
+    margin-top: var(--space);
+    padding-top: var(--space);
+    border-top: 1px solid var(--border);
+}
+
+.advanced-filters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space);
+    margin-bottom: var(--space);
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.filter-group label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.filter-select {
+    padding: 0.5rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+}
+
+.filter-actions {
+    display: flex;
+    gap: var(--space);
+    justify-content: flex-end;
+}
+
+/* Featured Papers */
+.featured-section {
+    margin-bottom: var(--space-2xl);
+}
+
+.featured-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: var(--space);
+    margin-top: var(--space-xl);
+}
+
+@media (max-width: 768px) {
+    .featured-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.featured-paper {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    padding: var(--space);
+    border: 1px solid var(--border);
+    position: relative;
+}
+
+.paper-badges {
+    position: absolute;
+    top: var(--space);
+    right: var(--space);
+    display: flex;
+    gap: var(--space-xs);
+}
+
+.badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge.new {
+    background: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+}
+
+.badge.cited {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+}
+
+.badge.policy {
+    background: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+}
+
+.badge.official {
+    background: rgba(139, 92, 246, 0.2);
+    color: #8b5cf6;
+}
+
+.badge.featured {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+.paper-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space);
+    margin: var(--space-sm) 0;
+    color: var(--text-tertiary);
+    font-size: 0.875rem;
+}
+
+.paper-abstract {
+    color: var(--text-secondary);
+    margin: var(--space) 0;
+    line-height: 1.6;
+}
+
+.paper-metrics {
+    display: flex;
+    gap: var(--space);
+    margin: var(--space) 0;
+}
+
+.paper-metrics .metric {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-tertiary);
+}
+
+.paper-actions {
+    display: flex;
+    gap: var(--space-sm);
+    margin-top: var(--space);
+}
+
+/* Categories */
+.categories-section {
+    margin-bottom: var(--space-2xl);
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space);
+    margin-top: var(--space-xl);
+}
+
+.category-card {
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    padding: var(--space);
+    border: 1px solid var(--border);
+    display: flex;
+    gap: var(--space);
+    align-items: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.category-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+    background: rgba(0, 107, 63, 0.1);
+}
+
+.category-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--primary);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem;
+}
+
+.category-content {
+    flex: 1;
+}
+
+.category-count {
+    font-size: 0.875rem;
+    color: var(--secondary);
+    font-weight: 600;
+    margin: var(--space-xs) 0;
+}
+
+.category-desc {
+    font-size: 0.875rem;
+    color: var(--text-tertiary);
+}
+
+/* Papers Grid/List */
+.papers-section {
+    margin-bottom: var(--space-2xl);
+}
+
+.section-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space);
+}
+
+.results-count {
+    color: var(--text-tertiary);
+    font-size: 0.875rem;
+}
+
+.view-select {
+    padding: 0.5rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+}
+
+.papers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space);
+    margin-bottom: var(--space-xl);
+}
+
+.papers-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.paper-card {
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    padding: var(--space);
+    border: 1px solid var(--border);
+    transition: var(--transition);
+}
+
+.paper-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+    box-shadow: var(--shadow-lg);
+}
+
+.paper-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space);
+}
+
+.paper-access {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 50px;
+}
+
+.paper-access.open {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+}
+
+.paper-access.restricted {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+.paper-title {
+    font-size: 1.1rem;
+    margin-bottom: var(--space-sm);
+    line-height: 1.4;
+}
+
+.paper-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin: var(--space) 0;
+}
+
+.paper-tags .tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    background: var(--bg-tertiary);
+    border-radius: 50px;
+    color: var(--text-tertiary);
+}
+
+/* List view */
+.paper-list-item {
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    padding: var(--space);
+    border: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.paper-list-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.list-left {
+    flex: 1;
+}
+
+.list-header {
+    display: flex;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xs);
+}
+
+.list-right {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space);
+    align-items: flex-end;
+}
+
+/* No results */
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: var(--space-2xl);
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    border: 2px dashed var(--border);
+}
+
+.no-results i {
+    font-size: 3rem;
+    color: var(--text-tertiary);
+    margin-bottom: var(--space);
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-xs);
+    margin-top: var(--space-xl);
+}
+
+.page-btn {
+    padding: 0.5rem 1rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.page-btn:hover:not(:disabled) {
+    background: var(--bg-secondary);
+}
+
+.page-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: transparent;
+}
+
+.page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-dots {
+    padding: 0.5rem 1rem;
+    color: var(--text-tertiary);
+}
+
+/* Institutions */
+.institutions-section {
+    margin-bottom: var(--space-2xl);
+}
+
+.institutions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space);
+    margin-top: var(--space-xl);
+}
+
+.institution-card {
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    padding: var(--space);
+    border: 1px solid var(--border);
+}
+
+.institution-logo {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space);
+    color: white;
+    font-size: 1.5rem;
+}
+
+.institution-dept {
+    color: var(--text-tertiary);
+    font-size: 0.875rem;
+    margin: var(--space-xs) 0;
+}
+
+.institution-desc {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-bottom: var(--space);
+}
+
+.institution-stats {
+    display: flex;
+    gap: var(--space);
+}
+
+.institution-stats .stat {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    background: var(--bg-tertiary);
+    border-radius: 50px;
+    color: var(--text-tertiary);
+}
+
+/* Submit Section */
+.submit-section {
+    margin-bottom: var(--space-2xl);
+}
+
+.submit-container {
+    background: linear-gradient(135deg, var(--primary), #00704a);
+    border-radius: var(--radius-xl);
+    padding: var(--space-2xl);
+    color: white;
+}
+
+.submit-content {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+}
+
+@media (max-width: 768px) {
+    .submit-content {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+.submit-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.submit-text {
+    flex: 1;
+}
+
+.submit-benefits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space);
+    margin: var(--space) 0;
+}
+
+.benefit {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.submit-actions {
+    display: flex;
+    gap: var(--space);
+}
+
+/* Citation Section */
+.citation-section {
+    margin-bottom: var(--space-2xl);
+}
+
+.citation-tools {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space);
+    margin-bottom: var(--space-xl);
+}
+
+.citation-format {
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    padding: var(--space);
+    border: 1px solid var(--border);
+}
+
+.citation-example {
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    padding: var(--space);
+    margin: var(--space) 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.citation-generator {
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    padding: var(--space);
+    border: 1px solid var(--border);
+}
+
+.generator-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space);
+    margin: var(--space) 0;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+}
+
+.generator-output {
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    padding: var(--space);
+    margin-top: var(--space);
+    font-family: 'Courier New', monospace;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.citation-result {
+    margin-bottom: var(--space-sm);
+}
+
+/* Metrics Section */
+.metrics-section {
+    margin-bottom: var(--space-2xl);
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space);
+    margin-bottom: var(--space-xl);
+}
+
+.metric-card {
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    padding: var(--space);
+    border: 1px solid var(--border);
+    text-align: center;
+}
+
+.metric-card .metric-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--secondary);
+    margin: var(--space-xs) 0;
+}
+
+.metric-card .metric-label {
+    color: var(--text-tertiary);
+    margin-bottom: var(--space-xs);
+}
+
+.metric-change {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.metric-change.positive {
+    color: #10b981;
+}
+
+.metric-change.negative {
+    color: #ef4444;
+}
+
+.metric-change.neutral {
+    color: #f59e0b;
+}
+
+.metrics-chart {
+    height: 300px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    padding: var(--space);
+    border: 1px solid var(--border);
+}
+
+/* Modals */
+.citation-modal,
+.paper-modal,
+.submit-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background: var(--bg-primary);
+    border-radius: var(--radius-lg);
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideUp 0.3s ease;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space);
+    border-bottom: 1px solid var(--border);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-body {
+    padding: var(--space);
+}
+
+.modal-footer {
+    padding: var(--space);
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: var(--space);
+    justify-content: flex-end;
+}
+
+.paper-details .detail-section {
+    margin-bottom: var(--space);
+}
+
+.paper-details .detail-section h4 {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-xs);
+    font-size: 1rem;
+}
+
+.email-address {
+    font-family: 'Courier New', monospace;
+    background: var(--bg-secondary);
+    padding: var(--space-sm);
+    border-radius: var(--radius);
+    margin: var(--space) 0;
+}
+
+.requirements ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.requirements li {
+    padding: 0.25rem 0;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.requirements li:before {
+    content: '•';
+    color: var(--primary);
+    font-weight: bold;
+}
+
+/* Notifications */
+.research-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    animation: slideIn 0.3s ease;
+}
+
+.research-notification.success {
+    border-left: 4px solid #10b981;
+}
+
+.research-notification.error {
+    border-left: 4px solid #ef4444;
+}
+
+.research-notification.info {
+    border-left: 4px solid #3b82f6;
+}
+
+.research-notification.fade-out {
+    animation: slideOut 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+}
+
+.mt-2 {
+    margin-top: 0.5rem;
+}
+</style>
 </body>
 </html>
