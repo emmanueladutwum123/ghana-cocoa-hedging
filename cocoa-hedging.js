@@ -1,6 +1,6 @@
-// cocoa-hedging.js - COMPLETE REVISED & WORKING VERSION
-// Ghana Cocoa Board Hedging Simulator v3.0
-// Author: Emmanuel Adutwum
+// cocoa-hedging.js - COMPLETE REVISED VERSION WITH CORRECT GHANA FLAG
+// Ghana Cocoa Board Hedging Simulator v3.1
+// Developer: Emmanuel Adutwum
 // GitHub: emmanueladutwum123/ghana-cocoa-hedging
 
 class CocoaHedgingSimulator {
@@ -40,9 +40,9 @@ class CocoaHedgingSimulator {
     init() {
         if (this.isInitialized) return;
         
-        console.log('🚀 Initializing Ghana Cocoa Hedging Simulator v3.0');
+        console.log('🇬🇭 Initializing Ghana Cocoa Hedging Simulator v3.1');
+        console.log('⭐ Ghana Flag with Black Star implemented');
         console.log('👨‍💻 Developer: Emmanuel Adutwum');
-        console.log('🌍 Website: https://emmanueladutwum123.github.io/ghana-cocoa-hedging/');
         
         try {
             this.setupControls();
@@ -256,8 +256,8 @@ class CocoaHedgingSimulator {
                     {
                         label: 'Cocoa Price ($/MT)',
                         data: [2500, 2550, 2600, 2650, 2700, 2750, 2800],
-                        borderColor: '#004D29', // Your primary color
-                        backgroundColor: 'rgba(0, 77, 41, 0.1)',
+                        borderColor: '#CE1126', // Ghana Red
+                        backgroundColor: 'rgba(206, 17, 38, 0.1)',
                         borderWidth: 3,
                         tension: 0.4,
                         fill: true,
@@ -266,8 +266,8 @@ class CocoaHedgingSimulator {
                     {
                         label: 'Delta (Δ)',
                         data: [0.45, 0.48, 0.52, 0.55, 0.58, 0.60, 0.62],
-                        borderColor: '#FFD100', // Your secondary color
-                        backgroundColor: 'rgba(255, 209, 0, 0.1)',
+                        borderColor: '#FCD116', // Ghana Gold
+                        backgroundColor: 'rgba(252, 209, 22, 0.1)',
                         borderWidth: 2,
                         tension: 0.4,
                         fill: false,
@@ -283,7 +283,7 @@ class CocoaHedgingSimulator {
                         position: 'bottom',
                         labels: { 
                             padding: 20,
-                            color: '#212529', // Your text-primary
+                            color: '#212529',
                             font: { size: 14 }
                         }
                     },
@@ -308,14 +308,14 @@ class CocoaHedgingSimulator {
                         title: { 
                             display: true, 
                             text: 'Price ($/MT)',
-                            color: '#004D29',
+                            color: '#CE1126',
                             font: { weight: 'bold' }
                         },
                         ticks: { 
                             callback: value => `$${this.formatNumber(value)}`,
-                            color: '#004D29'
+                            color: '#CE1126'
                         },
-                        grid: { color: 'rgba(0, 77, 41, 0.1)' }
+                        grid: { color: 'rgba(206, 17, 38, 0.1)' }
                     },
                     y1: {
                         type: 'linear',
@@ -323,14 +323,14 @@ class CocoaHedgingSimulator {
                         title: { 
                             display: true, 
                             text: 'Delta',
-                            color: '#FFD100',
+                            color: '#FCD116',
                             font: { weight: 'bold' }
                         },
                         min: 0,
                         max: 1,
                         grid: { drawOnChartArea: false },
                         ticks: { 
-                            color: '#FFD100',
+                            color: '#FCD116',
                             callback: value => value.toFixed(2)
                         }
                     }
@@ -351,21 +351,6 @@ class CocoaHedgingSimulator {
         const days = 90;
         const labels = Array.from({length: days + 1}, (_, i) => `Day ${i}`);
         
-        // Generate realistic data
-        const generateData = () => {
-            const data = [];
-            let value = 0;
-            for (let i = 0; i <= days; i++) {
-                // Add some randomness
-                const change = Math.random() * 5000000 - 1000000;
-                value += change;
-                if (value < -50000000) value = -50000000;
-                if (value > 300000000) value = 300000000;
-                data.push(value);
-            }
-            return data;
-        };
-        
         this.charts.hedging = new Chart(ctx, {
             type: 'line',
             data: {
@@ -374,8 +359,8 @@ class CocoaHedgingSimulator {
                     {
                         label: 'Hedged Portfolio',
                         data: this.generateHedgedData(days),
-                        borderColor: '#004D29',
-                        backgroundColor: 'rgba(0, 77, 41, 0.1)',
+                        borderColor: '#006B3F', // Ghana Green
+                        backgroundColor: 'rgba(0, 107, 63, 0.1)',
                         borderWidth: 3,
                         tension: 0.4,
                         fill: true
@@ -383,8 +368,8 @@ class CocoaHedgingSimulator {
                     {
                         label: 'Unhedged',
                         data: this.generateUnhedgedData(days),
-                        borderColor: '#C8102E', // Your accent color
-                        backgroundColor: 'rgba(200, 16, 46, 0.1)',
+                        borderColor: '#CE1126', // Ghana Red
+                        backgroundColor: 'rgba(206, 17, 38, 0.1)',
                         borderWidth: 2,
                         borderDash: [5, 5],
                         tension: 0.4,
@@ -393,8 +378,8 @@ class CocoaHedgingSimulator {
                     {
                         label: 'Hedging Error',
                         data: this.generateErrorData(days),
-                        borderColor: '#FFD100',
-                        backgroundColor: 'rgba(255, 209, 0, 0.1)',
+                        borderColor: '#000000', // Black for error line
+                        backgroundColor: 'rgba(0, 0, 0, 0.1)',
                         borderWidth: 2,
                         borderDash: [2, 2],
                         tension: 0.4,
@@ -513,7 +498,7 @@ class CocoaHedgingSimulator {
     calculateOptionPrice() {
         const S = this.currentScenario.cocoaPrice;
         const K = this.currentScenario.strikePrice;
-        const T = Math.max(this.currentScenario.timeToExpiry, 0.0001); // Prevent division by zero
+        const T = Math.max(this.currentScenario.timeToExpiry, 0.0001);
         const r = this.currentScenario.riskFreeRate;
         const σ = Math.max(this.currentScenario.volatility, 0.0001);
         const δ = this.currentScenario.convenienceYield;
@@ -744,10 +729,11 @@ class CocoaHedgingSimulator {
                 
                 // Special color for negative theta
                 if (greekName === 'theta' && greeks.theta < 0) {
-                    fill.style.background = '#DC3545'; // Your danger color
+                    fill.style.background = '#CE1126'; // Ghana Red for negative
                     fill.classList.add('negative');
                 } else {
-                    fill.style.background = 'linear-gradient(90deg, var(--primary), var(--secondary))';
+                    // Ghana flag colors for positive values
+                    fill.style.background = 'linear-gradient(90deg, #CE1126, #FCD116, #006B3F)';
                     fill.classList.remove('negative');
                 }
             }
@@ -1185,21 +1171,21 @@ class CocoaHedgingSimulator {
                     font-size: var(--font-sm);
                 }
                 .calculator-notification.success {
-                    background: linear-gradient(135deg, #28A745, #20c997);
-                    border-left: 4px solid #155724;
+                    background: linear-gradient(135deg, #006B3F, #28A745);
+                    border-left: 4px solid #004D29;
                 }
                 .calculator-notification.error {
-                    background: linear-gradient(135deg, #DC3545, #e35d6a);
-                    border-left: 4px solid #721c24;
+                    background: linear-gradient(135deg, #CE1126, #DC3545);
+                    border-left: 4px solid #8B0000;
                 }
                 .calculator-notification.warning {
-                    background: linear-gradient(135deg, #FFC107, #ffca2c);
-                    border-left: 4px solid #856404;
+                    background: linear-gradient(135deg, #FCD116, #FFC107);
+                    border-left: 4px solid #D4AC0D;
                     color: #212529;
                 }
                 .calculator-notification.info {
-                    background: linear-gradient(135deg, #17A2B8, #138496);
-                    border-left: 4px solid #0c5460;
+                    background: linear-gradient(135deg, #006B3F, #17A2B8);
+                    border-left: 4px solid #004D29;
                 }
                 @keyframes slideIn {
                     from { transform: translateX(100%); opacity: 0; }
@@ -1276,16 +1262,70 @@ document.addEventListener('DOMContentLoaded', function() {
                          window.location.pathname.includes('calculator');
     
     if (hasCalculator) {
-        console.log('🌍 Ghana Cocoa Hedging Calculator - Loading...');
+        console.log('🇬🇭 Ghana Cocoa Hedging Calculator - Loading...');
         
-        // Add some custom styles for better visibility
+        // Add custom styles with correct Ghana flag colors
         const customStyles = document.createElement('style');
         customStyles.textContent = `
-            /* Enhance slider visibility */
+            /* Correct Ghana Flag Colors */
+            :root {
+                --ghana-red: #CE1126;
+                --ghana-gold: #FCD116;
+                --ghana-green: #006B3F;
+                --ghana-black: #000000;
+            }
+            
+            /* Ghana flag styling for navigation */
+            .flag-mini {
+                position: relative;
+                width: 40px;
+                height: 28px;
+                border-radius: 4px;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                border: 2px solid rgba(0,0,0,0.1);
+            }
+            
+            .flag-red { 
+                background: var(--ghana-red); 
+                height: 33.33%; 
+                position: relative;
+            }
+            
+            .flag-yellow { 
+                background: var(--ghana-gold); 
+                height: 33.33%; 
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .flag-green { 
+                background: var(--ghana-green); 
+                height: 33.33%; 
+                position: relative;
+            }
+            
+            /* Black Star on yellow stripe */
+            .flag-yellow::after {
+                content: "★";
+                color: var(--ghana-black);
+                font-size: 12px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            }
+            
+            /* Enhance slider visibility with Ghana colors */
             input[type="range"] {
                 -webkit-appearance: none;
                 height: 10px;
-                background: linear-gradient(to right, #004D29, #FFD100);
+                background: linear-gradient(to right, var(--ghana-red), var(--ghana-gold), var(--ghana-green));
                 border-radius: 5px;
                 margin: 10px 0;
             }
@@ -1294,97 +1334,132 @@ document.addEventListener('DOMContentLoaded', function() {
                 -webkit-appearance: none;
                 width: 24px;
                 height: 24px;
-                background: #004D29;
-                border: 3px solid #FFD100;
+                background: var(--ghana-black);
+                border: 3px solid var(--ghana-gold);
                 border-radius: 50%;
                 cursor: pointer;
-                box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+                box-shadow: 0 2px 6px rgba(0,0,0,0.3);
                 transition: all 0.2s ease;
             }
             
             input[type="range"]::-webkit-slider-thumb:hover {
                 transform: scale(1.1);
-                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+                background: var(--ghana-green);
             }
             
-            /* Improve chart visibility */
+            /* Ghana flag colored buttons */
+            #runSimulation {
+                background: linear-gradient(135deg, var(--ghana-red), var(--ghana-green));
+                font-weight: 700;
+                letter-spacing: 0.5px;
+                border: 2px solid var(--ghana-gold);
+            }
+            
+            #runSimulation:hover {
+                background: linear-gradient(135deg, var(--ghana-green), var(--ghana-red));
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(206, 17, 38, 0.3);
+            }
+            
+            /* Result cards with Ghana colors */
+            .result-change.positive {
+                background: rgba(0, 107, 63, 0.1);
+                color: var(--ghana-green);
+            }
+            
+            .result-change.negative {
+                background: rgba(206, 17, 38, 0.1);
+                color: var(--ghana-red);
+            }
+            
+            /* Greek bars with Ghana flag gradient */
+            .greek-fill:not(.negative) {
+                background: linear-gradient(90deg, var(--ghana-red), var(--ghana-gold), var(--ghana-green)) !important;
+            }
+            
+            /* Chart enhancements */
             .chart-container {
-                background: #F8F9FA;
+                background: linear-gradient(135deg, rgba(206, 17, 38, 0.02), rgba(252, 209, 22, 0.02), rgba(0, 107, 63, 0.02));
                 border-radius: 12px;
                 padding: 15px;
-                border: 2px solid #E9ECEF;
+                border: 2px solid rgba(206, 17, 38, 0.1);
             }
             
-            /* Enhance result cards */
-            .result-card {
-                transition: all 0.3s ease;
-                border: 2px solid #E9ECEF;
-            }
-            
-            .result-card:hover {
-                border-color: #004D29;
-                transform: translateY(-5px);
-                box-shadow: 0 8px 25px rgba(0, 77, 41, 0.15);
-            }
-            
-            /* Greek bars enhancement */
-            .greek-bar {
-                height: 8px;
-                background: #E9ECEF;
-                border-radius: 4px;
+            /* Developer credit with Ghana theme */
+            .developer-credit {
+                margin-top: 3rem;
+                padding-top: 2rem;
+                border-top: 3px solid var(--ghana-gold);
+                background: linear-gradient(135deg, rgba(206, 17, 38, 0.05), rgba(252, 209, 22, 0.05), rgba(0, 107, 63, 0.05));
+                padding: 2rem;
+                border-radius: 12px;
+                position: relative;
                 overflow: hidden;
             }
             
-            .greek-fill {
-                height: 100%;
-                border-radius: 4px;
-                transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            .developer-credit::before {
+                content: "★";
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                color: var(--ghana-gold);
+                font-size: 24px;
+                opacity: 0.3;
             }
             
-            /* Table improvements */
-            .transactions-table {
-                font-size: 14px;
+            .developer-credit h3 {
+                color: var(--ghana-green);
+                margin-bottom: 1rem;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
             }
             
+            .developer-credit h3 i {
+                color: var(--ghana-red);
+            }
+            
+            .developer-info p {
+                border-left: 3px solid var(--ghana-gold);
+                padding-left: 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .developer-info p i {
+                color: var(--ghana-red);
+            }
+            
+            /* Table header with Ghana colors */
             .transactions-table th {
-                background: linear-gradient(135deg, #004D29, #006B3F);
+                background: linear-gradient(135deg, var(--ghana-red), var(--ghana-green));
                 color: white;
                 font-weight: 600;
             }
             
             .transactions-table tr:hover {
-                background: rgba(0, 77, 41, 0.05);
+                background: rgba(252, 209, 22, 0.05);
             }
             
-            /* Button enhancements */
-            #runSimulation {
-                background: linear-gradient(135deg, #004D29, #006B3F);
-                font-weight: 700;
-                letter-spacing: 0.5px;
+            /* Loading spinner with Ghana colors */
+            .fa-spinner.fa-spin {
+                color: var(--ghana-gold);
             }
             
-            #runSimulation:hover {
-                background: linear-gradient(135deg, #006B3F, #00704a);
-                transform: translateY(-2px);
-                box-shadow: 0 6px 20px rgba(0, 107, 63, 0.3);
+            /* Ghana-themed section headers */
+            h2, h3 {
+                position: relative;
             }
             
-            /* Developer credit */
-            .developer-credit {
-                margin-top: 3rem;
-                padding-top: 2rem;
-                border-top: 2px solid #E9ECEF;
-                background: linear-gradient(135deg, rgba(0, 77, 41, 0.05), rgba(255, 209, 0, 0.05));
-                padding: 2rem;
-                border-radius: 12px;
-            }
-            
-            .developer-credit h3 {
-                color: #004D29;
-                margin-bottom: 1rem;
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
+            h2::after, h3::after {
+                content: "";
+                position: absolute;
+                bottom: -5px;
+                left: 0;
+                width: 50px;
+                height: 3px;
+                background: linear-gradient(to right, var(--ghana-red), var(--ghana-gold), var(--ghana-green));
+                border-radius: 2px;
             }
         `;
         document.head.appendChild(customStyles);
@@ -1401,8 +1476,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         <p><i class="fas fa-user"></i> <strong>Developer:</strong> Emmanuel Adutwum</p>
                         <p><i class="fas fa-github"></i> <strong>GitHub:</strong> <a href="https://github.com/emmanueladutwum123" target="_blank">@emmanueladutwum123</a></p>
                         <p><i class="fas fa-globe"></i> <strong>Website:</strong> <a href="https://emmanueladutwum123.github.io/ghana-cocoa-hedging/" target="_blank">Ghana Cocoa Hedging Platform</a></p>
-                        <p><i class="fas fa-calculator"></i> <strong>Simulator Version:</strong> 3.0 (Black-Scholes with Convenience Yield)</p>
-                        <p><i class="fas fa-university"></i> <strong>Institution:</strong> Soka University of America</p>
+                        <p><i class="fas fa-calculator"></i> <strong>Simulator Version:</strong> 3.1 (Black-Scholes with Convenience Yield)</p>
+                        <p><i class="fas fa-university"></i> <strong>Institution:</strong> Ghana Cocoa Board (COCOBOD) Research Platform</p>
+                        <p><i class="fas fa-flag"></i> <strong>Theme:</strong> 🇬🇭 Ghana Flag Colors (Red, Gold, Green, Black Star)</p>
                     </div>
                 `;
                 mainContent.appendChild(developerCredit);
@@ -1415,7 +1491,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Make it globally accessible
         window.CocoaHedgingSimulator = CocoaHedgingSimulator;
         
-        console.log('✅ Calculator initialized and ready to use!');
+        console.log('✅ Calculator initialized with Ghana flag theme!');
         
         // Update MathJax if available
         if (window.MathJax) {
