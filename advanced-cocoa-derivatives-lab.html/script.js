@@ -1,20 +1,19 @@
-// Shared JavaScript for Cocoa Derivatives Research Lab
-
+// Cocoa Derivatives Research Platform - Main JavaScript
 class CocoaResearchPlatform {
     constructor() {
-        this.currentPage = window.location.pathname.split('/').pop();
-        this.initialize();
+        this.initializePlatform();
     }
     
-    initialize() {
+    initializePlatform() {
+        this.setupNavigation();
         this.setupEventListeners();
-        this.loadPageSpecificFeatures();
         this.initializeCharts();
+        this.updateLiveData();
     }
     
-    setupEventListeners() {
-        // Navigation active state
-        const currentPage = this.currentPage || 'index.html';
+    setupNavigation() {
+        // Highlight current page in navigation
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
         document.querySelectorAll('.nav-links a').forEach(link => {
             const linkPage = link.getAttribute('href');
             if (linkPage === currentPage) {
@@ -24,35 +23,32 @@ class CocoaResearchPlatform {
             }
         });
         
-        // Tooltip initialization
-        this.initializeTooltips();
+        // Mobile menu toggle (if needed)
+        this.setupMobileMenu();
     }
     
-    loadPageSpecificFeatures() {
-        switch(this.currentPage) {
-            case 'calculator.html':
-                this.initializeCalculator();
-                break;
-            case 'dashboard.html':
-                this.initializeDashboard();
-                break;
-            case 'ml-models.html':
-                this.initializeMLModels();
-                break;
-            case 'data.html':
-                this.initializeDataPage();
-                break;
+    setupMobileMenu() {
+        // Add mobile menu toggle if needed
+        const navLinks = document.querySelector('.nav-links');
+        if (window.innerWidth <= 768 && navLinks) {
+            const menuToggle = document.createElement('button');
+            menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            menuToggle.className = 'menu-toggle';
+            document.querySelector('.nav-container').appendChild(menuToggle);
+            
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('show');
+            });
         }
     }
     
-    initializeCharts() {
-        // Common chart initialization
-        if (typeof Plotly !== 'undefined') {
-            this.createCommonCharts();
-        }
+    setupEventListeners() {
+        // Setup any global event listeners
+        this.setupTooltips();
+        this.setupCopyButtons();
     }
     
-    initializeTooltips() {
+    setupTooltips() {
         // Simple tooltip implementation
         const tooltips = document.querySelectorAll('[data-tooltip]');
         tooltips.forEach(element => {
@@ -72,7 +68,7 @@ class CocoaResearchPlatform {
         tooltip.className = 'tooltip';
         tooltip.textContent = text;
         tooltip.style.position = 'absolute';
-        tooltip.style.background = 'rgba(0,0,0,0.8)';
+        tooltip.style.background = 'rgba(0,0,0,0.9)';
         tooltip.style.color = 'white';
         tooltip.style.padding = '8px 12px';
         tooltip.style.borderRadius = '6px';
@@ -97,27 +93,77 @@ class CocoaResearchPlatform {
         }
     }
     
-    createCommonCharts() {
-        // Create common charts if needed
-        if (document.getElementById('commonChart')) {
-            // Example common chart
-            const trace = {
-                x: [1, 2, 3, 4, 5],
-                y: [1, 3, 2, 4, 3],
-                type: 'scatter',
-                mode: 'lines'
-            };
-            
-            Plotly.newPlot('commonChart', [trace], {
-                title: 'Sample Chart',
-                paper_bgcolor: 'rgba(0,0,0,0)',
-                plot_bgcolor: 'rgba(0,0,0,0)',
-                font: {color: '#ffffff'}
+    setupCopyButtons() {
+        // Setup copy buttons for code snippets
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const code = e.target.closest('.code-block').querySelector('code').textContent;
+                navigator.clipboard.writeText(code)
+                    .then(() => {
+                        const originalText = btn.innerHTML;
+                        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                        setTimeout(() => {
+                            btn.innerHTML = originalText;
+                        }, 2000);
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy text: ', err);
+                    });
             });
+        });
+    }
+    
+    initializeCharts() {
+        // Initialize any charts on the page
+        if (typeof Chart !== 'undefined') {
+            this.initializePriceCharts();
         }
     }
     
-    // Financial Calculations
+    initializePriceCharts() {
+        // Initialize price charts if they exist on the page
+        const priceCharts = document.querySelectorAll('.price-chart');
+        priceCharts.forEach(chart => {
+            // Chart initialization logic here
+        });
+    }
+    
+    updateLiveData() {
+        // Simulate live data updates
+        if (document.querySelector('.ticker-item')) {
+            setInterval(() => {
+                this.updateTickerData();
+            }, 5000);
+        }
+    }
+    
+    updateTickerData() {
+        const tickers = document.querySelectorAll('.ticker-item');
+        tickers.forEach(ticker => {
+            const valueElement = ticker.querySelector('strong');
+            const changeElement = ticker.querySelector('.change');
+            
+            if (valueElement && changeElement) {
+                let currentValue = parseFloat(valueElement.textContent.replace(/[$,%]/g, ''));
+                const changePercent = (Math.random() - 0.5) * 0.5;
+                const changeValue = currentValue * (changePercent / 100);
+                const newValue = currentValue + changeValue;
+                
+                // Update value
+                if (ticker.textContent.includes('$')) {
+                    valueElement.textContent = `$${newValue.toFixed(2)}`;
+                } else {
+                    valueElement.textContent = `${newValue.toFixed(1)}%`;
+                }
+                
+                // Update change indicator
+                changeElement.textContent = `${changePercent > 0 ? '+' : ''}${changePercent.toFixed(1)}%`;
+                changeElement.className = `change ${changePercent > 0 ? 'positive' : 'negative'}`;
+            }
+        });
+    }
+    
+    // Financial calculations
     calculateBlackScholes(S, K, T, sigma, r, optionType) {
         const d1 = (Math.log(S / K) + (r + sigma * sigma / 2) * T) / (sigma * Math.sqrt(T));
         const d2 = d1 - sigma * Math.sqrt(T);
@@ -125,7 +171,7 @@ class CocoaResearchPlatform {
         const normCDF = x => (1 + this.erf(x / Math.sqrt(2))) / 2;
         const normPDF = x => Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
         
-        let price, delta, gamma, theta, vega;
+        let price, delta;
         
         if (optionType === 'call') {
             price = S * normCDF(d1) - K * Math.exp(-r * T) * normCDF(d2);
@@ -135,12 +181,7 @@ class CocoaResearchPlatform {
             delta = normCDF(d1) - 1;
         }
         
-        gamma = normPDF(d1) / (S * sigma * Math.sqrt(T));
-        vega = S * normPDF(d1) * Math.sqrt(T) * 0.01;
-        theta = (-S * normPDF(d1) * sigma / (2 * Math.sqrt(T)) - 
-                r * K * Math.exp(-r * T) * (optionType === 'call' ? normCDF(d2) : normCDF(-d2))) / 365;
-        
-        return { price, delta, gamma, theta, vega };
+        return { price, delta };
     }
     
     erf(x) {
@@ -159,66 +200,6 @@ class CocoaResearchPlatform {
         const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
         
         return sign * y;
-    }
-    
-    // Monte Carlo Simulation
-    monteCarloSimulation(params, nSimulations = 10000) {
-        const { S, K, T, sigma, r, optionType } = params;
-        const nSteps = Math.floor(252 * T);
-        const dt = T / nSteps;
-        
-        let totalPayoff = 0;
-        
-        for (let i = 0; i < nSimulations; i++) {
-            let St = S;
-            
-            for (let j = 0; j < nSteps; j++) {
-                const drift = (r - 0.5 * sigma * sigma) * dt;
-                const diffusion = sigma * Math.sqrt(dt) * this.randn_bm();
-                St = St * Math.exp(drift + diffusion);
-            }
-            
-            const payoff = optionType === 'call' ? Math.max(St - K, 0) : Math.max(K - St, 0);
-            totalPayoff += payoff;
-        }
-        
-        const price = (totalPayoff / nSimulations) * Math.exp(-r * T);
-        return price;
-    }
-    
-    randn_bm() {
-        let u = 0, v = 0;
-        while(u === 0) u = Math.random();
-        while(v === 0) v = Math.random();
-        return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
-    }
-    
-    // Data Fetching
-    async fetchCocoaData() {
-        try {
-            // In production, replace with actual API endpoint
-            const response = await fetch('https://api.example.com/cocoa-prices');
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Error fetching cocoa data:', error);
-            return this.getSampleData();
-        }
-    }
-    
-    getSampleData() {
-        // Return sample data for demonstration
-        const dates = [];
-        const prices = [];
-        let price = 3000;
-        
-        for (let i = 0; i < 100; i++) {
-            dates.push(new Date(2024, 0, i));
-            price += (Math.random() - 0.5) * 100;
-            prices.push(Math.max(2000, Math.min(8000, price)));
-        }
-        
-        return { dates, prices };
     }
     
     // Export functionality
@@ -261,15 +242,51 @@ class CocoaResearchPlatform {
             minimumFractionDigits: 2
         }).format(value);
     }
-    
-    // Initialize page-specific features (to be overridden)
-    initializeCalculator() {}
-    initializeDashboard() {}
-    initializeMLModels() {}
-    initializeDataPage() {}
 }
 
 // Initialize platform when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.platform = new CocoaResearchPlatform();
 });
+
+// Utility functions
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 1rem 1.5rem;
+        background: ${type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db'};
+        color: white;
+        border-radius: 8px;
+        z-index: 10000;
+        animation: slideIn 0.3s ease;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    }, 3000);
+}
+
+// Add animation keyframes
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+    }
+`;
+document.head.appendChild(style);
