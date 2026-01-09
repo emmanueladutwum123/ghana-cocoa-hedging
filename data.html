@@ -3,181 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Data - Cocoa Derivatives Research Lab</title>
+    <title>Live Data Center | Ghana Cocoa Market Data API</title>
+    <meta name="description" content="Real-time cocoa market data from ICE Futures, COCOBOD, and Ghana Commodity Exchange. Historical prices, options chains, volatility data, and API access.">
+    
+    <!-- Styles & Scripts -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
 </head>
 <body>
-    <!-- Navigation -->
+    <!-- Navigation (same as index.html) -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <span class="ghana-flag"></span>
+                <div class="flag-mini">
+                    <div class="flag-red"></div>
+                    <div class="flag-yellow"></div>
+                    <div class="flag-green"></div>
+                </div>
                 <h1>Cocoa Derivatives Lab</h1>
-                <span class="ghana-flag"></span>
             </div>
+            
             <div class="nav-links">
-                <a href="index.html"><i class="fas fa-home"></i> Home</a>
-                <a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a>
-                <a href="calculator.html"><i class="fas fa-calculator"></i> Calculator</a>
-                <a href="research.html"><i class="fas fa-book"></i> Research</a>
-                <a href="data.html" class="active"><i class="fas fa-database"></i> Data</a>
-                <a href="ml-models.html"><i class="fas fa-brain"></i> AI Models</a>
+                <a href="index.html"><i class="fas fa-home"></i> <span>Home</span></a>
+                <a href="calculator.html"><i class="fas fa-calculator"></i> <span>Calculator</span></a>
+                <a href="dashboard.html"><i class="fas fa-chart-line"></i> <span>Dashboard</span></a>
+                <a href="research.html"><i class="fas fa-book"></i> <span>Research</span></a>
+                <a href="data.html" class="active"><i class="fas fa-database"></i> <span>Data</span></a>
+                <a href="ml-models.html"><i class="fas fa-brain"></i> <span>AI Models</span></a>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
             </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </nav>
 
-    <main class="container">
+    <main class="data-container">
         <!-- Data Header -->
         <header class="data-header">
-            <h1><i class="fas fa-database"></i> Live Data Center</h1>
-            <p>Real-time and historical data for cocoa markets and derivatives</p>
-            
-            <div class="data-status">
-                <div class="status-item">
-                    <span class="status-label">Data Feed Status:</span>
-                    <span class="status-value active">
-                        <i class="fas fa-circle"></i> Live
-                    </span>
-                </div>
-                <div class="status-item">
-                    <span class="status-label">Last Updated:</span>
-                    <span class="status-value" id="lastUpdatedTime">Just now</span>
-                </div>
-                <div class="status-item">
-                    <span class="status-label">Data Points:</span>
-                    <span class="status-value">1,247,893</span>
+            <div class="header-content">
+                <h1><i class="fas fa-database"></i> Live Data Center</h1>
+                <p class="subtitle">Real-time and historical market data for Ghana cocoa derivatives research</p>
+                
+                <div class="data-stats">
+                    <div class="data-stat">
+                        <div class="stat-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">1,247,893</div>
+                            <div class="stat-label">Data Points</div>
+                        </div>
+                    </div>
+                    
+                    <div class="data-stat">
+                        <div class="stat-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">5 sec</div>
+                            <div class="stat-label">Update Frequency</div>
+                        </div>
+                    </div>
+                    
+                    <div class="data-stat">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">99.8%</div>
+                            <div class="stat-label">Data Quality</div>
+                        </div>
+                    </div>
+                    
+                    <div class="data-stat">
+                        <div class="stat-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">10+ years</div>
+                            <div class="stat-label">Historical Depth</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </header>
 
-        <!-- Real-time Ticker -->
+        <!-- Live Ticker -->
         <section class="ticker-section">
-            <h2><i class="fas fa-broadcast-tower"></i> Real-time Ticker</h2>
-            
             <div class="ticker-container">
-                <div class="ticker-item">
-                    <span class="ticker-label">Cocoa Spot</span>
-                    <span class="ticker-value">$3,842.50</span>
-                    <span class="ticker-change positive">+2.3%</span>
+                <div class="ticker-header">
+                    <h2><i class="fas fa-broadcast-tower"></i> Live Market Ticker</h2>
+                    <div class="ticker-controls">
+                        <span class="update-status active">
+                            <i class="fas fa-circle"></i> LIVE
+                        </span>
+                        <span class="last-update" id="lastUpdate">Updated just now</span>
+                    </div>
                 </div>
                 
-                <div class="ticker-item">
-                    <span class="ticker-label">Mar 2025 Futures</span>
-                    <span class="ticker-value">$3,865.00</span>
-                    <span class="ticker-change positive">+1.8%</span>
-                </div>
-                
-                <div class="ticker-item">
-                    <span class="ticker-label">Jul 2025 Futures</span>
-                    <span class="ticker-value">$3,890.25</span>
-                    <span class="ticker-change negative">-0.5%</span>
-                </div>
-                
-                <div class="ticker-item">
-                    <span class="ticker-label">Dec 2025 Futures</span>
-                    <span class="ticker-value">$3,925.75</span>
-                    <span class="ticker-change positive">+0.8%</span>
-                </div>
-                
-                <div class="ticker-item">
-                    <span class="ticker-label">Implied Vol</span>
-                    <span class="ticker-value">31.8%</span>
-                    <span class="ticker-change negative">-1.2%</span>
-                </div>
-                
-                <div class="ticker-item">
-                    <span class="ticker-label">GHS/USD</span>
-                    <span class="ticker-value">₵12.45</span>
-                    <span class="ticker-change positive">+0.3%</span>
+                <div class="ticker-grid" id="liveTicker">
+                    <!-- Dynamic content -->
                 </div>
             </div>
         </section>
 
         <!-- Main Charts -->
-        <section class="data-charts">
-            <div class="chart-row">
-                <div class="chart-card">
-                    <h3><i class="fas fa-chart-line"></i> Cocoa Price Evolution</h3>
-                    <div class="chart-controls">
-                        <select class="timeframe-select">
-                            <option>1D</option>
-                            <option>1W</option>
-                            <option selected>1M</option>
-                            <option>3M</option>
-                            <option>1Y</option>
-                            <option>5Y</option>
-                        </select>
-                    </div>
-                    <div class="chart-container" id="priceChart"></div>
-                </div>
-                
-                <div class="chart-card">
-                    <h3><i class="fas fa-wave-square"></i> Volatility Analysis</h3>
-                    <div class="chart-container" id="volatilityChart"></div>
-                </div>
+        <section class="data-charts-section">
+            <div class="section-header">
+                <h2><i class="fas fa-chart-line"></i> Market Analysis</h2>
+                <p>Interactive charts and visualizations</p>
             </div>
             
-            <div class="chart-row">
-                <div class="chart-card">
-                    <h3><i class="fas fa-chart-area"></i> Volume Profile</h3>
-                    <div class="chart-container" id="volumeChart"></div>
+            <div class="charts-container">
+                <div class="chart-row">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-chart-line"></i> Cocoa Price Evolution</h3>
+                            <div class="chart-controls">
+                                <select class="timeframe-select" id="priceTimeframe">
+                                    <option value="1d">1 Day</option>
+                                    <option value="1w">1 Week</option>
+                                    <option value="1m" selected>1 Month</option>
+                                    <option value="3m">3 Months</option>
+                                    <option value="1y">1 Year</option>
+                                    <option value="5y">5 Years</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="priceChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-wave-square"></i> Volatility Analysis</h3>
+                            <div class="chart-controls">
+                                <select class="volatility-select" id="volatilityType">
+                                    <option value="historical">Historical Vol</option>
+                                    <option value="implied">Implied Vol</option>
+                                    <option value="garch">GARCH Forecast</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="volatilityChart"></canvas>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="chart-card">
-                    <h3><i class="fas fa-balance-scale"></i> Spread Analysis</h3>
-                    <div class="chart-container" id="spreadChart"></div>
+                <div class="chart-row">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-chart-area"></i> Volume Profile</h3>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="volumeChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-balance-scale"></i> Term Structure</h3>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="termStructureChart"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Data Sources -->
         <section class="sources-section">
-            <h2><i class="fas fa-plug"></i> Data Sources</h2>
+            <div class="section-header">
+                <h2><i class="fas fa-plug"></i> Data Sources</h2>
+                <p>Integrated feeds from leading market data providers</p>
+            </div>
             
             <div class="sources-grid">
                 <div class="source-card">
-                    <div class="source-icon">
-                        <i class="fas fa-exchange-alt"></i>
+                    <div class="source-header">
+                        <div class="source-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="source-status active">
+                            <i class="fas fa-circle"></i> Connected
+                        </div>
                     </div>
-                    <h3>ICE Futures</h3>
-                    <p>Real-time cocoa futures data from Intercontinental Exchange</p>
-                    <div class="source-status active">
-                        <i class="fas fa-circle"></i> Connected
-                    </div>
-                </div>
-                
-                <div class="source-card">
-                    <div class="source-icon">
-                        <i class="fas fa-building"></i>
-                    </div>
-                    <h3>COCOBOD</h3>
-                    <p>Ghana Cocoa Board official pricing and production data</p>
-                    <div class="source-status active">
-                        <i class="fas fa-circle"></i> Connected
+                    <div class="source-content">
+                        <h3>ICE Futures</h3>
+                        <p>Real-time cocoa futures data from Intercontinental Exchange</p>
+                        <div class="source-metrics">
+                            <span class="metric"><i class="fas fa-bolt"></i> Real-time</span>
+                            <span class="metric"><i class="fas fa-history"></i> 15+ years</span>
+                        </div>
                     </div>
                 </div>
                 
                 <div class="source-card">
-                    <div class="source-icon">
-                        <i class="fas fa-globe"></i>
+                    <div class="source-header">
+                        <div class="source-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="source-status active">
+                            <i class="fas fa-circle"></i> Connected
+                        </div>
                     </div>
-                    <h3>ICCO</h3>
-                    <p>International Cocoa Organization statistics and reports</p>
-                    <div class="source-status active">
-                        <i class="fas fa-circle"></i> Connected
+                    <div class="source-content">
+                        <h3>COCOBOD</h3>
+                        <p>Official Ghana Cocoa Board pricing and production data</p>
+                        <div class="source-metrics">
+                            <span class="metric"><i class="fas fa-certificate"></i> Official</span>
+                            <span class="metric"><i class="fas fa-calendar"></i> Daily</span>
+                        </div>
                     </div>
                 </div>
                 
                 <div class="source-card">
-                    <div class="source-icon">
-                        <i class="fas fa-chart-bar"></i>
+                    <div class="source-header">
+                        <div class="source-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="source-status active">
+                            <i class="fas fa-circle"></i> Connected
+                        </div>
                     </div>
-                    <h3>Ghana Stats</h3>
-                    <p>Ghana Statistical Service agricultural data</p>
-                    <div class="source-status warning">
-                        <i class="fas fa-circle"></i> Delayed
+                    <div class="source-content">
+                        <h3>ICCO</h3>
+                        <p>International Cocoa Organization statistics and reports</p>
+                        <div class="source-metrics">
+                            <span class="metric"><i class="fas fa-chart-bar"></i> Quarterly</span>
+                            <span class="metric"><i class="fas fa-globe"></i> Global</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="source-card">
+                    <div class="source-header">
+                        <div class="source-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="source-status warning">
+                            <i class="fas fa-circle"></i> Delayed
+                        </div>
+                    </div>
+                    <div class="source-content">
+                        <h3>Ghana Stats</h3>
+                        <p>Ghana Statistical Service agricultural and economic data</p>
+                        <div class="source-metrics">
+                            <span class="metric"><i class="fas fa-clock"></i> Monthly</span>
+                            <span class="metric"><i class="fas fa-map"></i> Regional</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -185,130 +268,254 @@
 
         <!-- Data Downloads -->
         <section class="downloads-section">
-            <h2><i class="fas fa-download"></i> Data Downloads</h2>
+            <div class="section-header">
+                <h2><i class="fas fa-download"></i> Data Downloads</h2>
+                <p>Download datasets for research and analysis</p>
+            </div>
             
             <div class="downloads-grid">
                 <div class="download-card">
-                    <h3><i class="fas fa-file-csv"></i> Historical Prices</h3>
-                    <p>Daily cocoa prices from 2010 to present</p>
-                    <div class="download-info">
-                        <span class="file-size">25.4 MB</span>
-                        <span class="file-format">CSV, JSON</span>
+                    <div class="download-icon">
+                        <i class="fas fa-file-csv"></i>
                     </div>
-                    <button class="btn btn-primary download-btn">
-                        <i class="fas fa-download"></i> Download
-                    </button>
+                    <div class="download-content">
+                        <h3>Historical Prices</h3>
+                        <p>Daily cocoa prices from 2010 to present</p>
+                        <div class="download-info">
+                            <span class="file-size">25.4 MB</span>
+                            <span class="file-format">CSV, JSON</span>
+                        </div>
+                        <div class="download-actions">
+                            <button class="btn btn-primary btn-sm download-btn" data-file="prices">
+                                <i class="fas fa-download"></i> Download CSV
+                            </button>
+                            <button class="btn btn-secondary btn-sm preview-btn" data-file="prices">
+                                <i class="fas fa-eye"></i> Preview
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="download-card">
-                    <h3><i class="fas fa-file-excel"></i> Options Data</h3>
-                    <p>Complete options chain data with Greeks</p>
-                    <div class="download-info">
-                        <span class="file-size">18.7 MB</span>
-                        <span class="file-format">Excel, CSV</span>
+                    <div class="download-icon">
+                        <i class="fas fa-file-excel"></i>
                     </div>
-                    <button class="btn btn-primary download-btn">
-                        <i class="fas fa-download"></i> Download
-                    </button>
+                    <div class="download-content">
+                        <h3>Options Data</h3>
+                        <p>Complete options chain data with Greeks</p>
+                        <div class="download-info">
+                            <span class="file-size">18.7 MB</span>
+                            <span class="file-format">Excel, CSV</span>
+                        </div>
+                        <div class="download-actions">
+                            <button class="btn btn-primary btn-sm download-btn" data-file="options">
+                                <i class="fas fa-download"></i> Download Excel
+                            </button>
+                            <button class="btn btn-secondary btn-sm preview-btn" data-file="options">
+                                <i class="fas fa-eye"></i> Preview
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="download-card">
-                    <h3><i class="fas fa-file-alt"></i> Production Reports</h3>
-                    <p>Quarterly cocoa production statistics</p>
-                    <div class="download-info">
-                        <span class="file-size">8.2 MB</span>
-                        <span class="file-format">PDF, CSV</span>
+                    <div class="download-icon">
+                        <i class="fas fa-file-alt"></i>
                     </div>
-                    <button class="btn btn-primary download-btn">
-                        <i class="fas fa-download"></i> Download
-                    </button>
+                    <div class="download-content">
+                        <h3>Production Reports</h3>
+                        <p>Quarterly cocoa production statistics</p>
+                        <div class="download-info">
+                            <span class="file-size">8.2 MB</span>
+                            <span class="file-format">PDF, CSV</span>
+                        </div>
+                        <div class="download-actions">
+                            <button class="btn btn-primary btn-sm download-btn" data-file="production">
+                                <i class="fas fa-download"></i> Download PDF
+                            </button>
+                            <button class="btn btn-secondary btn-sm preview-btn" data-file="production">
+                                <i class="fas fa-eye"></i> Preview
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="download-card">
-                    <h3><i class="fas fa-database"></i> Full Dataset</h3>
-                    <p>Complete research dataset (requires access)</p>
-                    <div class="download-info">
-                        <span class="file-size">2.1 GB</span>
-                        <span class="file-format">SQL, Parquet</span>
+                <div class="download-card premium">
+                    <div class="download-icon">
+                        <i class="fas fa-database"></i>
                     </div>
-                    <button class="btn btn-secondary download-btn">
-                        <i class="fas fa-key"></i> Request Access
-                    </button>
+                    <div class="download-content">
+                        <div class="premium-badge">
+                            <i class="fas fa-crown"></i> PREMIUM
+                        </div>
+                        <h3>Full Research Dataset</h3>
+                        <p>Complete research dataset with all variables</p>
+                        <div class="download-info">
+                            <span class="file-size">2.1 GB</span>
+                            <span class="file-format">SQL, Parquet</span>
+                        </div>
+                        <div class="download-actions">
+                            <button class="btn btn-secondary btn-sm request-btn">
+                                <i class="fas fa-key"></i> Request Access
+                            </button>
+                            <button class="btn btn-secondary btn-sm info-btn">
+                                <i class="fas fa-info-circle"></i> Learn More
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- API Access -->
         <section class="api-section">
-            <h2><i class="fas fa-code"></i> API Access</h2>
+            <div class="section-header">
+                <h2><i class="fas fa-code"></i> API Access</h2>
+                <p>Programmatic access to live and historical data</p>
+            </div>
             
             <div class="api-content">
-                <div class="api-docs">
-                    <h3>REST API Documentation</h3>
-                    <p>Access live data programmatically using our REST API</p>
+                <div class="api-documentation">
+                    <div class="api-header">
+                        <h3>REST API Documentation</h3>
+                        <div class="api-status">
+                            <span class="status active"><i class="fas fa-circle"></i> API Online</span>
+                            <span class="rate-limit">Rate Limit: 1000 req/hour</span>
+                        </div>
+                    </div>
                     
                     <div class="api-endpoints">
                         <div class="endpoint">
-                            <span class="method get">GET</span>
-                            <code>/api/v1/prices/historical</code>
-                            <span class="endpoint-desc">Historical price data</span>
+                            <div class="endpoint-method get">GET</div>
+                            <div class="endpoint-path">
+                                <code>/api/v1/prices/historical</code>
+                                <span class="endpoint-desc">Historical price data</span>
+                            </div>
+                            <button class="btn btn-secondary btn-sm try-btn">
+                                <i class="fas fa-play"></i> Try
+                            </button>
                         </div>
                         
                         <div class="endpoint">
-                            <span class="method get">GET</span>
-                            <code>/api/v1/prices/realtime</code>
-                            <span class="endpoint-desc">Real-time price feed</span>
+                            <div class="endpoint-method get">GET</div>
+                            <div class="endpoint-path">
+                                <code>/api/v1/prices/realtime</code>
+                                <span class="endpoint-desc">Real-time price feed</span>
+                            </div>
+                            <button class="btn btn-secondary btn-sm try-btn">
+                                <i class="fas fa-play"></i> Try
+                            </button>
                         </div>
                         
                         <div class="endpoint">
-                            <span class="method get">GET</span>
-                            <code>/api/v1/options/chain</code>
-                            <span class="endpoint-desc">Options chain data</span>
+                            <div class="endpoint-method get">GET</div>
+                            <div class="endpoint-path">
+                                <code>/api/v1/options/chain</code>
+                                <span class="endpoint-desc">Options chain data</span>
+                            </div>
+                            <button class="btn btn-secondary btn-sm try-btn">
+                                <i class="fas fa-play"></i> Try
+                            </button>
                         </div>
                         
                         <div class="endpoint">
-                            <span class="method get">GET</span>
-                            <code>/api/v1/volatility/surface</code>
-                            <span class="endpoint-desc">Volatility surface data</span>
+                            <div class="endpoint-method get">GET</div>
+                            <div class="endpoint-path">
+                                <code>/api/v1/volatility/surface</code>
+                                <span class="endpoint-desc">Volatility surface data</span>
+                            </div>
+                            <button class="btn btn-secondary btn-sm try-btn">
+                                <i class="fas fa-play"></i> Try
+                            </button>
                         </div>
                     </div>
                     
                     <div class="api-key-section">
-                        <h4>Your API Key:</h4>
+                        <h4>Your API Key</h4>
                         <div class="api-key-display">
-                            <code>cdrl_sk_live_1234567890abcdef</code>
-                            <button class="btn btn-secondary copy-btn">
-                                <i class="fas fa-copy"></i> Copy
-                            </button>
+                            <code id="apiKeyValue">cdrl_sk_live_1234567890abcdef</code>
+                            <div class="api-key-actions">
+                                <button class="btn btn-secondary btn-sm" id="copyApiKey">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <button class="btn btn-secondary btn-sm" id="regenerateApiKey">
+                                    <i class="fas fa-redo"></i> Regenerate
+                                </button>
+                            </div>
                         </div>
+                        <p class="api-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Keep your API key secure. Do not share in client-side code.
+                        </p>
                     </div>
                 </div>
                 
                 <div class="api-example">
                     <h3>Quick Start Example</h3>
-                    <pre><code>import requests
+                    <div class="code-example">
+                        <div class="code-tabs">
+                            <button class="code-tab active" data-lang="python">Python</button>
+                            <button class="code-tab" data-lang="javascript">JavaScript</button>
+                            <button class="code-tab" data-lang="r">R</button>
+                        </div>
+                        
+                        <pre class="code-block active" data-lang="python"><code>import requests
+import pandas as pd
+
+# Your API Key
+API_KEY = "your_api_key_here"
 
 # Fetch historical cocoa prices
-api_key = "your_api_key_here"
 url = "https://api.cocoa-lab.gh/v1/prices/historical"
 params = {
     "symbol": "COCOA",
     "start_date": "2024-01-01",
     "end_date": "2024-12-31",
-    "api_key": api_key
+    "interval": "daily",
+    "api_key": API_KEY
 }
 
 response = requests.get(url, params=params)
 data = response.json()
 
-print(f"Fetched {len(data)} price records")</code></pre>
+# Convert to DataFrame
+df = pd.DataFrame(data['prices'])
+print(f"Fetched {len(df)} price records")
+print(df.head())</code></pre>
+                        
+                        <pre class="code-block" data-lang="javascript"><code>// JavaScript Fetch Example
+const API_KEY = 'your_api_key_here';
+
+async function fetchCocoaPrices() {
+    const url = 'https://api.cocoa-lab.gh/v1/prices/historical';
+    const params = new URLSearchParams({
+        symbol: 'COCOA',
+        start_date: '2024-01-01',
+        end_date: '2024-12-31',
+        interval: 'daily',
+        api_key: API_KEY
+    });
+    
+    try {
+        const response = await fetch(`${url}?${params}`);
+        const data = await response.json();
+        console.log(`Fetched ${data.prices.length} price records`);
+        return data.prices;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}</code></pre>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Data Quality -->
+        <!-- Data Quality Metrics -->
         <section class="quality-section">
-            <h2><i class="fas fa-check-circle"></i> Data Quality Metrics</h2>
+            <div class="section-header">
+                <h2><i class="fas fa-check-circle"></i> Data Quality Metrics</h2>
+                <p>Ensuring accuracy, completeness, and reliability</p>
+            </div>
             
             <div class="quality-metrics">
                 <div class="quality-metric">
@@ -316,6 +523,7 @@ print(f"Fetched {len(data)} price records")</code></pre>
                         <h3>Completeness</h3>
                         <span class="metric-value">99.8%</span>
                     </div>
+                    <div class="metric-desc">Percentage of expected data points received</div>
                     <div class="metric-bar">
                         <div class="metric-fill" style="width: 99.8%"></div>
                     </div>
@@ -326,6 +534,7 @@ print(f"Fetched {len(data)} price records")</code></pre>
                         <h3>Accuracy</h3>
                         <span class="metric-value">99.5%</span>
                     </div>
+                    <div class="metric-desc">Data validation against multiple sources</div>
                     <div class="metric-bar">
                         <div class="metric-fill" style="width: 99.5%"></div>
                     </div>
@@ -336,6 +545,7 @@ print(f"Fetched {len(data)} price records")</code></pre>
                         <h3>Timeliness</h3>
                         <span class="metric-value">99.9%</span>
                     </div>
+                    <div class="metric-desc">Data delivered within expected timeframe</div>
                     <div class="metric-bar">
                         <div class="metric-fill" style="width: 99.9%"></div>
                     </div>
@@ -346,264 +556,504 @@ print(f"Fetched {len(data)} price records")</code></pre>
                         <h3>Consistency</h3>
                         <span class="metric-value">98.7%</span>
                     </div>
+                    <div class="metric-desc">Data consistency across time and sources</div>
                     <div class="metric-bar">
                         <div class="metric-fill" style="width: 98.7%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="quality-details">
+                <div class="detail-card">
+                    <h4><i class="fas fa-shield-alt"></i> Data Validation</h4>
+                    <ul>
+                        <li>Real-time validation against multiple sources</li>
+                        <li>Automated anomaly detection</li>
+                        <li>Cross-reference with COCOBOD official data</li>
+                    </ul>
+                </div>
+                
+                <div class="detail-card">
+                    <h4><i class="fas fa-history"></i> Update Schedule</h4>
+                    <ul>
+                        <li>Real-time: Every 5 seconds</li>
+                        <li>Historical: Daily at 00:00 UTC</li>
+                        <li>Reports: Weekly/Monthly aggregates</li>
+                    </ul>
+                </div>
+                
+                <div class="detail-card">
+                    <h4><i class="fas fa-tools"></i> Maintenance</h4>
+                    <ul>
+                        <li>Automated backup every 6 hours</li>
+                        <li>24/7 monitoring and alerts</li>
+                        <li>Monthly data quality reports</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ghana Market Data -->
+        <section class="ghana-data-section">
+            <div class="section-header">
+                <h2><i class="fas fa-map-marker-alt"></i> Ghana-Specific Data</h2>
+                <p>Regional production, pricing, and economic indicators</p>
+            </div>
+            
+            <div class="ghana-data-content">
+                <div class="ghana-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">850,000 MT</div>
+                            <div class="stat-label">Annual Production</div>
+                            <div class="stat-change positive">+3.5% YoY</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">800,000+</div>
+                            <div class="stat-label">Cocoa Farmers</div>
+                            <div class="stat-change neutral">Stable</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">$2.8B</div>
+                            <div class="stat-label">Export Revenue</div>
+                            <div class="stat-change positive">+12% YoY</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">₵12.45</div>
+                            <div class="stat-label">GHS/USD Rate</div>
+                            <div class="stat-change positive">+0.3% Today</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ghana-charts">
+                    <div class="chart-card">
+                        <h4>Regional Production Distribution</h4>
+                        <div class="chart-wrapper">
+                            <canvas id="productionChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <h4>Ghana Cocoa Price vs World Price</h4>
+                        <div class="chart-wrapper">
+                            <canvas id="priceComparisonChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Data Center</h4>
-                <p>Live and historical cocoa market data</p>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Data Updates</h4>
-                <p>Real-time: Every 5 seconds</p>
-                <p>Historical: Daily at 00:00 UTC</p>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Support</h4>
-                <p>data-support@cocoa-lab.gh</p>
-                <p>API Documentation</p>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>© 2025 Ghana Cocoa Derivatives Research Lab • Data Center v2.0</p>
-        </div>
-    </footer>
+    <!-- Footer (same as index.html) -->
 
+    <!-- Data Center JavaScript -->
     <script src="script.js"></script>
+    <script src="ghana-data.js"></script>
+    
     <script>
-        class DataManager {
+        // Data Center Management
+        class DataCenter {
             constructor() {
                 this.initializeCharts();
                 this.setupEventListeners();
                 this.startLiveUpdates();
-                this.updateLastUpdated();
+                this.updateLastUpdateTime();
             }
             
             initializeCharts() {
                 // Price Chart
-                const priceTrace = {
-                    x: this.generateDates(30),
-                    y: this.generatePriceData(30, 3800, 50),
-                    type: 'scatter',
-                    mode: 'lines',
-                    line: {color: '#006B3F', width: 3},
-                    name: 'Cocoa Price'
-                };
-                
-                Plotly.newPlot('priceChart', [priceTrace], {
-                    title: 'Cocoa Price - Last 30 Days',
-                    xaxis: {title: 'Date', gridcolor: 'rgba(255,255,255,0.1)'},
-                    yaxis: {title: 'Price ($/ton)', gridcolor: 'rgba(255,255,255,0.1)'},
-                    paper_bgcolor: 'rgba(0,0,0,0)',
-                    plot_bgcolor: 'rgba(0,0,0,0)',
-                    font: {color: '#ffffff'}
+                this.priceChart = new Chart(document.getElementById('priceChart'), {
+                    type: 'line',
+                    data: {
+                        labels: this.generateTimeLabels(30),
+                        datasets: [{
+                            label: 'Cocoa Price',
+                            data: this.generatePriceData(30, 3800, 100),
+                            borderColor: '#006B3F',
+                            backgroundColor: 'rgba(0, 107, 63, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                ticks: {
+                                    callback: value => `$${value.toLocaleString()}`
+                                }
+                            }
+                        }
+                    }
                 });
                 
                 // Volatility Chart
-                const volTrace = {
-                    x: this.generateDates(30),
-                    y: this.generateVolatilityData(30),
+                this.volatilityChart = new Chart(document.getElementById('volatilityChart'), {
                     type: 'bar',
-                    name: 'Daily Volatility',
-                    marker: {color: '#3498db'}
-                };
-                
-                Plotly.newPlot('volatilityChart', [volTrace], {
-                    title: 'Daily Price Volatility',
-                    xaxis: {title: 'Date', gridcolor: 'rgba(255,255,255,0.1)'},
-                    yaxis: {title: 'Volatility (%)', gridcolor: 'rgba(255,255,255,0.1)'},
-                    paper_bgcolor: 'rgba(0,0,0,0)',
-                    plot_bgcolor: 'rgba(0,0,0,0)',
-                    font: {color: '#ffffff'}
+                    data: {
+                        labels: this.generateTimeLabels(30),
+                        datasets: [{
+                            label: 'Historical Volatility',
+                            data: this.generateVolatilityData(30),
+                            backgroundColor: 'rgba(52, 152, 219, 0.8)',
+                            borderColor: '#3498db',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: value => `${value}%`
+                                }
+                            }
+                        }
+                    }
                 });
                 
                 // Volume Chart
-                const volumeTrace = {
-                    x: ['<3800', '3800-3900', '3900-4000', '4000-4100', '>4100'],
-                    y: [12500, 18750, 31250, 22500, 15000],
+                this.volumeChart = new Chart(document.getElementById('volumeChart'), {
                     type: 'bar',
-                    name: 'Volume Profile',
-                    marker: {color: '#2ecc71'}
-                };
-                
-                Plotly.newPlot('volumeChart', [volumeTrace], {
-                    title: 'Volume by Price Level',
-                    xaxis: {title: 'Price Range ($)', gridcolor: 'rgba(255,255,255,0.1)'},
-                    yaxis: {title: 'Volume', gridcolor: 'rgba(255,255,255,0.1)'},
-                    paper_bgcolor: 'rgba(0,0,0,0)',
-                    plot_bgcolor: 'rgba(0,0,0,0)',
-                    font: {color: '#ffffff'}
+                    data: {
+                        labels: ['<3800', '3800-3900', '3900-4000', '4000-4100', '>4100'],
+                        datasets: [{
+                            label: 'Volume Profile',
+                            data: [12500, 18750, 31250, 22500, 15000],
+                            backgroundColor: [
+                                'rgba(46, 204, 113, 0.8)',
+                                'rgba(52, 152, 219, 0.8)',
+                                'rgba(155, 89, 182, 0.8)',
+                                'rgba(243, 156, 18, 0.8)',
+                                'rgba(231, 76, 60, 0.8)'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
                 });
                 
-                // Spread Chart
-                const spreadTrace = {
-                    x: this.generateDates(30),
-                    y: this.generateSpreadData(30),
-                    type: 'scatter',
-                    mode: 'lines',
-                    fill: 'tozeroy',
-                    name: 'Futures Spread',
-                    line: {color: '#9b59b6', width: 2}
-                };
+                // Term Structure Chart
+                this.termStructureChart = new Chart(document.getElementById('termStructureChart'), {
+                    type: 'line',
+                    data: {
+                        labels: ['Spot', 'Mar 24', 'Jul 24', 'Dec 24', 'Mar 25', 'Jul 25'],
+                        datasets: [{
+                            label: 'Futures Curve',
+                            data: [3842.50, 3865.00, 3890.25, 3925.75, 3950.00, 3975.50],
+                            borderColor: '#9b59b6',
+                            backgroundColor: 'rgba(155, 89, 182, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: {
+                                ticks: {
+                                    callback: value => `$${value.toLocaleString()}`
+                                }
+                            }
+                        }
+                    }
+                });
                 
-                Plotly.newPlot('spreadChart', [spreadTrace], {
-                    title: 'Futures Term Structure',
-                    xaxis: {title: 'Date', gridcolor: 'rgba(255,255,255,0.1)'},
-                    yaxis: {title: 'Spread ($)', gridcolor: 'rgba(255,255,255,0.1)'},
-                    paper_bgcolor: 'rgba(0,0,0,0)',
-                    plot_bgcolor: 'rgba(0,0,0,0)',
-                    font: {color: '#ffffff'}
+                // Production Chart
+                this.productionChart = new Chart(document.getElementById('productionChart'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Western (42%)', 'Ashanti (33%)', 'Eastern (18%)', 'Bono (7%)'],
+                        datasets: [{
+                            data: [42, 33, 18, 7],
+                            backgroundColor: [
+                                '#006B3F',
+                                '#FCD116',
+                                '#CE1126',
+                                '#3498db'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '70%',
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+                
+                // Price Comparison Chart
+                this.priceComparisonChart = new Chart(document.getElementById('priceComparisonChart'), {
+                    type: 'line',
+                    data: {
+                        labels: this.generateTimeLabels(12),
+                        datasets: [
+                            {
+                                label: 'Ghana Price',
+                                data: this.generatePriceData(12, 3800, 80),
+                                borderColor: '#006B3F',
+                                backgroundColor: 'rgba(0, 107, 63, 0.1)',
+                                borderWidth: 2,
+                                tension: 0.4,
+                                fill: true
+                            },
+                            {
+                                label: 'World Price',
+                                data: this.generatePriceData(12, 3820, 90),
+                                borderColor: '#3498db',
+                                backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                                borderWidth: 2,
+                                tension: 0.4,
+                                fill: true
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                ticks: {
+                                    callback: value => `$${value.toLocaleString()}`
+                                }
+                            }
+                        }
+                    }
                 });
             }
             
-            generateDates(days) {
-                const dates = [];
-                const today = new Date();
+            generateTimeLabels(count) {
+                const labels = [];
+                const now = new Date();
                 
-                for (let i = days - 1; i >= 0; i--) {
-                    const date = new Date(today);
-                    date.setDate(today.getDate() - i);
-                    dates.push(date.toLocaleDateString('en-US', {month: 'short', day: 'numeric'}));
+                for (let i = count - 1; i >= 0; i--) {
+                    const date = new Date(now);
+                    date.setDate(date.getDate() - i);
+                    labels.push(date.toLocaleDateString('en-US', {month: 'short', day: 'numeric'}));
                 }
                 
-                return dates;
+                return labels;
             }
             
-            generatePriceData(days, startPrice, volatility) {
-                const prices = [startPrice];
+            generatePriceData(count, basePrice, volatility) {
+                const prices = [basePrice];
                 
-                for (let i = 1; i < days; i++) {
+                for (let i = 1; i < count; i++) {
                     const change = (Math.random() - 0.5) * volatility;
-                    const newPrice = prices[i - 1] + change;
-                    prices.push(newPrice);
+                    prices.push(prices[i - 1] + change);
                 }
                 
                 return prices;
             }
             
-            generateVolatilityData(days) {
+            generateVolatilityData(count) {
                 const volatilities = [];
                 
-                for (let i = 0; i < days; i++) {
+                for (let i = 0; i < count; i++) {
                     volatilities.push(25 + Math.random() * 15);
                 }
                 
                 return volatilities;
             }
             
-            generateSpreadData(days) {
-                const spreads = [];
-                
-                for (let i = 0; i < days; i++) {
-                    spreads.push(10 + Math.random() * 30);
-                }
-                
-                return spreads;
-            }
-            
             setupEventListeners() {
-                // Timeframe select
-                document.querySelector('.timeframe-select').addEventListener('change', (e) => {
-                    this.updateChartTimeframe(e.target.value);
+                // Timeframe selector
+                document.getElementById('priceTimeframe').addEventListener('change', (e) => {
+                    this.updateChartData(e.target.value);
+                });
+                
+                // Volatility type selector
+                document.getElementById('volatilityType').addEventListener('change', (e) => {
+                    this.updateVolatilityChart(e.target.value);
                 });
                 
                 // Download buttons
                 document.querySelectorAll('.download-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
-                        this.handleDownload(e.target.closest('.download-card'));
+                        this.downloadDataset(e.target.dataset.file);
                     });
                 });
                 
-                // Copy API key
-                document.querySelector('.copy-btn').addEventListener('click', () => {
+                // Preview buttons
+                document.querySelectorAll('.preview-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.previewDataset(e.target.dataset.file);
+                    });
+                });
+                
+                // API key copy
+                document.getElementById('copyApiKey').addEventListener('click', () => {
                     this.copyApiKey();
+                });
+                
+                // Regenerate API key
+                document.getElementById('regenerateApiKey').addEventListener('click', () => {
+                    this.regenerateApiKey();
+                });
+                
+                // Code tabs
+                document.querySelectorAll('.code-tab').forEach(tab => {
+                    tab.addEventListener('click', (e) => {
+                        const lang = e.target.dataset.lang;
+                        this.switchCodeTab(lang);
+                    });
                 });
             }
             
-            updateChartTimeframe(timeframe) {
-                console.log(`Updating charts for timeframe: ${timeframe}`);
-                // In a real app, this would fetch new data based on timeframe
-            }
-            
-            handleDownload(card) {
-                const title = card.querySelector('h3').textContent;
-                alert(`Downloading: ${title}\n\nIn a real application, this would download the actual dataset.`);
-            }
-            
-            copyApiKey() {
-                const apiKey = 'cdrl_sk_live_1234567890abcdef';
-                navigator.clipboard.writeText(apiKey)
-                    .then(() => {
-                        const btn = document.querySelector('.copy-btn');
-                        const originalHtml = btn.innerHTML;
-                        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                        btn.classList.add('success');
-                        
-                        setTimeout(() => {
-                            btn.innerHTML = originalHtml;
-                            btn.classList.remove('success');
-                        }, 2000);
-                    })
-                    .catch(err => {
-                        alert('Failed to copy API key. Please copy manually.');
-                    });
-            }
-            
             startLiveUpdates() {
-                // Update ticker every 5 seconds
+                // Update live ticker every 5 seconds
                 setInterval(() => {
-                    this.updateTicker();
+                    this.updateLiveTicker();
+                    this.updateLastUpdateTime();
                 }, 5000);
                 
                 // Update charts every 30 seconds
                 setInterval(() => {
                     this.updateCharts();
                 }, 30000);
+                
+                // Initial updates
+                this.updateLiveTicker();
+                this.updateCharts();
             }
             
-            updateTicker() {
-                const tickers = document.querySelectorAll('.ticker-item');
+            updateLiveTicker() {
+                const tickerGrid = document.getElementById('liveTicker');
                 
-                tickers.forEach(ticker => {
-                    const valueElement = ticker.querySelector('.ticker-value');
-                    const changeElement = ticker.querySelector('.ticker-change');
-                    
-                    // Extract current value
-                    let currentValue = parseFloat(valueElement.textContent.replace(/[$,]/g, ''));
-                    
-                    // Generate small random change
-                    const changePercent = (Math.random() - 0.5) * 0.5; // -0.25% to +0.25%
-                    const changeValue = currentValue * (changePercent / 100);
-                    const newValue = currentValue + changeValue;
-                    
-                    // Update display
-                    valueElement.textContent = `$${newValue.toFixed(2)}`;
-                    
-                    // Update change indicator
-                    changeElement.textContent = `${changePercent > 0 ? '+' : ''}${changePercent.toFixed(1)}%`;
-                    changeElement.className = `ticker-change ${changePercent > 0 ? 'positive' : changePercent < 0 ? 'negative' : 'neutral'}`;
-                });
+                const tickerData = [
+                    {
+                        symbol: 'COCOA',
+                        name: 'Cocoa Spot',
+                        price: 3842.50,
+                        change: 2.3,
+                        volume: '12.4K'
+                    },
+                    {
+                        symbol: 'CCK24',
+                        name: 'Mar 2024',
+                        price: 3865.00,
+                        change: 1.8,
+                        volume: '8.7K'
+                    },
+                    {
+                        symbol: 'CCN24',
+                        name: 'Jul 2024',
+                        price: 3890.25,
+                        change: -0.5,
+                        volume: '6.2K'
+                    },
+                    {
+                        symbol: 'CCZ24',
+                        name: 'Dec 2024',
+                        price: 3925.75,
+                        change: 0.8,
+                        volume: '4.8K'
+                    },
+                    {
+                        symbol: 'VIX',
+                        name: 'Implied Vol',
+                        price: 31.8,
+                        change: -1.2,
+                        volume: '-'
+                    },
+                    {
+                        symbol: 'GHS/USD',
+                        name: 'Exchange Rate',
+                        price: 12.45,
+                        change: 0.3,
+                        volume: '-'
+                    }
+                ];
                 
-                this.updateLastUpdated();
+                tickerGrid.innerHTML = tickerData.map(item => `
+                    <div class="ticker-item">
+                        <div class="ticker-symbol">
+                            <span class="symbol">${item.symbol}</span>
+                            <span class="name">${item.name}</span>
+                        </div>
+                        <div class="ticker-price">
+                            <span class="price">
+                                ${item.symbol.includes('$') ? '₵' : '$'}${item.price.toFixed(2)}
+                            </span>
+                            <span class="change ${item.change >= 0 ? 'positive' : 'negative'}">
+                                ${item.change >= 0 ? '+' : ''}${item.change.toFixed(1)}%
+                            </span>
+                        </div>
+                        <div class="ticker-volume">
+                            <span class="volume">${item.volume}</span>
+                        </div>
+                    </div>
+                `).join('');
             }
             
             updateCharts() {
-                // In a real app, this would update charts with new data
-                console.log('Updating charts with new data...');
+                // Add new data point to price chart
+                const priceData = this.priceChart.data.datasets[0].data;
+                const labels = this.priceChart.data.labels;
+                
+                if (priceData.length >= 30) {
+                    priceData.shift();
+                    labels.shift();
+                }
+                
+                const lastPrice = priceData[priceData.length - 1];
+                const newPrice = lastPrice + (Math.random() - 0.5) * 50;
+                priceData.push(newPrice);
+                
+                const now = new Date();
+                labels.push(now.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'}));
+                
+                this.priceChart.update('quiet');
             }
             
-            updateLastUpdated() {
+            updateLastUpdateTime() {
                 const now = new Date();
                 const timeString = now.toLocaleTimeString('en-US', {
                     hour: '2-digit',
@@ -611,382 +1061,420 @@ print(f"Fetched {len(data)} price records")</code></pre>
                     second: '2-digit'
                 });
                 
-                document.getElementById('lastUpdatedTime').textContent = timeString;
+                document.getElementById('lastUpdate').textContent = `Updated ${timeString}`;
+            }
+            
+            updateChartData(timeframe) {
+                console.log(`Updating chart for timeframe: ${timeframe}`);
+                // In production, this would fetch new data based on timeframe
+            }
+            
+            updateVolatilityChart(type) {
+                console.log(`Updating volatility chart type: ${type}`);
+                // Update chart based on selected volatility type
+            }
+            
+            downloadDataset(fileType) {
+                const fileNames = {
+                    'prices': 'historical_prices_2024.csv',
+                    'options': 'options_chain_data.xlsx',
+                    'production': 'cocoa_production_reports.pdf'
+                };
+                
+                const fileName = fileNames[fileType] || 'data_export.csv';
+                
+                // Simulate download
+                const data = `Simulated download of ${fileType} data\nGenerated at: ${new Date().toISOString()}`;
+                const blob = new Blob([data], {type: 'text/plain'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                this.showNotification(`Downloading ${fileName}...`, 'success');
+            }
+            
+            previewDataset(fileType) {
+                const previews = {
+                    'prices': 'Preview of historical price data (CSV format)',
+                    'options': 'Preview of options chain data (Excel format)',
+                    'production': 'Preview of production reports (PDF format)'
+                };
+                
+                alert(previews[fileType] || 'Preview not available for this dataset');
+            }
+            
+            copyApiKey() {
+                const apiKey = document.getElementById('apiKeyValue').textContent;
+                navigator.clipboard.writeText(apiKey)
+                    .then(() => {
+                        const btn = document.getElementById('copyApiKey');
+                        const originalHTML = btn.innerHTML;
+                        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                        btn.classList.add('success');
+                        
+                        setTimeout(() => {
+                            btn.innerHTML = originalHTML;
+                            btn.classList.remove('success');
+                        }, 2000);
+                        
+                        this.showNotification('API key copied to clipboard', 'success');
+                    })
+                    .catch(err => {
+                        this.showNotification('Failed to copy API key', 'error');
+                    });
+            }
+            
+            regenerateApiKey() {
+                if (confirm('Are you sure you want to regenerate your API key? The old key will stop working immediately.')) {
+                    // Generate new API key
+                    const newKey = 'cdrl_sk_live_' + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+                    document.getElementById('apiKeyValue').textContent = newKey;
+                    
+                    this.showNotification('API key regenerated successfully', 'success');
+                }
+            }
+            
+            switchCodeTab(lang) {
+                // Update active tab
+                document.querySelectorAll('.code-tab').forEach(tab => {
+                    tab.classList.remove('active');
+                    if (tab.dataset.lang === lang) {
+                        tab.classList.add('active');
+                    }
+                });
+                
+                // Update active code block
+                document.querySelectorAll('.code-block').forEach(block => {
+                    block.classList.remove('active');
+                    if (block.dataset.lang === lang) {
+                        block.classList.add('active');
+                    }
+                });
+            }
+            
+            showNotification(message, type = 'info') {
+                // Create notification element
+                const notification = document.createElement('div');
+                notification.className = `data-notification ${type}`;
+                notification.innerHTML = `
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // Remove after 3 seconds
+                setTimeout(() => {
+                    notification.classList.add('fade-out');
+                    setTimeout(() => notification.remove(), 300);
+                }, 3000);
             }
         }
         
-        // Initialize data manager when page loads
+        // Initialize data center when page loads
         document.addEventListener('DOMContentLoaded', () => {
-            new DataManager();
+            new DataCenter();
         });
     </script>
     
     <style>
-        /* Data-specific styles */
-        .data-header {
-            margin-bottom: 2rem;
-            padding: 2rem;
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        /* Data Center Specific Styles */
+        .data-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-xl) var(--space);
         }
         
-        .data-status {
+        .data-header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-xl);
+            color: white;
+            text-align: center;
+        }
+        
+        .data-stats {
             display: flex;
-            gap: 2rem;
-            margin-top: 1.5rem;
+            justify-content: center;
+            gap: var(--space-2xl);
+            margin-top: var(--space-xl);
             flex-wrap: wrap;
         }
         
-        .status-item {
+        .data-stat {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: var(--space);
+            background: rgba(255, 255, 255, 0.1);
+            padding: var(--space);
+            border-radius: var(--radius);
+            min-width: 200px;
         }
         
-        .status-label {
-            color: #94a3b8;
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
         }
         
-        .status-value {
-            font-weight: 600;
-            color: #cbd5e1;
-        }
-        
-        .status-value.active {
-            color: #27ae60;
-        }
-        
-        .status-value.active i {
-            color: #27ae60;
-            font-size: 0.75rem;
-        }
-        
-        /* Ticker */
+        /* Ticker Section */
         .ticker-section {
-            margin-bottom: 2rem;
+            margin-bottom: var(--space-2xl);
         }
         
         .ticker-container {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        
+        .ticker-header {
             display: flex;
-            overflow-x: auto;
-            gap: 1rem;
-            padding: 1rem;
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            scrollbar-width: thin;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space);
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border);
         }
         
-        .ticker-container::-webkit-scrollbar {
-            height: 4px;
+        .update-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
         }
         
-        .ticker-container::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
+        .update-status.active {
+            color: #10b981;
         }
         
-        .ticker-container::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 2px;
+        .ticker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1px;
+            background: var(--border);
         }
         
         .ticker-item {
+            background: var(--bg-secondary);
+            padding: var(--space);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .ticker-symbol {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            padding: 1rem;
-            min-width: 150px;
-            background: rgba(15, 23, 42, 0.6);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .ticker-label {
+        .symbol {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .name {
             font-size: 0.875rem;
-            color: #94a3b8;
-            margin-bottom: 0.5rem;
+            color: var(--text-tertiary);
         }
         
-        .ticker-value {
+        .ticker-price {
+            text-align: right;
+        }
+        
+        .price {
             font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--secondary);
-            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: block;
         }
         
-        .ticker-change {
+        .change {
             font-size: 0.875rem;
             font-weight: 600;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
         }
         
-        .ticker-change.positive {
-            background: rgba(39, 174, 96, 0.2);
-            color: #27ae60;
+        .change.positive {
+            color: #10b981;
         }
         
-        .ticker-change.negative {
-            background: rgba(231, 76, 60, 0.2);
-            color: #e74c3c;
+        .change.negative {
+            color: #ef4444;
         }
         
-        .ticker-change.neutral {
-            background: rgba(243, 156, 18, 0.2);
-            color: #f39c12;
+        /* Charts Section */
+        .data-charts-section {
+            margin-bottom: var(--space-2xl);
         }
         
-        /* Data Charts */
-        .data-charts {
-            margin-bottom: 3rem;
+        .charts-container {
+            margin-top: var(--space-xl);
         }
         
         .chart-row {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
+            gap: var(--space);
+            margin-bottom: var(--space);
         }
         
-        .chart-card {
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        @media (max-width: 768px) {
+            .chart-row {
+                grid-template-columns: 1fr;
+            }
         }
         
-        .chart-controls {
-            margin-bottom: 1rem;
-        }
-        
-        .timeframe-select {
-            padding: 0.5rem 1rem;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-            color: white;
-        }
-        
-        /* Data Sources */
-        .sources-section {
-            margin-bottom: 3rem;
-        }
-        
+        /* Sources Section */
         .sources-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space);
+            margin-top: var(--space-xl);
         }
         
         .source-card {
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        
+        .source-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space);
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border);
         }
         
         .source-icon {
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: var(--radius);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1rem;
-            font-size: 1.5rem;
+            color: white;
+            font-size: 1.25rem;
         }
         
         .source-status {
-            margin-top: 1rem;
             font-size: 0.875rem;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
         }
         
         .source-status.active {
-            color: #27ae60;
+            color: #10b981;
         }
         
         .source-status.warning {
-            color: #f39c12;
+            color: #f59e0b;
         }
         
-        .source-status i {
+        .source-content {
+            padding: var(--space);
+        }
+        
+        .source-metrics {
+            display: flex;
+            gap: var(--space);
+            margin-top: var(--space);
+        }
+        
+        .metric {
             font-size: 0.75rem;
-            margin-right: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            background: var(--bg-tertiary);
+            border-radius: 50px;
+            color: var(--text-tertiary);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
         }
         
-        /* Downloads */
-        .downloads-section {
-            margin-bottom: 3rem;
-        }
-        
+        /* Downloads Section */
         .downloads-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space);
+            margin-top: var(--space-xl);
         }
         
         .download-card {
-            background: rgba(30, 41, 59, 0.8);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            padding: var(--space);
+            display: flex;
+            gap: var(--space);
+        }
+        
+        .download-card.premium {
+            border: 2px solid var(--secondary);
+            position: relative;
+        }
+        
+        .premium-badge {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: var(--secondary);
+            color: var(--bg-primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .download-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--bg-tertiary);
             border-radius: var(--radius);
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--secondary);
+            flex-shrink: 0;
         }
         
         .download-info {
             display: flex;
             justify-content: space-between;
-            margin: 1rem 0;
-            color: #94a3b8;
+            margin: var(--space-sm) 0;
+            color: var(--text-tertiary);
             font-size: 0.875rem;
         }
         
-        .download-card .btn {
-            width: 100%;
-            margin-top: 1rem;
+        .download-actions {
+            display: flex;
+            gap: var(--space-xs);
+            margin-top: var(--space);
         }
         
         /* API Section */
-        .api-section {
-            margin-bottom: 3rem;
-        }
-        
         .api-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-top: 1.5rem;
-        }
-        
-        .api-endpoints {
-            margin: 1.5rem 0;
-        }
-        
-        .endpoint {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            padding: 1rem;
-            background: rgba(15, 23, 42, 0.6);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .method {
-            padding: 0.25rem 0.75rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        
-        .method.get {
-            background: rgba(39, 174, 96, 0.2);
-            color: #27ae60;
-        }
-        
-        .endpoint code {
-            flex: 1;
-            font-family: 'Courier New', monospace;
-            color: #cbd5e1;
-        }
-        
-        .endpoint-desc {
-            color: #94a3b8;
-            font-size: 0.875rem;
-        }
-        
-        .api-key-section {
-            margin-top: 2rem;
-        }
-        
-        .api-key-display {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-top: 0.5rem;
-            padding: 1rem;
-            background: rgba(15, 23, 42, 0.6);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .api-key-display code {
-            flex: 1;
-            font-family: 'Courier New', monospace;
-            color: #cbd5e1;
-            word-break: break-all;
-        }
-        
-        .copy-btn.success {
-            background: #27ae60;
-        }
-        
-        .api-example pre {
-            background: rgba(15, 23, 42, 0.6);
-            border-radius: 8px;
-            padding: 1rem;
-            overflow-x: auto;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .api-example code {
-            font-family: 'Courier New', monospace;
-            color: #cbd5e1;
-            font-size: 0.875rem;
-            line-height: 1.5;
-        }
-        
-        /* Quality Metrics */
-        .quality-section {
-            margin-bottom: 3rem;
-        }
-        
-        .quality-metrics {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        
-        .quality-metric {
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .metric-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-        
-        .metric-value {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--secondary);
-        }
-        
-        .metric-bar {
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        
-        .metric-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #27ae60, #2ecc71);
-            border-radius: 4px;
+            gap: var(--space-xl);
+            margin-top: var(--space-xl);
         }
         
         @media (max-width: 1024px) {
@@ -995,23 +1483,273 @@ print(f"Fetched {len(data)} price records")</code></pre>
             }
         }
         
-        @media (max-width: 768px) {
-            .chart-row {
-                grid-template-columns: 1fr;
-            }
-            
-            .data-status {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .ticker-container {
-                flex-direction: column;
-            }
-            
-            .ticker-item {
-                min-width: auto;
-            }
+        .api-documentation {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--space);
+            border: 1px solid var(--border);
+        }
+        
+        .api-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space);
+        }
+        
+        .rate-limit {
+            font-size: 0.875rem;
+            color: var(--text-tertiary);
+        }
+        
+        .api-endpoints {
+            margin: var(--space) 0;
+        }
+        
+        .endpoint {
+            display: flex;
+            align-items: center;
+            gap: var(--space);
+            padding: var(--space-sm);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius);
+            margin-bottom: var(--space-xs);
+        }
+        
+        .endpoint-method {
+            width: 60px;
+            padding: 0.5rem;
+            background: var(--primary);
+            color: white;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+        }
+        
+        .endpoint-method.get {
+            background: #10b981;
+        }
+        
+        .endpoint-path {
+            flex: 1;
+        }
+        
+        .endpoint-path code {
+            display: block;
+            font-family: 'Courier New', monospace;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .endpoint-desc {
+            font-size: 0.875rem;
+            color: var(--text-tertiary);
+        }
+        
+        .api-key-section {
+            margin-top: var(--space-xl);
+            padding-top: var(--space);
+            border-top: 1px solid var(--border);
+        }
+        
+        .api-key-display {
+            display: flex;
+            align-items: center;
+            gap: var(--space);
+            background: var(--bg-tertiary);
+            padding: var(--space);
+            border-radius: var(--radius);
+            margin: var(--space-sm) 0;
+        }
+        
+        .api-key-display code {
+            flex: 1;
+            font-family: 'Courier New', monospace;
+            color: var(--text-primary);
+            word-break: break-all;
+        }
+        
+        .api-warning {
+            font-size: 0.875rem;
+            color: var(--warning);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .api-example {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--space);
+            border: 1px solid var(--border);
+        }
+        
+        .code-example {
+            margin-top: var(--space);
+        }
+        
+        .code-tabs {
+            display: flex;
+            gap: 1px;
+            background: var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+        
+        .code-tab {
+            flex: 1;
+            padding: 0.75rem;
+            background: var(--bg-tertiary);
+            border: none;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .code-tab.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .code-block {
+            display: none;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius);
+            padding: var(--space);
+            margin-top: var(--space);
+            overflow-x: auto;
+        }
+        
+        .code-block.active {
+            display: block;
+        }
+        
+        .code-block code {
+            font-family: 'Courier New', monospace;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        
+        /* Quality Section */
+        .quality-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space);
+            margin-top: var(--space-xl);
+        }
+        
+        .quality-metric {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: var(--space);
+            border: 1px solid var(--border);
+        }
+        
+        .metric-bar {
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: var(--space-sm);
+        }
+        
+        .metric-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+        }
+        
+        .quality-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space);
+            margin-top: var(--space-xl);
+        }
+        
+        .detail-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: var(--space);
+            border: 1px solid var(--border);
+        }
+        
+        .detail-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .detail-card li {
+            padding: 0.25rem 0;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .detail-card li:before {
+            content: '•';
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        /* Ghana Data Section */
+        .ghana-data-content {
+            margin-top: var(--space-xl);
+        }
+        
+        .ghana-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .ghana-charts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: var(--space);
+        }
+        
+        /* Notifications */
+        .data-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .data-notification.success {
+            border-left: 4px solid #10b981;
+        }
+        
+        .data-notification.error {
+            border-left: 4px solid #ef4444;
+        }
+        
+        .data-notification.fade-out {
+            animation: slideOut 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
         }
     </style>
 </body>
