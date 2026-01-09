@@ -1,4 +1,4 @@
-// cocoa-hedging.js - FIXED Calculator with Working Simulator
+// cocoa-hedging.js - COMPLETELY REVISED WITH WORKING CALCULATOR
 
 class CocoaHedgingSimulator {
     constructor() {
@@ -6,15 +6,8 @@ class CocoaHedgingSimulator {
         this.transactionHistory = [];
         this.simulationResults = null;
         this.charts = {};
+        this.isInitialized = false;
         this.init();
-    }
-    
-    init() {
-        this.setupControls();
-        this.initializeCharts();
-        this.setupEventListeners();
-        this.updateCalculations();
-        this.initializeSliderListeners();
     }
     
     getDefaultScenario() {
@@ -35,14 +28,47 @@ class CocoaHedgingSimulator {
         };
     }
     
+    init() {
+        if (this.isInitialized) return;
+        
+        console.log('Initializing Cocoa Hedging Simulator...');
+        
+        // Wait for DOM to be fully ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.setup());
+        } else {
+            this.setup();
+        }
+    }
+    
+    setup() {
+        this.setupControls();
+        this.initializeCharts();
+        this.setupEventListeners();
+        this.updateCalculations();
+        this.updateAllSliderValues();
+        this.isInitialized = true;
+        
+        console.log('Calculator setup complete');
+    }
+    
     setupControls() {
         // Initialize all sliders with correct values
-        this.updateAllSliderValues();
+        this.updateSlider('cocoaPrice', this.currentScenario.cocoaPrice);
+        this.updateSlider('strikePrice', this.currentScenario.strikePrice);
+        this.updateSlider('volatility', this.currentScenario.volatility);
+        this.updateSlider('timeToExpiry', this.currentScenario.timeToExpiry);
+        this.updateSlider('positionSize', this.currentScenario.positionSize);
+        this.updateSlider('transactionCost', this.currentScenario.transactionCost);
         
         // Set initial option type
-        document.querySelectorAll('.option-type-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.type === this.currentScenario.optionType);
-        });
+        const callBtn = document.querySelector('.option-type-btn[data-type="call"]');
+        const putBtn = document.querySelector('.option-type-btn[data-type="put"]');
+        
+        if (callBtn && putBtn) {
+            callBtn.classList.toggle('active', this.currentScenario.optionType === 'call');
+            putBtn.classList.toggle('active', this.currentScenario.optionType === 'put');
+        }
         
         // Set initial hedge frequency
         const hedgeSelect = document.getElementById('hedgeFrequency');
@@ -51,7 +77,17 @@ class CocoaHedgingSimulator {
         }
     }
     
-    initializeSliderListeners() {
+    updateSlider(sliderId, value) {
+        const slider = document.getElementById(sliderId);
+        if (slider) {
+            slider.value = value;
+            this.updateSliderValueDisplay(sliderId, value);
+        }
+    }
+    
+    setupEventListeners() {
+        console.log('Setting up event listeners...');
+        
         // Set up real-time slider updates
         const sliders = [
             { id: 'cocoaPrice', callback: (val) => this.updateScenario('cocoaPrice', val) },
@@ -65,14 +101,78 @@ class CocoaHedgingSimulator {
         sliders.forEach(slider => {
             const element = document.getElementById(slider.id);
             if (element) {
-                element.addEventListener('input', (e) => {
+                // Remove existing listeners to prevent duplicates
+                const newElement = element.cloneNode(true);
+                element.parentNode.replaceChild(newElement, element);
+                
+                // Add new listener
+                newElement.addEventListener('input', (e) => {
                     const value = parseFloat(e.target.value);
                     slider.callback(value);
                     this.updateSliderValueDisplay(slider.id, value);
                     this.updateCalculations();
                 });
+                
+                console.log(`Listener added for slider: ${slider.id}`);
+            } else {
+                console.warn(`Slider not found: ${slider.id}`);
             }
         });
+        
+        // Option type selector
+        document.querySelectorAll('.option-type-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.option-type-btn').forEach(b => b.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+                this.currentScenario.optionType = e.currentTarget.dataset.type;
+                this.updateCalculations();
+            });
+        });
+        
+        // Hedge frequency
+        const hedgeSelect = document.getElementById('hedgeFrequency');
+        if (hedgeSelect) {
+            hedgeSelect.addEventListener('change', (e) => {
+                this.currentScenario.hedgeFrequency = e.target.value;
+            });
+        }
+        
+        // Run simulation button - FIXED
+        const runBtn = document.getElementById('runSimulation');
+        if (runBtn) {
+            runBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Run Simulation button clicked');
+                this.runSimulation();
+            });
+        } else {
+            console.warn('Run Simulation button not found');
+        }
+        
+        // Reset simulation
+        const resetBtn = document.getElementById('resetSimulation');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                this.resetSimulation();
+            });
+        }
+        
+        // Export data
+        const exportBtn = document.getElementById('exportData');
+        if (exportBtn) {
+            exportBtn.addEventListener('click', () => {
+                this.exportData();
+            });
+        }
+        
+        // Save scenario
+        const saveBtn = document.getElementById('saveScenario');
+        if (saveBtn) {
+            saveBtn.addEventListener('click', () => {
+                this.saveScenario();
+            });
+        }
     }
     
     updateScenario(key, value) {
@@ -80,6 +180,8 @@ class CocoaHedgingSimulator {
     }
     
     updateAllSliderValues() {
+        console.log('Updating all slider values...');
+        
         const sliders = [
             { id: 'cocoaPrice', format: val => `$${this.formatNumber(val)}` },
             { id: 'strikePrice', format: val => `$${this.formatNumber(val)}` },
@@ -114,10 +216,14 @@ class CocoaHedgingSimulator {
                 }
             }
             valueElement.textContent = formatFunc(value);
+            console.log(`Updated ${sliderId}: ${formatFunc(value)}`);
+        } else {
+            console.warn(`Value element not found: ${sliderId}Value`);
         }
     }
     
     initializeCharts() {
+        console.log('Initializing charts...');
         // Initialize price & delta chart
         this.initializePriceDeltaChart();
         
@@ -126,17 +232,21 @@ class CocoaHedgingSimulator {
     }
     
     initializePriceDeltaChart() {
-        const ctx = document.getElementById('priceDeltaChart')?.getContext('2d');
-        if (!ctx) return;
+        const canvas = document.getElementById('priceDeltaChart');
+        if (!canvas) {
+            console.warn('PriceDeltaChart canvas not found');
+            return;
+        }
         
+        const ctx = canvas.getContext('2d');
         this.charts.priceDelta = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: [],
+                labels: ['Day 0', 'Day 15', 'Day 30', 'Day 45', 'Day 60', 'Day 75', 'Day 90'],
                 datasets: [
                     {
                         label: 'Cocoa Price',
-                        data: [],
+                        data: [2500, 2550, 2600, 2650, 2700, 2750, 2800],
                         borderColor: '#006B3F',
                         backgroundColor: 'rgba(0, 107, 63, 0.1)',
                         borderWidth: 3,
@@ -146,7 +256,7 @@ class CocoaHedgingSimulator {
                     },
                     {
                         label: 'Delta',
-                        data: [],
+                        data: [0.45, 0.48, 0.52, 0.55, 0.58, 0.60, 0.62],
                         borderColor: '#FCD116',
                         backgroundColor: 'rgba(252, 209, 22, 0.1)',
                         borderWidth: 2,
@@ -166,16 +276,31 @@ class CocoaHedgingSimulator {
                     y: {
                         type: 'linear',
                         position: 'left',
-                        title: { display: true, text: 'Price ($)' },
-                        ticks: { callback: value => `$${this.formatNumber(value)}` }
+                        title: { 
+                            display: true, 
+                            text: 'Price ($)',
+                            color: '#006B3F'
+                        },
+                        ticks: { 
+                            callback: value => `$${this.formatNumber(value)}`,
+                            color: '#006B3F'
+                        },
+                        grid: { color: 'rgba(0, 107, 63, 0.1)' }
                     },
                     y1: {
                         type: 'linear',
                         position: 'right',
-                        title: { display: true, text: 'Delta' },
+                        title: { 
+                            display: true, 
+                            text: 'Delta',
+                            color: '#FCD116'
+                        },
                         grid: { drawOnChartArea: false },
                         min: 0,
-                        max: 1
+                        max: 1,
+                        ticks: { 
+                            color: '#FCD116'
+                        }
                     }
                 }
             }
@@ -183,14 +308,19 @@ class CocoaHedgingSimulator {
     }
     
     initializeHedgingChart() {
-        const ctx = document.getElementById('hedgingChart')?.getContext('2d');
-        if (!ctx) return;
+        const canvas = document.getElementById('hedgingChart');
+        if (!canvas) {
+            console.warn('HedgingChart canvas not found');
+            return;
+        }
         
+        const ctx = canvas.getContext('2d');
         this.charts.hedging = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: ['Hedging P&L', 'Transaction Costs', 'Net P&L', 'Hedging Error'],
                 datasets: [{
+                    label: 'Performance ($)',
                     data: [0, 0, 0, 0],
                     backgroundColor: ['#10b981', '#f59e0b', '#006B3F', '#3b82f6']
                 }]
@@ -198,69 +328,29 @@ class CocoaHedgingSimulator {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
+                plugins: { 
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => `$${this.formatNumber(context.parsed.y)}`
+                        }
+                    }
+                },
                 scales: {
                     y: {
-                        ticks: { callback: value => `$${this.formatNumber(value)}` }
+                        beginAtZero: true,
+                        ticks: { 
+                            callback: value => `$${this.formatNumber(value)}`
+                        }
                     }
                 }
             }
         });
     }
     
-    setupEventListeners() {
-        // Option type selector
-        document.querySelectorAll('.option-type-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                document.querySelectorAll('.option-type-btn').forEach(b => b.classList.remove('active'));
-                e.currentTarget.classList.add('active');
-                this.currentScenario.optionType = e.currentTarget.dataset.type;
-                this.updateCalculations();
-            });
-        });
-        
-        // Hedge frequency
-        const hedgeSelect = document.getElementById('hedgeFrequency');
-        if (hedgeSelect) {
-            hedgeSelect.addEventListener('change', (e) => {
-                this.currentScenario.hedgeFrequency = e.target.value;
-            });
-        }
-        
-        // Run simulation button - FIXED
-        const runBtn = document.getElementById('runSimulation');
-        if (runBtn) {
-            runBtn.addEventListener('click', () => {
-                this.runSimulation();
-            });
-        }
-        
-        // Reset simulation
-        const resetBtn = document.getElementById('resetSimulation');
-        if (resetBtn) {
-            resetBtn.addEventListener('click', () => {
-                this.resetSimulation();
-            });
-        }
-        
-        // Export data
-        const exportBtn = document.getElementById('exportData');
-        if (exportBtn) {
-            exportBtn.addEventListener('click', () => {
-                this.exportData();
-            });
-        }
-        
-        // Save scenario
-        const saveBtn = document.getElementById('saveScenario');
-        if (saveBtn) {
-            saveBtn.addEventListener('click', () => {
-                this.saveScenario();
-            });
-        }
-    }
-    
     updateCalculations() {
+        console.log('Updating calculations...');
+        
         // Calculate option price and Greeks
         const calculations = this.calculateOptionPrice();
         
@@ -302,11 +392,11 @@ class CocoaHedgingSimulator {
         };
         
         return {
-            price: price,
+            price: Math.max(price, 0), // Ensure non-negative price
             greeks: greeks,
             isITM: isCall ? S > K : S < K,
             intrinsicValue: Math.max(isCall ? S - K : K - S, 0),
-            timeValue: price - Math.max(isCall ? S - K : K - S, 0)
+            timeValue: Math.max(price - Math.max(isCall ? S - K : K - S, 0), 0)
         };
     }
     
@@ -381,6 +471,8 @@ class CocoaHedgingSimulator {
     }
     
     updateDisplay(calculations) {
+        console.log('Updating display with calculations:', calculations);
+        
         // Update option price
         const priceElement = document.getElementById('optionPrice');
         if (priceElement) {
@@ -402,15 +494,48 @@ class CocoaHedgingSimulator {
                 '<i class="fas fa-arrow-down"></i> OTM';
             changeElement.className = `result-change ${isITM ? 'positive' : 'negative'}`;
         }
+        
+        // Update hedging P&L placeholder
+        const hedgingPnl = document.getElementById('hedgingPnl');
+        if (hedgingPnl) {
+            hedgingPnl.textContent = '$0.00';
+        }
+        
+        // Update hedging error
+        const hedgingError = document.getElementById('hedgingError');
+        if (hedgingError) {
+            hedgingError.textContent = '0.00%';
+        }
     }
     
     updateGreeks(greeks) {
+        console.log('Updating Greeks:', greeks);
+        
         // Update Greek values
-        document.getElementById('greekDelta')?.textContent = greeks.delta.toFixed(3);
-        document.getElementById('greekGamma')?.textContent = greeks.gamma.toFixed(4);
-        document.getElementById('greekTheta')?.textContent = greeks.theta.toFixed(2);
-        document.getElementById('greekVega')?.textContent = greeks.vega.toFixed(1);
-        document.getElementById('greekRho')?.textContent = greeks.rho.toFixed(2);
+        const greekIds = {
+            'greekDelta': greeks.delta,
+            'greekGamma': greeks.gamma,
+            'greekTheta': greeks.theta,
+            'greekVega': greeks.vega,
+            'greekRho': greeks.rho
+        };
+        
+        Object.entries(greekIds).forEach(([id, value]) => {
+            const element = document.getElementById(id);
+            if (element) {
+                if (id === 'greekGamma') {
+                    element.textContent = value.toFixed(4);
+                } else if (id === 'greekTheta') {
+                    element.textContent = value.toFixed(2);
+                } else if (id === 'greekVega') {
+                    element.textContent = value.toFixed(1);
+                } else if (id === 'greekRho') {
+                    element.textContent = value.toFixed(2);
+                } else {
+                    element.textContent = value.toFixed(3);
+                }
+            }
+        });
         
         // Update Greek bars (visual representation)
         this.updateGreekBars(greeks);
@@ -438,7 +563,7 @@ class CocoaHedgingSimulator {
                 fill.style.width = `${normalized[greekName]}%`;
                 
                 // Add color based on value
-                if (greekName === 'theta') {
+                if (greekName === 'theta' && greeks.theta < 0) {
                     fill.style.background = '#e74c3c'; // Negative for theta
                 } else {
                     fill.style.background = 'linear-gradient(90deg, var(--primary), var(--secondary))';
@@ -448,8 +573,13 @@ class CocoaHedgingSimulator {
     }
     
     runSimulation() {
+        console.log('Running simulation...');
+        
         const button = document.getElementById('runSimulation');
-        if (!button) return;
+        if (!button) {
+            console.error('Run Simulation button not found');
+            return;
+        }
         
         const originalText = button.innerHTML;
         button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Simulating...';
@@ -465,10 +595,11 @@ class CocoaHedgingSimulator {
             button.innerHTML = originalText;
             button.disabled = false;
             
-            if (typeof showNotification === 'function') {
-                showNotification('Hedging simulation completed successfully!', 'success');
-            }
-        }, 1000);
+            // Show notification
+            this.showNotification('Hedging simulation completed successfully!', 'success');
+            
+            console.log('Simulation completed:', this.simulationResults);
+        }, 1500);
     }
     
     generateSimulationData() {
@@ -537,7 +668,10 @@ class CocoaHedgingSimulator {
             transactions: transactions,
             finalPnL: cumulativePnL,
             totalCosts: totalCosts,
-            netPnL: cumulativePnL - totalCosts
+            netPnL: cumulativePnL - totalCosts,
+            avgPrice: prices.reduce((a, b) => a + b, 0) / prices.length,
+            maxPrice: Math.max(...prices),
+            minPrice: Math.min(...prices)
         };
     }
     
@@ -565,11 +699,19 @@ class CocoaHedgingSimulator {
         const hedgingError = Math.abs(this.simulationResults.netPnL) * 0.05; // 5% error
         
         // Update display
-        document.getElementById('hedgingPnl')?.textContent = `$${netPnL.toFixed(2)}`;
-        document.getElementById('hedgingError')?.textContent = `${(hedgingError / Math.abs(netPnL) * 100).toFixed(2)}%`;
+        const hedgingPnlElement = document.getElementById('hedgingPnl');
+        if (hedgingPnlElement) {
+            hedgingPnlElement.textContent = `$${netPnL.toFixed(2)}`;
+        }
+        
+        const hedgingErrorElement = document.getElementById('hedgingError');
+        if (hedgingErrorElement) {
+            const errorPercent = (hedgingError / Math.abs(netPnL || 1)) * 100;
+            hedgingErrorElement.textContent = `${errorPercent.toFixed(2)}%`;
+        }
         
         // Update change indicators
-        const pnlChange = document.querySelector('#hedgingPnl').closest('.result-card')?.querySelector('.result-change');
+        const pnlChange = document.querySelector('#hedgingPnl')?.closest('.result-card')?.querySelector('.result-change');
         if (pnlChange) {
             pnlChange.innerHTML = netPnL >= 0 ? 
                 '<i class="fas fa-arrow-up"></i> Profit' : 
@@ -593,7 +735,7 @@ class CocoaHedgingSimulator {
         if (!this.simulationResults || !this.charts.priceDelta) return;
         
         // Update price & delta chart
-        this.charts.priceDelta.data.labels = this.simulationResults.days;
+        this.charts.priceDelta.data.labels = this.simulationResults.days.map(d => `Day ${d}`);
         this.charts.priceDelta.data.datasets[0].data = this.simulationResults.prices;
         this.charts.priceDelta.data.datasets[1].data = this.simulationResults.deltas;
         this.charts.priceDelta.update();
@@ -643,9 +785,9 @@ class CocoaHedgingSimulator {
         
         // Reset charts
         if (this.charts.priceDelta) {
-            this.charts.priceDelta.data.labels = [];
-            this.charts.priceDelta.data.datasets[0].data = [];
-            this.charts.priceDelta.data.datasets[1].data = [];
+            this.charts.priceDelta.data.labels = ['Day 0', 'Day 15', 'Day 30', 'Day 45', 'Day 60', 'Day 75', 'Day 90'];
+            this.charts.priceDelta.data.datasets[0].data = [2500, 2550, 2600, 2650, 2700, 2750, 2800];
+            this.charts.priceDelta.data.datasets[1].data = [0.45, 0.48, 0.52, 0.55, 0.58, 0.60, 0.62];
             this.charts.priceDelta.update();
         }
         
@@ -671,36 +813,32 @@ class CocoaHedgingSimulator {
         document.getElementById('hedgingPnl')?.textContent = '$0.00';
         document.getElementById('hedgingError')?.textContent = '0.00%';
         
-        if (typeof showNotification === 'function') {
-            showNotification('Simulation reset', 'info');
-        }
+        this.showNotification('Simulation reset to default values', 'info');
     }
     
     exportData() {
         if (!this.simulationResults) {
-            if (typeof showNotification === 'function') {
-                showNotification('Run simulation first', 'warning');
-            }
+            this.showNotification('Please run a simulation first', 'warning');
             return;
         }
         
         const exportData = {
             scenario: this.currentScenario,
             results: this.simulationResults,
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toISOString(),
+            developer: "Emmanuel Adutwum",
+            project: "Ghana Cocoa Hedging Research Platform"
         };
         
         const blob = new Blob([JSON.stringify(exportData, null, 2)], {type: 'application/json'});
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `hedging-simulation-${new Date().toISOString().slice(0,10)}.json`;
+        a.download = `cocoa-hedging-simulation-${new Date().toISOString().slice(0,10)}.json`;
         a.click();
         URL.revokeObjectURL(url);
         
-        if (typeof showNotification === 'function') {
-            showNotification('Data exported', 'success');
-        }
+        this.showNotification('Simulation data exported successfully!', 'success');
     }
     
     saveScenario() {
@@ -711,13 +849,70 @@ class CocoaHedgingSimulator {
         scenarios.push({
             name: name,
             ...this.currentScenario,
-            savedAt: new Date().toISOString()
+            savedAt: new Date().toISOString(),
+            savedBy: "Emmanuel Adutwum"
         });
         
         localStorage.setItem('cocoaScenarios', JSON.stringify(scenarios));
         
-        if (typeof showNotification === 'function') {
-            showNotification(`Scenario "${name}" saved`, 'success');
+        this.showNotification(`Scenario "${name}" saved successfully!`, 'success');
+    }
+    
+    showNotification(message, type = 'info') {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `calculator-notification ${type}`;
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : type === 'warning' ? '#f59e0b' : '#3b82f6'};
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            animation: slideIn 0.3s ease;
+        `;
+        
+        const icons = {
+            success: 'check-circle',
+            error: 'exclamation-circle',
+            warning: 'exclamation-triangle',
+            info: 'info-circle'
+        };
+        
+        notification.innerHTML = `
+            <i class="fas fa-${icons[type]}"></i>
+            <span>${message}</span>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+        
+        // Add CSS for animations
+        if (!document.getElementById('notification-styles')) {
+            const style = document.createElement('style');
+            style.id = 'notification-styles';
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
         }
     }
     
@@ -732,13 +927,19 @@ class CocoaHedgingSimulator {
     formatTimeToExpiry(years) {
         const months = years * 12;
         if (months < 1) {
-            return `${Math.round(months * 30)} days`;
+            const days = Math.round(months * 30);
+            return `${days} day${days !== 1 ? 's' : ''}`;
         } else if (months < 12) {
-            return `${Math.round(months)} months`;
+            const roundedMonths = Math.round(months);
+            return `${roundedMonths} month${roundedMonths !== 1 ? 's' : ''}`;
         } else {
             const yrs = Math.floor(months / 12);
             const mths = Math.round(months % 12);
-            return mths > 0 ? `${yrs} years, ${mths} months` : `${yrs} years`;
+            if (mths > 0) {
+                return `${yrs} year${yrs !== 1 ? 's' : ''}, ${mths} month${mths !== 1 ? 's' : ''}`;
+            } else {
+                return `${yrs} year${yrs !== 1 ? 's' : ''}`;
+            }
         }
     }
     
@@ -749,9 +950,28 @@ class CocoaHedgingSimulator {
     }
 }
 
-// Initialize calculator
-document.addEventListener('DOMContentLoaded', () => {
-    if (document.querySelector('.calculator-container')) {
-        window.calculator = new CocoaHedgingSimulator();
+// Initialize calculator when page loads
+let calculatorInstance;
+
+// Check if we're on the calculator page
+if (window.location.pathname.includes('calculator.html') || 
+    document.querySelector('.calculator-container')) {
+    
+    // Wait for DOM to be ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, initializing calculator...');
+            calculatorInstance = new CocoaHedgingSimulator();
+            window.calculator = calculatorInstance; // Make available globally
+        });
+    } else {
+        console.log('DOM already loaded, initializing calculator...');
+        calculatorInstance = new CocoaHedgingSimulator();
+        window.calculator = calculatorInstance;
     }
-});
+}
+
+// Export for module systems
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = CocoaHedgingSimulator;
+}
