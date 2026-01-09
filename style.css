@@ -1,10 +1,16 @@
-/* ===== style.css - COMPLETELY REVISED FOR BETTER VISIBILITY ===== */
+/* ===== style.css - REVISED WITH PROPER GHANA FLAG ===== */
 
 :root {
     /* Ghana Colors - Enhanced for maximum contrast */
     --primary: #004D29;       /* Darker Ghana Green for better contrast */
     --secondary: #FFD100;     /* Brighter Ghana Yellow */
     --accent: #C8102E;        /* Stronger Ghana Red */
+    
+    /* Ghana Flag Colors - Correct ones from JS */
+    --ghana-red: #CE1126;
+    --ghana-gold: #FCD116;
+    --ghana-green: #006B3F;
+    --ghana-black: #000000;
     
     /* Light Theme (Default) - Better for readability */
     --bg-primary: #FFFFFF;
@@ -152,7 +158,7 @@ a:hover {
     padding: 1rem 0;
     box-shadow: var(--shadow);
     backdrop-filter: blur(10px);
-    background-color: rgba(var(--bg-primary-rgb), 0.95);
+    background-color: rgba(255, 255, 255, 0.95);
 }
 
 .nav-container {
@@ -170,7 +176,9 @@ a:hover {
     gap: 1rem;
 }
 
+/* ===== CORRECTED GHANA FLAG WITH BLACK STAR ===== */
 .flag-mini {
+    position: relative;
     width: 40px;
     height: 28px;
     border-radius: 4px;
@@ -181,9 +189,39 @@ a:hover {
     border: 2px solid var(--border);
 }
 
-.flag-red { background: #C8102E; height: 33.33%; }
-.flag-yellow { background: #FFD100; height: 33.33%; }
-.flag-green { background: #006B3F; height: 33.33%; }
+.flag-red { 
+    background: var(--ghana-red) !important; 
+    height: 33.33% !important; 
+}
+
+.flag-yellow { 
+    background: var(--ghana-gold) !important; 
+    height: 33.33% !important; 
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* BLACK STAR - FIXED POSITION */
+.flag-yellow::after {
+    content: "★" !important;
+    color: var(--ghana-black) !important;
+    font-size: 14px !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+    font-weight: 900 !important;
+    z-index: 10 !important;
+    line-height: 1 !important;
+}
+
+.flag-green { 
+    background: var(--ghana-green) !important; 
+    height: 33.33% !important; 
+}
 
 .nav-logo h1 {
     font-size: 1.5rem;
@@ -263,7 +301,7 @@ a:hover {
 /* ===== IMPROVED HERO SECTION ===== */
 .hero {
     padding: var(--space-2xl) 2rem;
-    background: linear-gradient(135deg, #004D29 0%, #006B3F 100%);
+    background: linear-gradient(135deg, var(--ghana-red) 0%, var(--ghana-green) 100%);
     position: relative;
     overflow: hidden;
     min-height: 85vh;
@@ -317,7 +355,7 @@ a:hover {
 }
 
 .hero-highlight {
-    background: linear-gradient(135deg, #FFD100, #FFE55C);
+    background: linear-gradient(135deg, var(--ghana-gold), #FFE55C);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -355,7 +393,7 @@ a:hover {
 .stat-value {
     font-size: var(--font-2xl);
     font-weight: 800;
-    color: var(--secondary);
+    color: var(--ghana-gold);
     margin-bottom: 0.25rem;
 }
 
@@ -464,7 +502,7 @@ a:hover {
     align-items: center;
     gap: 1rem;
     padding: 1rem 1.5rem;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
+    background: linear-gradient(135deg, var(--ghana-red), var(--ghana-green));
     border-bottom: 1px solid var(--border);
     color: white;
 }
@@ -536,7 +574,7 @@ a:hover {
 }
 
 .ai-message.user {
-    background: linear-gradient(135deg, var(--primary), #00704a);
+    background: linear-gradient(135deg, var(--ghana-red), var(--ghana-green));
     color: white;
     margin-left: auto;
     border-bottom-right-radius: 4px;
@@ -577,7 +615,7 @@ a:hover {
 
 .ai-input button {
     padding: 0.75rem 1.25rem;
-    background: linear-gradient(135deg, var(--primary), #00704a);
+    background: linear-gradient(135deg, var(--ghana-red), var(--ghana-green));
     border: none;
     border-radius: var(--radius);
     color: white;
@@ -598,7 +636,7 @@ a:hover {
     right: 2rem;
     width: 60px;
     height: 60px;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
+    background: linear-gradient(135deg, var(--ghana-red), var(--ghana-green));
     border-radius: 50%;
     border: none;
     color: white;
@@ -622,7 +660,7 @@ a:hover {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: var(--secondary);
+    background: var(--ghana-gold);
     opacity: 0.3;
     animation: pulse 2s infinite;
 }
@@ -657,7 +695,7 @@ a:hover {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--primary), #00704a);
+    background: linear-gradient(135deg, var(--ghana-red), var(--ghana-green));
     color: white;
     box-shadow: var(--shadow);
 }
@@ -665,7 +703,7 @@ a:hover {
 .btn-primary:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow-lg);
-    background: linear-gradient(135deg, #00704a, var(--primary));
+    background: linear-gradient(135deg, var(--ghana-green), var(--ghana-red));
 }
 
 .btn-secondary {
@@ -725,7 +763,7 @@ a:hover {
 }
 
 .section-highlight {
-    background: linear-gradient(135deg, var(--primary), var(--accent));
+    background: linear-gradient(135deg, var(--ghana-red), var(--ghana-green));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -753,14 +791,14 @@ a:hover {
 
 .feature-card:hover {
     transform: translateY(-10px);
-    border-color: var(--primary);
+    border-color: var(--ghana-green);
     box-shadow: var(--shadow-lg);
 }
 
 .feature-icon {
     width: 64px;
     height: 64px;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
+    background: linear-gradient(135deg, var(--ghana-red), var(--ghana-green));
     border-radius: var(--radius-lg);
     display: flex;
     align-items: center;
@@ -800,7 +838,7 @@ a:hover {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    color: var(--primary);
+    color: var(--ghana-green);
     font-weight: 700;
     margin-top: auto;
     padding: 0.75rem 0;
@@ -811,7 +849,7 @@ a:hover {
 
 .feature-link:hover {
     gap: 1rem;
-    color: var(--accent);
+    color: var(--ghana-red);
 }
 
 /* ===== IMPROVED CALCULATOR STYLES ===== */
@@ -822,7 +860,7 @@ a:hover {
 }
 
 .calculator-header {
-    background: linear-gradient(135deg, var(--primary), var(--accent));
+    background: linear-gradient(135deg, var(--ghana-red), var(--ghana-green));
     border-radius: var(--radius-xl);
     padding: var(--space-2xl);
     margin-bottom: var(--space-xl);
@@ -905,29 +943,48 @@ a:hover {
 }
 
 .parameter-value {
-    color: var(--primary);
+    color: var(--ghana-green);
     font-weight: 800;
     font-size: var(--font-sm);
 }
 
+/* Ghana-themed slider */
 input[type="range"] {
     width: 100%;
-    height: 8px;
-    background: var(--bg-tertiary);
-    border-radius: 4px;
+    height: 10px;
+    background: linear-gradient(to right, var(--ghana-red), var(--ghana-gold), var(--ghana-green));
+    border-radius: 5px;
     outline: none;
     -webkit-appearance: none;
+    margin: 10px 0;
 }
 
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     width: 24px;
     height: 24px;
-    background: var(--primary);
+    background: var(--ghana-black);
+    border: 3px solid var(--ghana-gold);
     border-radius: 50%;
     cursor: pointer;
-    border: 3px solid white;
-    box-shadow: var(--shadow);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    transition: var(--transition);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    background: var(--ghana-green);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    background: var(--ghana-black);
+    border: 3px solid var(--ghana-gold);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
 }
 
 .parameter-range {
@@ -962,7 +1019,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .option-type-btn.active {
-    background: linear-gradient(135deg, var(--primary), #00704a);
+    background: linear-gradient(135deg, var(--ghana-red), var(--ghana-green));
     color: white;
     border-color: transparent;
     box-shadow: var(--shadow);
@@ -973,6 +1030,28 @@ input[type="range"]::-webkit-slider-thumb {
     grid-template-columns: 1fr;
     gap: var(--space);
     margin-top: var(--space-xl);
+}
+
+#runSimulation {
+    background: linear-gradient(135deg, var(--ghana-red), var(--ghana-green));
+    color: white;
+    border: 2px solid var(--ghana-gold);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+#runSimulation:hover {
+    background: linear-gradient(135deg, var(--ghana-green), var(--ghana-red));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(206, 17, 38, 0.3);
+    border-color: var(--ghana-gold);
+}
+
+#runSimulation:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
 }
 
 /* Results Panel */
@@ -1028,7 +1107,7 @@ input[type="range"]::-webkit-slider-thumb {
 .result-value {
     font-size: var(--font-xl);
     font-weight: 800;
-    color: var(--primary);
+    color: var(--ghana-green);
     margin: 0.5rem 0;
     display: block;
 }
@@ -1046,13 +1125,13 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .result-change.positive {
-    background: rgba(40, 167, 69, 0.1);
-    color: var(--success);
+    background: rgba(0, 107, 63, 0.1);
+    color: var(--ghana-green);
 }
 
 .result-change.negative {
-    background: rgba(220, 53, 69, 0.1);
-    color: var(--danger);
+    background: rgba(206, 17, 38, 0.1);
+    color: var(--ghana-red);
 }
 
 .result-change.neutral {
@@ -1071,7 +1150,7 @@ input[type="range"]::-webkit-slider-thumb {
     background: var(--bg-secondary);
     border-radius: var(--radius-xl);
     padding: var(--space-lg);
-    border: 2px solid var(--border);
+    border: 2px solid rgba(206, 17, 38, 0.1);
     box-shadow: var(--shadow);
 }
 
@@ -1118,7 +1197,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .greek-card:hover {
     transform: translateY(-5px);
-    border-color: var(--primary);
+    border-color: var(--ghana-green);
     box-shadow: var(--shadow);
 }
 
@@ -1138,7 +1217,7 @@ input[type="range"]::-webkit-slider-thumb {
 .greek-value {
     font-size: var(--font-base);
     font-weight: 800;
-    color: var(--primary);
+    color: var(--ghana-green);
 }
 
 .greek-desc {
@@ -1157,9 +1236,13 @@ input[type="range"]::-webkit-slider-thumb {
 
 .greek-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    background: linear-gradient(90deg, var(--ghana-red), var(--ghana-gold), var(--ghana-green));
     border-radius: 3px;
     transition: width 0.3s ease;
+}
+
+.greek-fill.negative {
+    background: linear-gradient(90deg, var(--ghana-red), #8B0000);
 }
 
 /* Transactions */
@@ -1192,11 +1275,11 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .transactions-table th {
-    background: var(--bg-tertiary);
+    background: linear-gradient(135deg, var(--ghana-red), var(--ghana-green));
     padding: 1rem;
     text-align: left;
     font-weight: 700;
-    color: var(--text-secondary);
+    color: white;
     border-bottom: 2px solid var(--border);
     font-size: var(--font-sm);
     white-space: nowrap;
@@ -1210,16 +1293,16 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .transactions-table tr:hover {
-    background: var(--bg-tertiary);
+    background: rgba(252, 209, 22, 0.05);
 }
 
 .transactions-table td.positive {
-    color: var(--success);
+    color: var(--ghana-green);
     font-weight: 700;
 }
 
 .transactions-table td.negative {
-    color: var(--danger);
+    color: var(--ghana-red);
     font-weight: 700;
 }
 
@@ -1262,7 +1345,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .partner:hover {
     transform: translateY(-10px);
-    border-color: var(--primary);
+    border-color: var(--ghana-green);
     box-shadow: var(--shadow-lg);
 }
 
@@ -1275,7 +1358,7 @@ input[type="range"]::-webkit-slider-thumb {
     align-items: center;
     justify-content: center;
     margin: 0 auto var(--space);
-    color: var(--primary);
+    color: var(--ghana-green);
     font-size: 2rem;
 }
 
@@ -1356,7 +1439,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .social-link:hover {
-    background: var(--primary);
+    background: var(--ghana-green);
     color: white;
     transform: translateY(-3px) rotate(15deg);
 }
@@ -1397,7 +1480,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .link-group a:hover {
-    color: var(--primary);
+    color: var(--ghana-green);
     padding-left: 0.5rem;
 }
 
@@ -1445,7 +1528,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .footer-credits a {
-    color: var(--primary);
+    color: var(--ghana-green);
     text-decoration: none;
     font-weight: 700;
 }
@@ -1463,7 +1546,7 @@ input[type="range"]::-webkit-slider-thumb {
     right: 2rem;
     width: 56px;
     height: 56px;
-    background: var(--primary);
+    background: var(--ghana-green);
     border-radius: 50%;
     border: none;
     color: white;
@@ -1485,7 +1568,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .back-to-top:hover {
-    background: var(--accent);
+    background: var(--ghana-red);
     transform: translateY(-5px) scale(1.1);
 }
 
@@ -1509,31 +1592,59 @@ input[type="range"]::-webkit-slider-thumb {
     color: var(--text-primary);
 }
 
+/* Ghana flag loader with black star */
 .ghana-flag-loader {
+    position: relative;
     width: 80px;
     height: 56px;
     border-radius: 8px;
     overflow: hidden;
-    position: relative;
     margin: 0 auto 2rem;
     box-shadow: var(--shadow);
 }
 
-.flag-star {
+.ghana-flag-loader::before,
+.ghana-flag-loader::after,
+.ghana-flag-loader .flag-star {
+    content: "";
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #FFD100;
-    font-size: 1.5rem;
-    z-index: 2;
+    left: 0;
+    right: 0;
+    height: 33.33%;
+}
+
+.ghana-flag-loader::before {
+    top: 0;
+    background: var(--ghana-red);
+}
+
+.ghana-flag-loader::after {
+    bottom: 0;
+    background: var(--ghana-green);
+}
+
+.ghana-flag-loader .flag-star {
+    top: 33.33%;
+    height: 33.33%;
+    background: var(--ghana-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ghana-flag-loader .flag-star::after {
+    content: "★";
+    color: var(--ghana-black);
+    font-size: 16px;
+    font-weight: 900;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
 .loading-spinner {
     width: 48px;
     height: 48px;
     border: 4px solid var(--border);
-    border-top-color: var(--primary);
+    border-top-color: var(--ghana-green);
     border-radius: 50%;
     margin: 2rem auto 0;
     animation: spin 1s linear infinite;
@@ -1660,12 +1771,16 @@ input[type="range"]::-webkit-slider-thumb {
         --text-primary: #000000;
         --text-secondary: #333333;
         --border: #000000;
+        --ghana-red: #8B0000;
+        --ghana-gold: #FFD700;
+        --ghana-green: #006400;
+        --ghana-black: #000000;
     }
 }
 
 /* Focus styles for keyboard navigation */
 *:focus {
-    outline: 3px solid var(--secondary);
+    outline: 3px solid var(--ghana-gold);
     outline-offset: 2px;
 }
 
@@ -1674,7 +1789,7 @@ input[type="range"]::-webkit-slider-thumb {
     position: absolute;
     top: -40px;
     left: 0;
-    background: var(--primary);
+    background: var(--ghana-green);
     color: white;
     padding: 8px 16px;
     text-decoration: none;
@@ -1792,32 +1907,52 @@ input[type="range"]::-webkit-slider-thumb {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--text-secondary);
-
-
-
-    
+}
 
 /* Developer Credit Styles */
 .developer-credit {
     margin-top: 2rem;
     padding-top: 2rem;
-    border-top: 1px solid var(--border);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    border-top: 3px solid var(--ghana-gold);
+    background: linear-gradient(135deg, rgba(206, 17, 38, 0.05), rgba(252, 209, 22, 0.05), rgba(0, 107, 63, 0.05));
+    padding: 2rem;
+    border-radius: var(--radius-xl);
+    position: relative;
+    overflow: hidden;
 }
 
-@media (max-width: 768px) {
-    .developer-credit {
-        grid-template-columns: 1fr;
-    }
+.developer-credit::before {
+    content: "★";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: var(--ghana-gold);
+    font-size: 24px;
+    opacity: 0.3;
+}
+
+.developer-credit h3 {
+    color: var(--ghana-green);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.developer-credit h3 i {
+    color: var(--ghana-red);
 }
 
 .developer-info {
-    background: rgba(0, 107, 63, 0.1);
-    padding: 1.5rem;
-    border-radius: 12px;
-    border-left: 4px solid var(--primary);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .developer-info {
+        grid-template-columns: 1fr;
+    }
 }
 
 .developer-info p {
@@ -1826,6 +1961,9 @@ input[type="range"]::-webkit-slider-thumb {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    border-left: 3px solid var(--ghana-gold);
+    padding-left: 1rem;
+    margin-bottom: 1rem;
 }
 
 .developer-info p:last-child {
@@ -1833,11 +1971,44 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .developer-info i {
-    color: var(--primary);
+    color: var(--ghana-red);
     width: 20px;
+    flex-shrink: 0;
 }
 
 .developer-info strong {
     color: var(--text-primary);
+    font-weight: 600;
 }
+
+.developer-info a {
+    color: var(--ghana-green);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.developer-info a:hover {
+    color: var(--ghana-red);
+    text-decoration: underline;
+}
+
+/* Section headings with Ghana flag colors */
+h2, h3 {
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+h2::after, h3::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(to right, var(--ghana-red), var(--ghana-gold), var(--ghana-green));
+    border-radius: 2px;
+}
+
+.fa-spinner.fa-spin {
+    color: var(--ghana-gold);
 }
