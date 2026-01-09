@@ -26,4 +26,127 @@
 
     <main class="error-container">
         <div class="error-content">
-            <div class
+            <div class="error-code">
+                <h1>404</h1>
+                <div class="cocoa-bean">
+                    <i class="fas fa-seedling"></i>
+                </div>
+            </div>
+            <h2>Cocoa Page Not Found</h2>
+            <p>The page you're looking for doesn't exist or has been moved.</p>
+            <p>Maybe it's been harvested or is still growing!</p>
+            
+            <div class="error-actions">
+                <a href="index.html" class="btn btn-primary btn-lg">
+                    <i class="fas fa-home"></i> Go Home
+                </a>
+                <a href="calculator.html" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-calculator"></i> Try Calculator
+                </a>
+            </div>
+            
+            <div class="error-links">
+                <h3>Popular Pages:</h3>
+                <div class="links-grid">
+                    <a href="calculator.html">Options Calculator</a>
+                    <a href="dashboard.html">Live Dashboard</a>
+                    <a href="data.html">Market Data</a>
+                    <a href="research.html">Research Library</a>
+                    <a href="ml-models.html">AI Models</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add animation to cocoa bean
+            const bean = document.querySelector('.cocoa-bean');
+            bean.style.animation = 'bounce 2s infinite';
+            
+            // Add CSS animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes bounce {
+                    0%, 100% { transform: translateY(0); }
+                    50% { transform: translateY(-20px); }
+                }
+                
+                .error-container {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-height: 80vh;
+                    padding: var(--space-xl);
+                }
+                
+                .error-content {
+                    text-align: center;
+                    max-width: 600px;
+                }
+                
+                .error-code {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: var(--space);
+                    margin-bottom: var(--space-xl);
+                }
+                
+                .error-code h1 {
+                    font-size: 6rem;
+                    color: var(--primary);
+                    margin: 0;
+                }
+                
+                .cocoa-bean {
+                    font-size: 4rem;
+                    color: var(--secondary);
+                }
+                
+                .error-actions {
+                    display: flex;
+                    gap: var(--space);
+                    justify-content: center;
+                    margin: var(--space-xl) 0;
+                }
+                
+                .error-links {
+                    margin-top: var(--space-xl);
+                    padding-top: var(--space);
+                    border-top: 1px solid var(--border);
+                }
+                
+                .links-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                    gap: var(--space);
+                    margin-top: var(--space);
+                }
+                
+                .links-grid a {
+                    display: block;
+                    padding: var(--space-sm);
+                    background: var(--bg-secondary);
+                    border-radius: var(--radius);
+                    color: var(--text-primary);
+                    text-decoration: none;
+                    transition: var(--transition);
+                }
+                
+                .links-grid a:hover {
+                    background: var(--primary);
+                    transform: translateY(-2px);
+                }
+                
+                @media (max-width: 768px) {
+                    .error-code h1 { font-size: 4rem; }
+                    .cocoa-bean { font-size: 3rem; }
+                    .error-actions { flex-direction: column; }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
