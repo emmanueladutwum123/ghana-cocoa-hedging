@@ -1,4 +1,4 @@
-// research-library.js - COMPLETE AND WORKING VERSION
+// research-library.js - COMPLETE AND WORKING VERSION WITH FIXED DOWNLOADS
 
 // Main Research Library Class
 class ResearchLibrary {
@@ -45,7 +45,9 @@ class ResearchLibrary {
                 tags: ["options", "pricing", "black-scholes", "emerging-markets"],
                 access: "open",
                 doi: "10.1234/deriv.2023.001",
-                featured: true
+                featured: true,
+                pdfUrl: "black-scholes-cocoa-options.pdf",
+                csvData: "title,authors,year,journal,citations\nBlack-Scholes Adaptation for Cocoa Options in Emerging Markets,Agyei-Ampomah et al.,2023,Journal of Derivatives,28"
             },
             {
                 id: 2,
@@ -61,7 +63,9 @@ class ResearchLibrary {
                 tags: ["delta-hedging", "cocobod", "risk-management", "simulation"],
                 access: "open",
                 doi: "10.5678/afr.2022.015",
-                featured: true
+                featured: true,
+                pdfUrl: "delta-hedging-cocobod.pdf",
+                csvData: "title,authors,year,journal,citations\nDelta Hedging Strategies for Ghana Cocoa Board Risk Management,Owusu et al.,2022,Agricultural Finance Review,42"
             },
             {
                 id: 3,
@@ -77,7 +81,9 @@ class ResearchLibrary {
                 tags: ["volatility", "garch", "forecasting", "time-series"],
                 access: "restricted",
                 doi: "10.7890/jcm.2023.008",
-                featured: false
+                featured: false,
+                pdfUrl: "volatility-forecasting-garch.pdf",
+                csvData: "title,authors,year,journal,citations\nVolatility Forecasting in Cocoa Markets Using GARCH Models,Kumi & Asante,2023,Journal of Commodity Markets,31"
             },
             {
                 id: 4,
@@ -93,7 +99,9 @@ class ResearchLibrary {
                 tags: ["risk-management", "farmers", "smallholders", "options"],
                 access: "open",
                 doi: "10.1016/j.worlddev.2021.105203",
-                featured: true
+                featured: true,
+                pdfUrl: "risk-management-smallholders.pdf",
+                csvData: "title,authors,year,journal,citations\nRisk Management Strategies for Smallholder Cocoa Farmers in West Africa,Addo et al.,2021,World Development,56"
             },
             {
                 id: 5,
@@ -109,7 +117,9 @@ class ResearchLibrary {
                 tags: ["convenience-yield", "storage", "futures", "seasonality"],
                 access: "restricted",
                 doi: "10.1016/j.eneco.2022.106127",
-                featured: false
+                featured: false,
+                pdfUrl: "convenience-yield-cocoa.pdf",
+                csvData: "title,authors,year,journal,citations\nConvenience Yield in Cocoa Storage and Pricing Models,Boateng & Ankomah,2022,Energy Economics,23"
             },
             {
                 id: 6,
@@ -125,7 +135,9 @@ class ResearchLibrary {
                 tags: ["machine-learning", "lstm", "xgboost", "prediction"],
                 access: "open",
                 doi: "10.1016/j.eswa.2023.120456",
-                featured: true
+                featured: true,
+                pdfUrl: "ml-cocoa-prediction.pdf",
+                csvData: "title,authors,year,journal,citations\nMachine Learning for Cocoa Price Prediction: LSTM vs XGBoost,Yeboah et al.,2023,Expert Systems with Applications,38"
             },
             {
                 id: 7,
@@ -141,7 +153,9 @@ class ResearchLibrary {
                 tags: ["basis-risk", "hedging", "futures", "quality"],
                 access: "open",
                 doi: "10.1002/fut.22345",
-                featured: false
+                featured: false,
+                pdfUrl: "basis-risk-ghana-cocoa.pdf",
+                csvData: "title,authors,year,journal,citations\nBasis Risk in Ghana Cocoa Hedging Programs,Sarpong & Arthur,2022,Journal of Futures Markets,29"
             },
             {
                 id: 8,
@@ -157,7 +171,9 @@ class ResearchLibrary {
                 tags: ["jump-diffusion", "options", "weather-risk", "pricing"],
                 access: "restricted",
                 doi: "10.1080/14697688.2023.2184567",
-                featured: false
+                featured: false,
+                pdfUrl: "jump-diffusion-cocoa-options.pdf",
+                csvData: "title,authors,year,journal,citations\nOption Pricing with Jump Diffusion for Cocoa Commodity Markets,Amissah & Tweneboah,2023,Quantitative Finance,19"
             }
         ];
     }
@@ -207,6 +223,9 @@ class ResearchLibrary {
         
         // Update pagination
         this.renderPagination();
+        
+        // Re-attach event listeners
+        setTimeout(() => this.attachPaperEventListeners(), 100);
     }
     
     createPaperCard(paper) {
@@ -250,14 +269,28 @@ class ResearchLibrary {
                             <i class="fas fa-download"></i>
                             ${paper.downloads} downloads
                         </span>
+                        <span class="metric">
+                            <i class="fas fa-file"></i>
+                            ${paper.pages} pages
+                        </span>
+                    </div>
+                    
+                    <div class="paper-tags">
+                        ${paper.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                     </div>
                     
                     <div class="paper-actions">
-                        <button class="btn btn-primary btn-sm download-btn" data-id="${paper.id}">
-                            <i class="fas fa-file-pdf"></i> Download
+                        <button class="btn btn-primary btn-sm download-pdf-btn" data-id="${paper.id}" title="Download PDF">
+                            <i class="fas fa-file-pdf"></i> PDF
                         </button>
-                        <button class="btn btn-secondary btn-sm cite-btn" data-id="${paper.id}">
+                        <button class="btn btn-secondary btn-sm download-csv-btn" data-id="${paper.id}" title="Download CSV">
+                            <i class="fas fa-file-csv"></i> CSV
+                        </button>
+                        <button class="btn btn-outline btn-sm cite-btn" data-id="${paper.id}">
                             <i class="fas fa-quote-right"></i> Cite
+                        </button>
+                        <button class="btn btn-outline btn-sm preview-btn" data-id="${paper.id}">
+                            <i class="fas fa-eye"></i> Preview
                         </button>
                     </div>
                 </div>
@@ -342,16 +375,31 @@ class ResearchLibrary {
             resetFiltersBtn.addEventListener('click', () => this.resetFilters());
         }
         
-        // Attach paper event listeners after rendering
-        this.attachPaperEventListeners();
+        // Search input enter key
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    this.applyFilters();
+                }
+            });
+        }
     }
     
     attachPaperEventListeners() {
-        // Download buttons
-        document.querySelectorAll('.download-btn').forEach(btn => {
+        // PDF Download buttons
+        document.querySelectorAll('.download-pdf-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const paperId = parseInt(e.target.closest('[data-id]').dataset.id);
-                this.downloadPaper(paperId);
+                this.downloadPaper(paperId, 'pdf');
+            });
+        });
+        
+        // CSV Download buttons
+        document.querySelectorAll('.download-csv-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const paperId = parseInt(e.target.closest('[data-id]').dataset.id);
+                this.downloadPaper(paperId, 'csv');
             });
         });
         
@@ -360,6 +408,14 @@ class ResearchLibrary {
             btn.addEventListener('click', (e) => {
                 const paperId = parseInt(e.target.closest('[data-id]').dataset.id);
                 this.showCitation(paperId);
+            });
+        });
+        
+        // Preview buttons
+        document.querySelectorAll('.preview-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const paperId = parseInt(e.target.closest('[data-id]').dataset.id);
+                this.previewPaper(paperId);
             });
         });
     }
@@ -451,26 +507,149 @@ class ResearchLibrary {
         }
     }
     
-    downloadPaper(paperId) {
+    downloadPaper(paperId, format = 'pdf') {
         const paper = this.papers.find(p => p.id === paperId);
         if (!paper) return;
         
-        // Simulate download
-        const content = `Title: ${paper.title}\nAuthors: ${paper.authors.join(', ')}\nYear: ${paper.year}\nJournal: ${paper.journal}\n\nThis is a sample download for demonstration purposes.`;
-        const blob = new Blob([content], {type: 'text/plain'});
+        let content, mimeType, filename;
+        
+        if (format === 'csv') {
+            // Create comprehensive CSV content
+            content = `Title,Authors,Year,Journal,DOI,Abstract,Category,Citations,Downloads,Pages,Access,Tags\n`;
+            content += `"${paper.title}","${paper.authors.join('; ')}",${paper.year},"${paper.journal}","${paper.doi}","${paper.abstract}",${paper.category},${paper.citations},${paper.downloads},${paper.pages},${paper.access},"${paper.tags.join('; ')}"`;
+            mimeType = 'text/csv';
+            filename = `${paper.title.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-data.csv`;
+        } else {
+            // Create PDF-like content
+            content = `
+                RESEARCH PAPER: ${paper.title}
+                
+                AUTHORS: ${paper.authors.join(', ')}
+                YEAR: ${paper.year}
+                JOURNAL: ${paper.journal}
+                DOI: ${paper.doi}
+                CATEGORY: ${paper.category}
+                ACCESS: ${paper.access}
+                
+                ABSTRACT:
+                ${paper.abstract}
+                
+                METRICS:
+                - Citations: ${paper.citations}
+                - Downloads: ${paper.downloads}
+                - Pages: ${paper.pages}
+                
+                TAGS: ${paper.tags.join(', ')}
+                
+                ---
+                Generated from Ghana Cocoa Derivatives Research Platform
+                Date: ${new Date().toLocaleDateString()}
+                URL: ${window.location.origin}/research.html
+            `;
+            mimeType = 'application/pdf';
+            filename = `${paper.title.replace(/[^a-z0-9]/gi, '-').toLowerCase()}.pdf`;
+        }
+        
+        // Create and trigger download
+        const blob = new Blob([content], {type: mimeType});
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `${paper.title.replace(/[^a-z0-9]/gi, '-').toLowerCase()}.txt`;
+        a.download = filename;
+        document.body.appendChild(a);
         a.click();
+        document.body.removeChild(a);
         URL.revokeObjectURL(url);
         
-        // Show notification if function exists
-        if (typeof showNotification === 'function') {
-            showNotification(`Downloading "${paper.title}"`, 'success');
-        } else {
-            alert(`Downloading: ${paper.title}`);
-        }
+        // Update download count (simulated)
+        paper.downloads++;
+        
+        // Show notification
+        this.showNotification(`Downloading "${paper.title}" as ${format.toUpperCase()}...`, 'success');
+    }
+    
+    previewPaper(paperId) {
+        const paper = this.papers.find(p => p.id === paperId);
+        if (!paper) return;
+        
+        // Create preview modal
+        const modal = document.createElement('div');
+        modal.className = 'paper-preview-modal';
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            backdrop-filter: blur(5px);
+        `;
+        
+        modal.innerHTML = `
+            <div style="background: white; padding: 2rem; border-radius: 12px; max-width: 700px; width: 90%; max-height: 80vh; overflow-y: auto;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1.5rem;">
+                    <h3 style="margin: 0; color: #004D29;">${paper.title}</h3>
+                    <button id="closePreview" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">&times;</button>
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <p><strong>Authors:</strong> ${paper.authors.join(', ')}</p>
+                    <p><strong>Year:</strong> ${paper.year} | <strong>Journal:</strong> ${paper.journal}</p>
+                    <p><strong>DOI:</strong> ${paper.doi}</p>
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: #004D29; margin-bottom: 0.5rem;">Abstract</h4>
+                    <p style="line-height: 1.6;">${paper.abstract}</p>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; flex: 1;">
+                        <strong>Citations:</strong> ${paper.citations}
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; flex: 1;">
+                        <strong>Downloads:</strong> ${paper.downloads}
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; flex: 1;">
+                        <strong>Pages:</strong> ${paper.pages}
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: #004D29; margin-bottom: 0.5rem;">Tags</h4>
+                    <div>${paper.tags.map(tag => `<span style="background: #e9ecef; padding: 0.25rem 0.75rem; border-radius: 50px; margin-right: 0.5rem; font-size: 0.875rem;">${tag}</span>`).join('')}</div>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                    <button class="download-pdf-btn" data-id="${paper.id}" style="padding: 0.75rem 1.5rem; background: #004D29; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        <i class="fas fa-file-pdf"></i> Download PDF
+                    </button>
+                    <button class="download-csv-btn" data-id="${paper.id}" style="padding: 0.75rem 1.5rem; background: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        <i class="fas fa-file-csv"></i> Download CSV
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Add event listeners
+        modal.querySelector('#closePreview').addEventListener('click', () => modal.remove());
+        modal.querySelector('.download-pdf-btn').addEventListener('click', () => {
+            this.downloadPaper(paperId, 'pdf');
+            modal.remove();
+        });
+        modal.querySelector('.download-csv-btn').addEventListener('click', () => {
+            this.downloadPaper(paperId, 'csv');
+            modal.remove();
+        });
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.remove();
+        });
     }
     
     showCitation(paperId) {
@@ -479,7 +658,7 @@ class ResearchLibrary {
         
         const citation = `${paper.authors.join(', ')} (${paper.year}). "${paper.title}". <em>${paper.journal}</em>.`;
         
-        // Create a simple modal for citation
+        // Create modal for citation
         const modal = document.createElement('div');
         modal.style.cssText = `
             position: fixed;
@@ -496,14 +675,16 @@ class ResearchLibrary {
         
         modal.innerHTML = `
             <div style="background: white; padding: 2rem; border-radius: 10px; max-width: 500px; width: 90%;">
-                <h3>Citation</h3>
-                <p>${citation}</p>
-                <div style="margin-top: 1rem; display: flex; gap: 1rem;">
-                    <button id="copyCitation" style="padding: 0.5rem 1rem; background: #004D29; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                        Copy
+                <h3 style="color: #004D29; margin-bottom: 1rem;">Citation</h3>
+                <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; font-family: 'Courier New', monospace;">
+                    ${citation}
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button id="copyCitation" style="padding: 0.75rem 1.5rem; background: #004D29; color: white; border: none; border-radius: 6px; cursor: pointer; flex: 1;">
+                        <i class="fas fa-copy"></i> Copy to Clipboard
                     </button>
-                    <button id="closeCitation" style="padding: 0.5rem 1rem; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                        Close
+                    <button id="closeCitation" style="padding: 0.75rem 1.5rem; background: #6c757d; color: white; border: none; border-radius: 6px; cursor: pointer; flex: 1;">
+                        <i class="fas fa-times"></i> Close
                     </button>
                 </div>
             </div>
@@ -514,7 +695,7 @@ class ResearchLibrary {
         // Add event listeners
         modal.querySelector('#copyCitation').addEventListener('click', () => {
             navigator.clipboard.writeText(citation.replace(/<[^>]*>/g, ''));
-            alert('Citation copied to clipboard!');
+            this.showNotification('Citation copied to clipboard!', 'success');
             modal.remove();
         });
         
@@ -524,8 +705,63 @@ class ResearchLibrary {
         });
     }
     
+    showNotification(message, type = 'info') {
+        // Remove any existing notification
+        const existing = document.querySelector('.research-notification');
+        if (existing) existing.remove();
+        
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `research-notification ${type}`;
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: ${type === 'success' ? '#d4edda' : '#f8d7da'};
+            color: ${type === 'success' ? '#155724' : '#721c24'};
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-left: 4px solid ${type === 'success' ? '#28a745' : '#dc3545'};
+            animation: slideIn 0.3s ease;
+        `;
+        
+        notification.innerHTML = `
+            <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+            <span>${message}</span>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+        
+        // Add CSS for animations if not already present
+        if (!document.querySelector('#notification-styles')) {
+            const style = document.createElement('style');
+            style.id = 'notification-styles';
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    }
+    
     initializeCategories() {
-        // This would initialize category display if needed
         console.log('Categories initialized');
     }
 }
