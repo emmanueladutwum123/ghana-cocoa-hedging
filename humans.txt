@@ -1,0 +1,10 @@
+/* TEAM */
+Developer: Emmanuel Adutwum
+Email: emmanueladutwum900@yahoo.com
+Phone: +1(929) 377 7654 or +233 553483918
+GitHub: https://github.com/emmanueladutwum123
+
+/* SITE */
+Last update: 2024-01-10
+Standards: HTML5, CSS3, JavaScript
+Components: Chart.js, Font Awesome
