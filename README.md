@@ -21,7 +21,7 @@ This project, including all code, content, designs, algorithms, research methodo
 4. **NO DERIVATIVE WORKS** - Creating derivative works based on this codebase, research, or content is prohibited.
 
 5. **CITATION REQUIREMENT** - If referencing this work in academic or research contexts, proper attribution must be provided as:
-   > Adutwum, E. (2024). Ghana Cocoa Hedging Research Platform. University of California, Berkeley.
+   > Adutwum, E. (2024). Ghana Cocoa Hedging Research Platform. Soka University of America, California.
 
 ### **LEGAL DISCLAIMER:**
 This software and research are provided "as is" without warranty of any kind. The author shall not be liable for any damages arising from the use of this code or research. Unauthorized use or reproduction may result in legal action.
