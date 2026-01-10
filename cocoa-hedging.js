@@ -1,5 +1,5 @@
-// cocoa-hedging.js - COMPLETE REVISED VERSION WITH AI INTEGRATION
-// Ghana Cocoa Board Hedging Simulator v3.2 with AI Assistant
+// cocoa-hedging.js - COMPLETE REVISED VERSION WITH CORRECT GHANA FLAG
+// Ghana Cocoa Board Hedging Simulator v3.1
 // Developer: Emmanuel Adutwum
 // GitHub: emmanueladutwum123/ghana-cocoa-hedging
 
@@ -10,9 +10,6 @@ class CocoaHedgingSimulator {
         this.simulationResults = null;
         this.charts = {};
         this.isInitialized = false;
-        
-        // Initialize AI integration
-        this.aiHelper = new AIHedgingHelper();
         
         // Initialize on load
         if (document.readyState === 'loading') {
@@ -43,9 +40,8 @@ class CocoaHedgingSimulator {
     init() {
         if (this.isInitialized) return;
         
-        console.log('🇬🇭 Initializing Ghana Cocoa Hedging Simulator v3.2 with AI');
+        console.log('🇬🇭 Initializing Ghana Cocoa Hedging Simulator v3.1');
         console.log('⭐ Ghana Flag with Black Star implemented');
-        console.log('🤖 AI Hedging Assistant integrated');
         console.log('👨‍💻 Developer: Emmanuel Adutwum');
         
         try {
@@ -57,7 +53,7 @@ class CocoaHedgingSimulator {
             this.isInitialized = true;
             
             console.log('✅ Simulator initialized successfully');
-            this.showNotification('Ghana Cocoa Hedging Simulator with AI Ready!', 'success');
+            this.showNotification('Ghana Cocoa Hedging Simulator Ready!', 'success');
         } catch (error) {
             console.error('❌ Initialization error:', error);
             this.showNotification('Failed to initialize simulator', 'error');
@@ -182,31 +178,7 @@ class CocoaHedgingSimulator {
             saveBtn.addEventListener('click', () => this.saveScenario());
         }
         
-        // AI Analysis button (added dynamically)
-        setTimeout(() => {
-            this.addAIAnalysisButton();
-        }, 100);
-        
         console.log('✅ Event listeners setup complete');
-    }
-    
-    addAIAnalysisButton() {
-        const controlActions = document.querySelector('.control-actions');
-        if (controlActions && !document.getElementById('aiAnalysisBtn')) {
-            const aiButton = document.createElement('button');
-            aiButton.id = 'aiAnalysisBtn';
-            aiButton.className = 'btn btn-secondary';
-            aiButton.innerHTML = '<i class="fas fa-robot"></i> AI Analysis';
-            aiButton.style.background = 'linear-gradient(135deg, #006B3F, #FCD116)';
-            aiButton.style.marginLeft = '10px';
-            aiButton.style.border = '2px solid #CE1126';
-            
-            controlActions.appendChild(aiButton);
-            
-            aiButton.addEventListener('click', () => {
-                this.showScenarioExplanation();
-            });
-        }
     }
     
     updateSliderValueDisplay(sliderId, value) {
@@ -1089,11 +1061,9 @@ class CocoaHedgingSimulator {
             ]);
             
             const csvContent = [
-                'Ghana Cocoa Hedging Simulation Data with AI Analysis',
+                'Ghana Cocoa Hedging Simulation Data',
                 `Generated: ${new Date().toLocaleString()}`,
                 `Developer: Emmanuel Adutwum`,
-                `Contact: emmanueladutwum900@yahoo.com`,
-                `Phone: +233 553483918`,
                 `Website: https://emmanueladutwum123.github.io/ghana-cocoa-hedging/`,
                 '',
                 'Scenario Parameters:',
@@ -1105,9 +1075,6 @@ class CocoaHedgingSimulator {
                 `Position Size: ${this.currentScenario.positionSize} MT`,
                 `Hedge Frequency: ${this.currentScenario.hedgeFrequency}`,
                 `Transaction Cost: ${(this.currentScenario.transactionCost * 100).toFixed(2)}%`,
-                '',
-                'AI Analysis:',
-                ...this.explainCurrentScenario().split('\n'),
                 '',
                 'Simulation Results:',
                 `Final P&L: $${this.simulationResults.netPnL.toFixed(2)}`,
@@ -1124,13 +1091,13 @@ class CocoaHedgingSimulator {
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = `cocoa-hedging-ai-${new Date().toISOString().slice(0,10)}.csv`;
+            link.download = `cocoa-hedging-${new Date().toISOString().slice(0,10)}.csv`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
             URL.revokeObjectURL(url);
             
-            this.showNotification('Simulation data with AI analysis exported as CSV', 'success');
+            this.showNotification('Simulation data exported as CSV', 'success');
         } catch (error) {
             console.error('Export error:', error);
             this.showNotification('Failed to export data', 'error');
@@ -1154,7 +1121,7 @@ class CocoaHedgingSimulator {
                 ...this.currentScenario,
                 savedAt: new Date().toISOString(),
                 savedBy: "Emmanuel Adutwum",
-                project: "Ghana Cocoa Hedging Research Platform with AI"
+                project: "Ghana Cocoa Hedging Research Platform"
             };
             
             scenarios.push(scenario);
@@ -1165,193 +1132,6 @@ class CocoaHedgingSimulator {
             console.error('Save error:', error);
             this.showNotification('Failed to save scenario', 'error');
         }
-    }
-    
-    // Add AI explanation method
-    explainCurrentScenario() {
-        const scenario = this.currentScenario;
-        const calculations = this.calculateOptionPrice();
-        
-        let explanation = `**Current Scenario Analysis:**\n\n`;
-        
-        // Moneyness analysis
-        const isITM = scenario.optionType === 'call' ? 
-            scenario.cocoaPrice > scenario.strikePrice : 
-            scenario.cocoaPrice < scenario.strikePrice;
-        
-        const moneyness = Math.abs(scenario.cocoaPrice - scenario.strikePrice) / scenario.strikePrice;
-        
-        explanation += `**Moneyness:** ${isITM ? 'In-the-Money' : 'Out-of-the-Money'}\n`;
-        explanation += `**Moneyness Percentage:** ${(moneyness * 100).toFixed(2)}%\n`;
-        explanation += `**Time to Expiry:** ${this.formatTimeToExpiry(scenario.timeToExpiry)}\n\n`;
-        
-        // Greeks explanation
-        explanation += `**Option Greeks:**\n`;
-        explanation += `- **Delta (${calculations.greeks.delta.toFixed(3)})**: `;
-        if (Math.abs(calculations.greeks.delta) > 0.7) {
-            explanation += 'High sensitivity to price changes. ';
-        } else if (Math.abs(calculations.greeks.delta) > 0.3) {
-            explanation += 'Moderate sensitivity. ';
-        } else {
-            explanation += 'Low sensitivity. ';
-        }
-        explanation += `Hedge with ${Math.abs(calculations.greeks.delta * scenario.positionSize).toFixed(1)} MT.\n`;
-        
-        explanation += `- **Gamma (${calculations.greeks.gamma.toFixed(4)})**: `;
-        if (calculations.greeks.gamma > 0.002) {
-            explanation += 'High gamma - delta changes rapidly. Rebalance frequently.\n';
-        } else {
-            explanation += 'Low gamma - delta stable. Less frequent rebalancing.\n';
-        }
-        
-        explanation += `- **Theta (${calculations.greeks.theta.toFixed(2)}/day)**: `;
-        explanation += `Time decay of $${Math.abs(calculations.greeks.theta).toFixed(2)} per day.\n`;
-        
-        explanation += `- **Vega (${calculations.greeks.vega.toFixed(1)})**: `;
-        explanation += `1% volatility change = $${calculations.greeks.vega.toFixed(1)} option price change.\n\n`;
-        
-        // Hedging recommendation
-        explanation += `**Hedging Recommendation:**\n`;
-        
-        const optimalFrequency = this.aiHelper.getOptimalHedgingFrequency(
-            calculations.greeks.gamma,
-            scenario.transactionCost,
-            scenario.volatility
-        );
-        
-        explanation += `- **Frequency:** ${optimalFrequency.frequency} (${optimalFrequency.reason})\n`;
-        explanation += `- **Expected Tracking Error:** ${optimalFrequency.trackingError}%\n`;
-        explanation += `- **Cost Efficiency:** ${optimalFrequency.costEfficiency}\n`;
-        
-        // Risk metrics
-        if (this.simulationResults) {
-            explanation += `\n**Simulation Results:**\n`;
-            explanation += `- **Final P&L:** $${this.simulationResults.netPnL.toFixed(2)}\n`;
-            explanation += `- **Hedging Error:** ${(this.simulationResults.hedgingError / Math.abs(this.simulationResults.netPnL || 1) * 100).toFixed(2)}%\n`;
-            explanation += `- **Max Drawdown:** $${Math.min(...this.simulationResults.hedgedValues).toFixed(2)}\n`;
-        }
-        
-        // Ghana context
-        explanation += `\n**Ghana Context:**\n`;
-        explanation += `- COCOBOD typically hedges ${scenario.positionSize > 0 ? 'long' : 'short'} positions\n`;
-        explanation += `- Transaction costs in Ghana: ~0.3-0.5% per trade\n`;
-        explanation += `- Consider currency risk (GHS/USD) for complete hedge\n`;
-        
-        explanation += `\n**For detailed analysis:** Contact emmanueladutwum900@yahoo.com or +233 553483918`;
-        
-        return explanation;
-    }
-    
-    showScenarioExplanation() {
-        const explanation = this.explainCurrentScenario();
-        
-        // Create modal for explanation
-        const modalId = 'aiExplanationModal';
-        let modal = document.getElementById(modalId);
-        
-        if (!modal) {
-            modal = document.createElement('div');
-            modal.id = modalId;
-            modal.className = 'modal fade';
-            modal.innerHTML = `
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header" style="background: linear-gradient(135deg, #006B3F, #FCD116); color: white;">
-                            <h5 class="modal-title"><i class="fas fa-robot"></i> AI Hedging Analysis</h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="explanation-content" style="white-space: pre-line; font-family: monospace; padding: 15px; background: #f8f9fa; border-radius: 5px; max-height: 400px; overflow-y: auto;">
-                                ${explanation}
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                <i class="fas fa-times"></i> Close
-                            </button>
-                            <button type="button" class="btn btn-primary" id="runWithAI">
-                                <i class="fas fa-play"></i> Run Optimized Simulation
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(modal);
-            
-            // Initialize Bootstrap modal
-            if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-                const bsModal = new bootstrap.Modal(modal);
-                bsModal.show();
-            } else {
-                // Fallback if Bootstrap not available
-                modal.style.display = 'block';
-                modal.style.position = 'fixed';
-                modal.style.top = '50%';
-                modal.style.left = '50%';
-                modal.style.transform = 'translate(-50%, -50%)';
-                modal.style.zIndex = '10000';
-                modal.style.background = 'white';
-                modal.style.padding = '20px';
-                modal.style.borderRadius = '10px';
-                modal.style.boxShadow = '0 0 20px rgba(0,0,0,0.3)';
-                modal.style.maxWidth = '80%';
-                modal.style.maxHeight = '80%';
-                modal.style.overflow = 'auto';
-                
-                // Add close button functionality
-                const closeBtn = modal.querySelector('.btn-close, .btn-secondary');
-                if (closeBtn) {
-                    closeBtn.addEventListener('click', () => {
-                        modal.style.display = 'none';
-                    });
-                }
-            }
-            
-            // Add event listener for optimized simulation
-            const runWithAI = modal.querySelector('#runWithAI');
-            if (runWithAI) {
-                runWithAI.addEventListener('click', () => {
-                    this.runOptimizedSimulation();
-                    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-                        const bsModalInstance = bootstrap.Modal.getInstance(modal);
-                        if (bsModalInstance) bsModalInstance.hide();
-                    } else {
-                        modal.style.display = 'none';
-                    }
-                });
-            }
-        } else {
-            // Update existing modal
-            modal.querySelector('.explanation-content').textContent = explanation;
-            if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-                const bsModal = new bootstrap.Modal(modal);
-                bsModal.show();
-            } else {
-                modal.style.display = 'block';
-            }
-        }
-    }
-    
-    runOptimizedSimulation() {
-        const calculations = this.calculateOptionPrice();
-        
-        // AI-based optimization
-        if (calculations.greeks.gamma > 0.002) {
-            this.currentScenario.hedgeFrequency = 'daily';
-            this.showNotification('AI: High gamma detected. Using daily rebalancing.', 'info');
-        } else if (this.currentScenario.transactionCost > 0.002) {
-            this.currentScenario.hedgeFrequency = 'weekly';
-            this.showNotification('AI: High transaction costs. Using weekly rebalancing.', 'info');
-        }
-        
-        // Update UI
-        const hedgeSelect = document.getElementById('hedgeFrequency');
-        if (hedgeSelect) {
-            hedgeSelect.value = this.currentScenario.hedgeFrequency;
-        }
-        
-        // Run simulation
-        this.runSimulation();
     }
     
     showNotification(message, type = 'info') {
@@ -1475,118 +1255,14 @@ class CocoaHedgingSimulator {
     }
 }
 
-// AI Helper Class for Hedging
-class AIHedgingHelper {
-    constructor() {
-        this.historicalData = this.generateHistoricalData();
-    }
-    
-    getOptimalHedgingFrequency(gamma, transactionCost, volatility) {
-        // AI logic to determine optimal hedging frequency
-        
-        const gammaScore = gamma * 1000; // Normalize gamma
-        const costScore = transactionCost * 1000; // Normalize cost
-        const volScore = volatility * 100; // Normalize volatility
-        
-        const totalScore = gammaScore * 0.4 + costScore * 0.3 + volScore * 0.3;
-        
-        if (totalScore > 1.5) {
-            return {
-                frequency: 'daily',
-                reason: 'High gamma and volatility',
-                trackingError: '0.5-1.0%',
-                costEfficiency: 'Moderate'
-            };
-        } else if (totalScore > 0.8) {
-            return {
-                frequency: 'weekly',
-                reason: 'Balanced risk/cost',
-                trackingError: '1.0-2.0%',
-                costEfficiency: 'High'
-            };
-        } else {
-            return {
-                frequency: 'monthly',
-                reason: 'Low gamma and costs',
-                trackingError: '2.0-4.0%',
-                costEfficiency: 'Very High'
-            };
-        }
-    }
-    
-    calculateOptimalHedgeRatio(optionDelta, positionSize, correlation = 0.85) {
-        // Calculate optimal hedge ratio considering correlation
-        const naiveHedge = -optionDelta * positionSize;
-        const optimalHedge = naiveHedge * correlation;
-        
-        return {
-            naive: naiveHedge,
-            optimal: optimalHedge,
-            adjustment: ((optimalHedge - naiveHedge) / Math.abs(naiveHedge) * 100).toFixed(1) + '%',
-            explanation: `Based on ${(correlation * 100).toFixed(0)}% historical correlation`
-        };
-    }
-    
-    generateHistoricalData() {
-        // Generate synthetic historical data for analysis
-        return {
-            priceCorrelations: {
-                'Cocoa-USD/GHS': 0.65,
-                'Cocoa-Coffee': 0.45,
-                'Cocoa-Sugar': 0.30,
-                'Cocoa-Equities': 0.15
-            },
-            seasonalPatterns: {
-                'Jan-Mar': { avgReturn: 0.025, volatility: 0.28 },
-                'Apr-Jun': { avgReturn: 0.015, volatility: 0.32 },
-                'Jul-Sep': { avgReturn: -0.010, volatility: 0.35 },
-                'Oct-Dec': { avgReturn: 0.020, volatility: 0.30 }
-            },
-            stressScenarios: {
-                'El_Nino_2016': { return: -0.30, duration: 180 },
-                'COVID_2020': { return: -0.18, duration: 90 },
-                'Financial_2008': { return: -0.42, duration: 180 }
-            }
-        };
-    }
-    
-    analyzeStressScenario(scenarioName, position) {
-        const scenario = this.historicalData.stressScenarios[scenarioName];
-        if (!scenario) return null;
-        
-        const loss = position * scenario.return;
-        const recoveryDays = scenario.duration * 0.8; // 80% recovery time
-        
-        return {
-            scenario: scenarioName,
-            estimatedLoss: `$${Math.abs(loss).toFixed(2)}`,
-            lossPercentage: `${Math.abs(scenario.return * 100).toFixed(1)}%`,
-            recoveryTime: `${recoveryDays} days`,
-            recommendation: this.getStressRecommendation(scenario.return)
-        };
-    }
-    
-    getStressRecommendation(lossPercentage) {
-        if (lossPercentage < -0.3) {
-            return 'Immediate risk reduction required. Consider put options for protection.';
-        } else if (lossPercentage < -0.2) {
-            return 'Increase hedging. Review position limits.';
-        } else if (lossPercentage < -0.1) {
-            return 'Monitor closely. Consider partial hedging.';
-        } else {
-            return 'Normal risk levels. Maintain current strategy.';
-        }
-    }
-}
-
-// Initialize calculator when page loads
+// Initialize when page loads
 document.addEventListener('DOMContentLoaded', function() {
     // Check if we're on the calculator page
     const hasCalculator = document.querySelector('.calculator-container') || 
                          window.location.pathname.includes('calculator');
     
     if (hasCalculator) {
-        console.log('🇬🇭 Ghana Cocoa Hedging Calculator v3.2 with AI - Loading...');
+        console.log('🇬🇭 Ghana Cocoa Hedging Calculator - Loading...');
         
         // Add custom styles with correct Ghana flag colors
         const customStyles = document.createElement('style');
@@ -1684,20 +1360,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 background: linear-gradient(135deg, var(--ghana-green), var(--ghana-red));
                 transform: translateY(-2px);
                 box-shadow: 0 6px 20px rgba(206, 17, 38, 0.3);
-            }
-            
-            /* AI Analysis button */
-            #aiAnalysisBtn {
-                background: linear-gradient(135deg, var(--ghana-green), var(--ghana-gold)) !important;
-                border: 2px solid var(--ghana-red) !important;
-                color: white !important;
-                font-weight: 600 !important;
-            }
-            
-            #aiAnalysisBtn:hover {
-                background: linear-gradient(135deg, var(--ghana-red), var(--ghana-green)) !important;
-                transform: translateY(-2px);
-                box-shadow: 0 6px 20px rgba(252, 209, 22, 0.3);
             }
             
             /* Result cards with Ghana colors */
@@ -1799,47 +1461,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 background: linear-gradient(to right, var(--ghana-red), var(--ghana-gold), var(--ghana-green));
                 border-radius: 2px;
             }
-            
-            /* AI Modal Styles */
-            .ai-explanation-modal {
-                background: white;
-                border-radius: 12px;
-                box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-                padding: 0;
-                overflow: hidden;
-                border: 3px solid var(--ghana-gold);
-            }
-            
-            .ai-explanation-modal h3 {
-                background: linear-gradient(135deg, var(--ghana-green), var(--ghana-red));
-                color: white;
-                padding: 1.5rem;
-                margin: 0;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            }
-            
-            .explanation-content {
-                padding: 1.5rem;
-                max-height: 400px;
-                overflow-y: auto;
-                line-height: 1.6;
-                font-size: 14px;
-            }
-            
-            .explanation-content strong {
-                color: var(--ghana-green);
-            }
-            
-            .modal-actions {
-                padding: 1rem 1.5rem;
-                background: #f8f9fa;
-                display: flex;
-                gap: 10px;
-                justify-content: flex-end;
-                border-top: 1px solid #dee2e6;
-            }
         `;
         document.head.appendChild(customStyles);
         
@@ -1853,14 +1474,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     <h3><i class="fas fa-code"></i> Developer Information</h3>
                     <div class="developer-info">
                         <p><i class="fas fa-user"></i> <strong>Developer:</strong> Emmanuel Adutwum</p>
-                        <p><i class="fas fa-envelope"></i> <strong>Email:</strong> emmanueladutwum900@yahoo.com</p>
-                        <p><i class="fas fa-phone"></i> <strong>Phone:</strong> +233 553483918</p>
                         <p><i class="fas fa-github"></i> <strong>GitHub:</strong> <a href="https://github.com/emmanueladutwum123" target="_blank">@emmanueladutwum123</a></p>
                         <p><i class="fas fa-globe"></i> <strong>Website:</strong> <a href="https://emmanueladutwum123.github.io/ghana-cocoa-hedging/" target="_blank">Ghana Cocoa Hedging Platform</a></p>
-                        <p><i class="fas fa-calculator"></i> <strong>Simulator Version:</strong> 3.2 with AI Assistant</p>
+                        <p><i class="fas fa-calculator"></i> <strong>Simulator Version:</strong> 3.1 (Black-Scholes with Convenience Yield)</p>
                         <p><i class="fas fa-university"></i> <strong>Institution:</strong> Soka University of America</p>
                         <p><i class="fas fa-flag"></i> <strong>Theme:</strong> 🇬🇭 Ghana Flag Colors (Red, Gold, Green)</p>
-                        <p><i class="fas fa-robot"></i> <strong>AI Assistant:</strong> Provides optimal hedging recommendations</p>
                     </div>
                 `;
                 mainContent.appendChild(developerCredit);
@@ -1872,9 +1490,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Make it globally accessible
         window.CocoaHedgingSimulator = CocoaHedgingSimulator;
-        window.AIHedgingHelper = AIHedgingHelper;
         
-        console.log('✅ Calculator with AI initialized successfully!');
+        console.log('✅ Calculator initialized with Ghana flag theme!');
         
         // Update MathJax if available
         if (window.MathJax) {
