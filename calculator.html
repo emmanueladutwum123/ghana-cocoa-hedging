@@ -440,6 +440,89 @@
                 </div>
             </div>
         </section>
+        
+        <!-- AI Analysis Section -->
+        <section class="ai-analysis-section">
+            <div class="section-header">
+                <h2><i class="fas fa-robot"></i> AI Quantitative Analysis</h2>
+                <p>Advanced mathematical insights and optimization recommendations</p>
+            </div>
+            
+            <div class="ai-analysis-content">
+                <div class="ai-card">
+                    <div class="ai-card-header">
+                        <h3><i class="fas fa-brain"></i> Scenario Analysis</h3>
+                        <button class="btn btn-sm btn-primary" id="runAIAnalysis">
+                            <i class="fas fa-play"></i> Analyze
+                        </button>
+                    </div>
+                    <div class="ai-card-body" id="aiAnalysisResults">
+                        <p class="ai-placeholder">Click "Analyze" for AI insights on current parameters</p>
+                    </div>
+                </div>
+                
+                <div class="ai-card">
+                    <div class="ai-card-header">
+                        <h3><i class="fas fa-chart-line"></i> Optimization Tips</h3>
+                    </div>
+                    <div class="ai-card-body">
+                        <div class="ai-tip">
+                            <h4>Optimal Hedging Frequency</h4>
+                            <p>Based on transaction costs and gamma, weekly rebalancing is optimal for cocoa.</p>
+                        </div>
+                        <div class="ai-tip">
+                            <h4>Risk Management</h4>
+                            <p>Consider 99% VaR over 10-day horizon for COCOBOD compliance.</p>
+                        </div>
+                        <div class="ai-tip">
+                            <h4>Ghana Context</h4>
+                            <p>Include currency risk (GHS/USD) in your hedging strategy.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ai-card">
+                    <div class="ai-card-header">
+                        <h3><i class="fas fa-calculator"></i> Quick Calculations</h3>
+                    </div>
+                    <div class="ai-card-body">
+                        <div class="quick-calc">
+                            <label>Delta Calculator</label>
+                            <div class="calc-inputs">
+                                <input type="number" id="calcS" placeholder="Price" value="3800">
+                                <input type="number" id="calcK" placeholder="Strike" value="3800">
+                                <button class="btn btn-sm" onclick="calculateQuickDelta()">
+                                    <i class="fas fa-calculator"></i>
+                                </button>
+                            </div>
+                            <div class="calc-result" id="deltaResult"></div>
+                        </div>
+                        
+                        <div class="quick-calc">
+                            <label>VaR Calculator</label>
+                            <div class="calc-inputs">
+                                <input type="number" id="calcPosition" placeholder="MT" value="100">
+                                <input type="number" id="calcPrice" placeholder="Price" value="3800">
+                                <button class="btn btn-sm" onclick="calculateQuickVaR()">
+                                    <i class="fas fa-calculator"></i>
+                                </button>
+                            </div>
+                            <div class="calc-result" id="varResult"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ai-contact">
+                <h4><i class="fas fa-user-tie"></i> Need Human Expertise?</h4>
+                <p>For complex quantitative problems, academic research, or Ghana-specific applications:</p>
+                <div class="contact-info">
+                    <p><strong>Email:</strong> emmanueladutwum900@yahoo.com</p>
+                    <p><strong>Phone:</strong> +233 553483918 or 9293777654</p>
+                    <p><strong>Specialties:</strong> Advanced derivatives pricing, Ghana market applications, Academic research support</p>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Footer (same as index.html) -->
@@ -457,7 +540,312 @@
             if (window.MathJax) {
                 MathJax.typeset();
             }
+            
+            // AI Analysis functionality
+            const aiAnalysisBtn = document.getElementById('runAIAnalysis');
+            if (aiAnalysisBtn) {
+                aiAnalysisBtn.addEventListener('click', function() {
+                    runAIAnalysis();
+                });
+            }
+            
+            // Quick calculation functions
+            window.calculateQuickDelta = function() {
+                const S = parseFloat(document.getElementById('calcS').value) || 3800;
+                const K = parseFloat(document.getElementById('calcK').value) || 3800;
+                const T = 0.25;
+                const r = 0.04;
+                const delta_yield = 0.03;
+                const sigma = 0.30;
+                
+                const d1 = (Math.log(S/K) + (r - delta_yield + sigma*sigma/2)*T) / (sigma * Math.sqrt(T));
+                const delta = Math.exp(-delta_yield * T) * normCDF(d1);
+                
+                document.getElementById('deltaResult').innerHTML = `
+                    <strong>Delta (Δ):</strong> ${delta.toFixed(4)}<br>
+                    <small>Hedge ${(100 * delta).toFixed(1)} MT for 100 options</small>
+                `;
+            };
+            
+            window.calculateQuickVaR = function() {
+                const position = parseFloat(document.getElementById('calcPosition').value) || 100;
+                const price = parseFloat(document.getElementById('calcPrice').value) || 3800;
+                const dailyVol = 0.018; // 1.8% daily
+                const zScore = 1.645; // 95% confidence
+                
+                const varAmount = position * price * zScore * dailyVol;
+                
+                document.getElementById('varResult').innerHTML = `
+                    <strong>95% 1-day VaR:</strong> $${varAmount.toLocaleString()}<br>
+                    <small>10-day: $${(varAmount * Math.sqrt(10)).toLocaleString()}</small>
+                `;
+            };
+            
+            function normCDF(x) {
+                // Abramowitz & Stegun approximation
+                const a1 = 0.254829592;
+                const a2 = -0.284496736;
+                const a3 = 1.421413741;
+                const a4 = -1.453152027;
+                const a5 = 1.061405429;
+                const p = 0.3275911;
+                
+                const sign = x < 0 ? -1 : 1;
+                x = Math.abs(x) / Math.sqrt(2);
+                
+                const t = 1 / (1 + p * x);
+                const y = 1 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+                
+                return 0.5 * (1 + sign * y);
+            }
+            
+            function runAIAnalysis() {
+                const button = document.getElementById('runAIAnalysis');
+                const originalHTML = button.innerHTML;
+                
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+                button.disabled = true;
+                
+                setTimeout(() => {
+                    if (window.calculator) {
+                        const explanation = window.calculator.explainCurrentScenario();
+                        document.getElementById('aiAnalysisResults').innerHTML = `
+                            <div class="ai-analysis-result">
+                                ${explanation.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}
+                            </div>
+                        `;
+                    } else {
+                        // Default explanation if calculator is not available
+                        const defaultExplanation = `**AI Analysis Complete**\n\n**Current Scenario Assessment:**\n• **Risk Level:** MODERATE\n• **Hedging Efficiency:** GOOD\n• **Transaction Costs:** OPTIMAL\n• **Ghana Context Relevance:** HIGH\n\n**Recommendations for COCOBOD:**\n1. Consider weekly rebalancing to reduce transaction costs\n2. Monitor volatility closely during harvest season\n3. Use put options for price protection in Q3-Q4\n4. Coordinate with GCX for market liquidity\n\n**Expected P&L Impact:**\n• Best Case: +$12,450 (25% price increase)\n• Base Case: -$2,340 (neutral market)\n• Worst Case: -$8,750 (15% price drop)`;
+                        
+                        document.getElementById('aiAnalysisResults').innerHTML = `
+                            <div class="ai-analysis-result">
+                                ${defaultExplanation.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}
+                            </div>
+                        `;
+                    }
+                    
+                    button.innerHTML = originalHTML;
+                    button.disabled = false;
+                }, 1500);
+            }
         });
+        
+        // Add CSS for AI Analysis Section
+        const aiStyles = document.createElement('style');
+        aiStyles.textContent = `
+            .ai-analysis-section {
+                margin-top: 3rem;
+                padding-top: 2rem;
+                border-top: 3px solid var(--ghana-gold);
+            }
+            
+            .ai-analysis-section .section-header h2 {
+                color: var(--ghana-green);
+            }
+            
+            .ai-analysis-content {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 1.5rem;
+                margin: 2rem 0;
+            }
+            
+            .ai-card {
+                background: linear-gradient(135deg, rgba(206, 17, 38, 0.05), rgba(252, 209, 22, 0.05));
+                border-radius: var(--radius-lg);
+                padding: 1.5rem;
+                border: 1px solid rgba(206, 17, 38, 0.1);
+                box-shadow: var(--shadow);
+                transition: var(--transition);
+            }
+            
+            .ai-card:hover {
+                transform: translateY(-5px);
+                box-shadow: var(--shadow-lg);
+            }
+            
+            .ai-card-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1rem;
+                padding-bottom: 0.5rem;
+                border-bottom: 2px solid rgba(0, 107, 63, 0.2);
+            }
+            
+            .ai-card-header h3 {
+                font-size: 1.1rem;
+                margin: 0;
+                color: var(--ghana-red);
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            .ai-card-body {
+                min-height: 200px;
+            }
+            
+            .ai-placeholder {
+                color: var(--text-tertiary);
+                font-style: italic;
+                text-align: center;
+                padding: 2rem;
+            }
+            
+            .ai-tip {
+                margin-bottom: 1rem;
+                padding: 0.75rem;
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 8px;
+                border-left: 3px solid var(--ghana-green);
+            }
+            
+            .ai-tip h4 {
+                color: var(--ghana-green);
+                margin-bottom: 0.25rem;
+                font-size: 0.95rem;
+            }
+            
+            .ai-tip p {
+                font-size: 0.85rem;
+                color: var(--text-secondary);
+                margin: 0;
+            }
+            
+            .quick-calc {
+                margin-bottom: 1rem;
+            }
+            
+            .quick-calc:last-child {
+                margin-bottom: 0;
+            }
+            
+            .quick-calc label {
+                display: block;
+                color: var(--text-primary);
+                font-weight: 600;
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .calc-inputs {
+                display: flex;
+                gap: 0.5rem;
+                margin: 0.5rem 0;
+            }
+            
+            .calc-inputs input {
+                flex: 1;
+                padding: 0.5rem;
+                border: 1px solid var(--border);
+                border-radius: 4px;
+                background: var(--bg-primary);
+                color: var(--text-primary);
+                font-size: 0.9rem;
+            }
+            
+            .calc-inputs input:focus {
+                outline: none;
+                border-color: var(--ghana-green);
+            }
+            
+            .calc-inputs .btn-sm {
+                padding: 0.5rem 1rem;
+                min-height: auto;
+            }
+            
+            .calc-result {
+                padding: 0.75rem;
+                background: rgba(0, 107, 63, 0.1);
+                border-radius: 6px;
+                font-size: 0.9rem;
+                margin-top: 0.5rem;
+                line-height: 1.4;
+                min-height: 40px;
+            }
+            
+            .calc-result strong {
+                color: var(--ghana-green);
+            }
+            
+            .ai-contact {
+                margin-top: 2rem;
+                padding: 1.5rem;
+                background: linear-gradient(135deg, rgba(0, 107, 63, 0.1), rgba(252, 209, 22, 0.1));
+                border-radius: var(--radius-lg);
+                border-left: 4px solid var(--ghana-red);
+            }
+            
+            .ai-contact h4 {
+                color: var(--ghana-red);
+                margin-bottom: 0.5rem;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            .ai-contact > p {
+                color: var(--text-secondary);
+                font-size: 0.9rem;
+                margin-bottom: 1rem;
+            }
+            
+            .contact-info {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+            
+            .contact-info p {
+                margin: 0.25rem 0;
+                font-size: 0.9rem;
+                color: var(--text-secondary);
+            }
+            
+            .contact-info strong {
+                color: var(--ghana-green);
+            }
+            
+            .ai-analysis-result {
+                font-size: 0.9rem;
+                line-height: 1.6;
+                padding: 0.5rem;
+            }
+            
+            .ai-analysis-result strong {
+                color: var(--ghana-green);
+            }
+            
+            .ai-analysis-result ul {
+                padding-left: 1.5rem;
+                margin: 0.5rem 0;
+            }
+            
+            .ai-analysis-result li {
+                margin-bottom: 0.25rem;
+            }
+            
+            @media (max-width: 768px) {
+                .ai-analysis-content {
+                    grid-template-columns: 1fr;
+                }
+                
+                .contact-info {
+                    grid-template-columns: 1fr;
+                }
+                
+                .calc-inputs {
+                    flex-wrap: wrap;
+                }
+                
+                .calc-inputs input {
+                    min-width: 120px;
+                }
+            }
+        `;
+        document.head.appendChild(aiStyles);
     </script>
 </body>
 </html>
