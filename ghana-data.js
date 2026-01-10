@@ -1,4 +1,5 @@
-// ghana-data.js - COMPLETE REVISION WITH WORKING DOWNLOADS AND CHARTS
+// ghana-data.js - FIXED with Working API Buttons and Complete Price Display
+// COMPLETE REVISION WITH WORKING DOWNLOADS, CHARTS AND API BUTTONS
 
 class GhanaCocoaData {
     constructor() {
@@ -88,6 +89,39 @@ class GhanaCocoaData {
                 }
             }
         };
+        
+        // Update price display elements
+        this.updatePriceDisplay();
+    }
+    
+    updatePriceDisplay() {
+        // Update Ghana and World price displays
+        const ghanaPriceEl = document.getElementById('ghanaPrice');
+        const worldPriceEl = document.getElementById('worldPrice');
+        const pricePremiumEl = document.getElementById('pricePremium');
+        
+        if (ghanaPriceEl) {
+            ghanaPriceEl.textContent = `$${this.data.prices.ghana.toFixed(2)}`;
+        }
+        
+        if (worldPriceEl) {
+            worldPriceEl.textContent = `$${this.data.prices.world.toFixed(2)}`;
+        }
+        
+        if (pricePremiumEl) {
+            const premium = this.data.prices.premium;
+            const premiumText = premium >= 0 ? 
+                `+$${Math.abs(premium).toFixed(2)}` : 
+                `-$${Math.abs(premium).toFixed(2)}`;
+            
+            pricePremiumEl.textContent = `${premiumText} (${premium >= 0 ? 'Premium' : 'Discount'})`;
+            pricePremiumEl.className = `price-change ${premium >= 0 ? 'positive' : 'negative'}`;
+        }
+        
+        // Update price comparison chart if it exists
+        if (this.charts.priceComparisonChart) {
+            this.updatePriceComparisonChart();
+        }
     }
     
     generateHistoricalData(days) {
@@ -176,8 +210,8 @@ class GhanaCocoaData {
     }
     
     fixAPITryButtons() {
-        // Make all API Try buttons work
-        const tryButtons = document.querySelectorAll('.try-api-btn, .try-btn, button[data-endpoint]');
+        // Make all API Try buttons work - FIXED VERSION
+        const tryButtons = document.querySelectorAll('.try-api-btn, .try-btn, button[data-endpoint], .api-try-button');
         
         tryButtons.forEach(button => {
             // Remove existing listeners to prevent duplicates
@@ -190,13 +224,11 @@ class GhanaCocoaData {
                 e.stopPropagation();
                 
                 const endpoint = newButton.getAttribute('data-endpoint') || 
-                                newButton.closest('.api-endpoint')?.querySelector('code')?.textContent?.trim();
+                                newButton.getAttribute('href') ||
+                                newButton.closest('.api-endpoint')?.querySelector('code')?.textContent?.trim() ||
+                                '/api/v1/prices/historical';
                 
-                if (endpoint) {
-                    this.testAPIEndpoint(endpoint, newButton);
-                } else {
-                    console.warn('No endpoint found for button:', newButton);
-                }
+                this.testAPIEndpoint(endpoint, newButton);
             });
             
             // Add visual feedback
@@ -213,6 +245,18 @@ class GhanaCocoaData {
                 newButton.style.boxShadow = 'none';
             });
         });
+        
+        // Also fix any links that should act as try buttons
+        const tryLinks = document.querySelectorAll('a[href*="try"], a[onclick*="try"]');
+        tryLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const endpoint = link.getAttribute('data-endpoint') || '/api/v1/prices/historical';
+                this.testAPIEndpoint(endpoint, link);
+            });
+        });
+        
+        console.log(`Fixed ${tryButtons.length} API try buttons`);
     }
     
     setupDownloadButtons() {
@@ -240,10 +284,10 @@ class GhanaCocoaData {
             case 'prices':
                 // Create CSV content for historical prices
                 content = 'Date,Ghana Price (USD),World Price (USD),Premium,Volume,Change(%)\n';
-                this.data.historical.forEach(item => {
+                this.data.historical.slice(-30).forEach(item => {
                     content += `${item.date},${item.ghana_price},${item.world_price},${item.premium},${item.volume},${item.change}\n`;
                 });
-                filename = 'ghana_cocoa_historical_prices.csv';
+                filename = 'ghana_cocoa_prices_30days.csv';
                 mimeType = 'text/csv';
                 break;
                 
@@ -262,52 +306,61 @@ class GhanaCocoaData {
             case 'production':
                 // Create PDF-like content
                 content = `
-                    GHANA COCOA PRODUCTION REPORT
-                    =============================
-                    
-                    Annual Production: ${this.data.production.current.toLocaleString()} MT
-                    Year-over-Year Change: +${(this.data.production.change * 100).toFixed(1)}%
-                    Target Production: ${this.data.production.target.toLocaleString()} MT
-                    
-                    REGIONAL DISTRIBUTION:
-                    ---------------------
-                    Western Region: ${this.data.production.regions.western.production.toLocaleString()} MT (${this.data.production.regions.western.percentage}%)
-                    Ashanti Region: ${this.data.production.regions.ashanti.production.toLocaleString()} MT (${this.data.production.regions.ashanti.percentage}%)
-                    Eastern Region: ${this.data.production.regions.eastern.production.toLocaleString()} MT (${this.data.production.regions.eastern.percentage}%)
-                    Bono Region: ${this.data.production.regions.bono.production.toLocaleString()} MT (${this.data.production.regions.bono.percentage}%)
-                    
-                    FARMER STATISTICS:
-                    -----------------
-                    Total Farmers: ${this.data.farmers.total.toLocaleString()}
-                    Protected Farmers: ${this.data.farmers.protected.toLocaleString()}
-                    Protection Rate: ${(this.data.farmers.protectionRate * 100).toFixed(1)}%
-                    Average Farm Size: ${this.data.farmers.avgFarmSize} hectares
-                    Average Annual Income: $${this.data.farmers.avgIncome}
-                    
-                    EXPORT DATA:
-                    ------------
-                    Annual Export Revenue: $${this.data.exports.revenue.toLocaleString()}
-                    Export Volume: ${this.data.exports.volume.toLocaleString()} MT
-                    Exchange Rate: ₵${this.data.exports.exchangeRate}/USD
-                    
-                    Top Export Markets:
-                    1. ${this.data.exports.topMarkets[0]}
-                    2. ${this.data.exports.topMarkets[1]}
-                    3. ${this.data.exports.topMarkets[2]}
-                    4. ${this.data.exports.topMarkets[3]}
-                    5. ${this.data.exports.topMarkets[4]}
-                    
-                    Report Generated: ${new Date().toLocaleDateString()}
-                    Data Source: Ghana Cocoa Derivatives Lab
+GHANA COCOA PRODUCTION REPORT
+=============================
+
+Current Ghana Price: $${this.data.prices.ghana.toFixed(2)}/MT
+Current World Price: $${this.data.prices.world.toLocaleString()}/MT
+Premium/Discount: $${this.data.prices.premium.toFixed(2)}
+
+Annual Production: ${this.data.production.current.toLocaleString()} MT
+Year-over-Year Change: +${(this.data.production.change * 100).toFixed(1)}%
+Target Production: ${this.data.production.target.toLocaleString()} MT
+
+REGIONAL DISTRIBUTION:
+---------------------
+Western Region: ${this.data.production.regions.western.production.toLocaleString()} MT (${this.data.production.regions.western.percentage}%)
+Ashanti Region: ${this.data.production.regions.ashanti.production.toLocaleString()} MT (${this.data.production.regions.ashanti.percentage}%)
+Eastern Region: ${this.data.production.regions.eastern.production.toLocaleString()} MT (${this.data.production.regions.eastern.percentage}%)
+Bono Region: ${this.data.production.regions.bono.production.toLocaleString()} MT (${this.data.production.regions.bono.percentage}%)
+
+FARMER STATISTICS:
+-----------------
+Total Farmers: ${this.data.farmers.total.toLocaleString()}
+Protected Farmers: ${this.data.farmers.protected.toLocaleString()}
+Protection Rate: ${(this.data.farmers.protectionRate * 100).toFixed(1)}%
+Average Farm Size: ${this.data.farmers.avgFarmSize} hectares
+Average Annual Income: $${this.data.farmers.avgIncome}
+
+EXPORT DATA:
+------------
+Annual Export Revenue: $${this.data.exports.revenue.toLocaleString()}
+Export Volume: ${this.data.exports.volume.toLocaleString()} MT
+Exchange Rate: ₵${this.data.exports.exchangeRate}/USD
+
+Top Export Markets:
+1. ${this.data.exports.topMarkets[0]}
+2. ${this.data.exports.topMarkets[1]}
+3. ${this.data.exports.topMarkets[2]}
+4. ${this.data.exports.topMarkets[3]}
+5. ${this.data.exports.topMarkets[4]}
+
+Report Generated: ${new Date().toLocaleDateString()}
+Data Source: Ghana Cocoa Derivatives Lab
                 `;
-                filename = 'ghana_cocoa_production_report.pdf';
-                mimeType = 'application/pdf';
+                filename = 'ghana_cocoa_production_report.txt';
+                mimeType = 'text/plain';
                 break;
                 
             default:
-                content = 'Data export\nGenerated: ' + new Date().toISOString();
-                filename = 'data_export.csv';
-                mimeType = 'text/csv';
+                content = JSON.stringify({
+                    ghana_price: this.data.prices.ghana,
+                    world_price: this.data.prices.world,
+                    premium: this.data.prices.premium,
+                    timestamp: new Date().toISOString()
+                }, null, 2);
+                filename = 'ghana_cocoa_prices.json';
+                mimeType = 'application/json';
         }
         
         // Create and trigger download
@@ -327,16 +380,19 @@ class GhanaCocoaData {
     previewDataset(fileType) {
         const previews = {
             'prices': () => {
-                // Show first 5 rows of price data
+                // Show first 5 rows of price data with both Ghana and World prices
                 let preview = 'Date, Ghana Price, World Price, Premium, Volume\n';
-                this.data.historical.slice(0, 5).forEach(item => {
+                this.data.historical.slice(-5).forEach(item => {
                     preview += `${item.date}, $${item.ghana_price}, $${item.world_price}, $${item.premium}, ${item.volume}\n`;
                 });
                 preview += `\n... and ${this.data.historical.length - 5} more records`;
+                preview += `\n\nCurrent Ghana Price: $${this.data.prices.ghana.toFixed(2)}`;
+                preview += `\nCurrent World Price: $${this.data.prices.world.toFixed(2)}`;
+                preview += `\nPremium/Discount: $${this.data.prices.premium.toFixed(2)}`;
                 return preview;
             },
             'options': 'Options Chain Preview:\nStrike prices from 3800 to 3900\nExpiry: March 2024\nData includes bid/ask, volume, and open interest',
-            'production': 'Production Data Preview:\nFull regional breakdown\nFarmer statistics\nExport revenue and volume'
+            'production': `Production Data Preview:\nFull regional breakdown\nFarmer statistics\nExport revenue and volume\n\nGhana Price: $${this.data.prices.ghana.toFixed(2)}\nWorld Price: $${this.data.prices.world.toFixed(2)}`
         };
         
         const preview = previews[fileType] ? 
@@ -607,6 +663,16 @@ class GhanaCocoaData {
         document.getElementById('volatilityType')?.addEventListener('change', (e) => {
             this.updateVolatilityChart(e.target.value);
         });
+        
+        // Manual API test buttons
+        document.querySelectorAll('.manual-api-test').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const endpoint = btn.dataset.endpoint;
+                if (endpoint) {
+                    this.testAPIEndpoint(endpoint, btn);
+                }
+            });
+        });
     }
     
     initializeCharts() {
@@ -875,6 +941,18 @@ class GhanaCocoaData {
         console.log('Price comparison chart initialized successfully');
     }
     
+    updatePriceComparisonChart() {
+        if (!this.charts.priceComparisonChart) return;
+        
+        // Update the chart with current prices
+        const chart = this.charts.priceComparisonChart;
+        const recentData = this.data.historical.slice(-30);
+        
+        chart.data.datasets[0].data = recentData.map(item => item.ghana_price);
+        chart.data.datasets[1].data = recentData.map(item => item.world_price);
+        chart.update();
+    }
+    
     initializeVolatilityChart() {
         const ctx = document.getElementById('volatilityChart')?.getContext('2d');
         if (!ctx) return;
@@ -1040,6 +1118,13 @@ class GhanaCocoaData {
                 volume: '12.4K'
             },
             {
+                symbol: 'GHANA',
+                name: 'Ghana Price',
+                price: this.data.prices.ghana + (Math.random() - 0.5) * 5,
+                change: (Math.random() - 0.5) * 1.2,
+                volume: '8.2K'
+            },
+            {
                 symbol: 'CCK24',
                 name: 'Mar 2024',
                 price: 3865.00 + (Math.random() - 0.5) * 8,
@@ -1061,17 +1146,10 @@ class GhanaCocoaData {
                 volume: '4.8K'
             },
             {
-                symbol: 'VIX',
-                name: 'Implied Vol',
-                price: 31.8 + (Math.random() - 0.5) * 2,
-                change: (Math.random() - 0.5) * 1.5,
-                volume: '-'
-            },
-            {
-                symbol: 'GHS/USD',
-                name: 'Exchange Rate',
-                price: 12.45 + (Math.random() - 0.5) * 0.1,
-                change: (Math.random() - 0.5) * 0.3,
+                symbol: 'PREMIUM',
+                name: 'Ghana Premium',
+                price: this.data.prices.premium,
+                change: (Math.random() - 0.5) * 0.5,
                 volume: '-'
             }
         ];
@@ -1084,7 +1162,7 @@ class GhanaCocoaData {
                 </div>
                 <div class="ticker-price">
                     <span class="price">
-                        ${item.symbol.includes('$') ? '₵' : '$'}${item.price.toFixed(2)}
+                        ${item.symbol === 'PREMIUM' ? (item.price >= 0 ? '+$' : '-$') + Math.abs(item.price).toFixed(2) : '$' + item.price.toFixed(2)}
                     </span>
                     <span class="change ${item.change >= 0 ? 'positive' : 'negative'}">
                         ${item.change >= 0 ? '+' : ''}${item.change.toFixed(1)}%
@@ -1198,7 +1276,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (onDataPage) {
         console.log('Initializing GhanaCocoaData...');
-        new GhanaCocoaData();
+        window.ghanaCocoaData = new GhanaCocoaData();
     }
 });
 
@@ -1355,6 +1433,46 @@ styleElement.textContent = `
     
     .data-notification.fade-out {
         animation: slideOut 0.3s ease;
+    }
+    
+    .price-display {
+        display: flex;
+        gap: 2rem;
+        margin: 1rem 0;
+        align-items: center;
+    }
+    
+    .price-item {
+        text-align: center;
+        padding: 1rem;
+        background: var(--bg-secondary);
+        border-radius: var(--radius);
+        min-width: 150px;
+    }
+    
+    .price-label {
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+        margin-bottom: 0.5rem;
+    }
+    
+    .price-value {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+    
+    .price-change {
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+    
+    .price-change.positive {
+        color: #10b981;
+    }
+    
+    .price-change.negative {
+        color: #ef4444;
     }
     
     @keyframes slideIn {
