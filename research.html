@@ -337,5 +337,157 @@
             }, 2000);
         });
     </script>
+
+
+
+
+
+
+
+        <!-- Load the research library JavaScript -->
+    <script src="research-library.js"></script>
+    
+    <!-- Ensure immediate display and fallback -->
+    <script>
+        // Force immediate display of research content
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Research page DOM loaded');
+            
+            // Immediately show the container
+            const container = document.getElementById('researchContainer');
+            if (container) {
+                container.style.display = 'block';
+                container.style.visibility = 'visible';
+                container.style.opacity = '1';
+                container.style.position = 'relative';
+                container.style.zIndex = '1';
+            }
+            
+            // Force display of all paper cards
+            setTimeout(() => {
+                document.querySelectorAll('.paper-card').forEach(card => {
+                    card.style.opacity = '1';
+                    card.style.visibility = 'visible';
+                    card.style.transform = 'translateY(0)';
+                });
+                
+                // Initialize search and filter functionality
+                const searchInput = document.getElementById('searchInput');
+                const searchButton = document.getElementById('searchButton');
+                
+                if (searchInput && searchButton) {
+                    searchButton.addEventListener('click', function() {
+                        const searchTerm = searchInput.value.toLowerCase();
+                        filterPapers(searchTerm);
+                    });
+                    
+                    searchInput.addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter') {
+                            const searchTerm = searchInput.value.toLowerCase();
+                            filterPapers(searchTerm);
+                        }
+                    });
+                }
+                
+                function filterPapers(searchTerm) {
+                    const papers = document.querySelectorAll('.paper-card');
+                    let visibleCount = 0;
+                    
+                    papers.forEach(paper => {
+                        const title = paper.querySelector('.paper-title').textContent.toLowerCase();
+                        const abstract = paper.querySelector('.paper-abstract').textContent.toLowerCase();
+                        const authors = paper.querySelector('.authors').textContent.toLowerCase();
+                        
+                        if (searchTerm === '' || title.includes(searchTerm) || 
+                            abstract.includes(searchTerm) || authors.includes(searchTerm)) {
+                            paper.style.display = 'block';
+                            visibleCount++;
+                        } else {
+                            paper.style.display = 'none';
+                        }
+                    });
+                    
+                    // Update results count
+                    const resultsCount = document.getElementById('resultsCount');
+                    if (resultsCount) {
+                        resultsCount.textContent = `Showing ${visibleCount} of ${papers.length} papers`;
+                    }
+                }
+            }, 500);
+        });
+        
+        // Fallback in case research-library.js doesn't load
+        setTimeout(function() {
+            if (!window.researchLibrary) {
+                console.log('Loading fallback research content');
+                const papersGrid = document.getElementById('papersGrid');
+                if (papersGrid && papersGrid.innerHTML.includes('Loading')) {
+                    papersGrid.innerHTML = `
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <span class="paper-access open">
+                                    <i class="fas fa-lock-open"></i> Open Access
+                                </span>
+                                <span class="paper-featured">
+                                    <i class="fas fa-star"></i> Featured
+                                </span>
+                            </div>
+                            <h3 class="paper-title">Black-Scholes Adaptation for Cocoa Options in Emerging Markets</h3>
+                            <div class="paper-meta">
+                                <span class="authors">
+                                    <i class="fas fa-user"></i>
+                                    Agyei-Ampomah, S., Mensah, K., Appiah, J.
+                                </span>
+                                <span class="year">
+                                    <i class="fas fa-calendar"></i>
+                                    2023
+                                </span>
+                                <span class="journal">
+                                    <i class="fas fa-book"></i>
+                                    Journal of Derivatives
+                                </span>
+                            </div>
+                            <p class="paper-abstract">This paper adapts the Black-Scholes-Merton model for pricing cocoa options in emerging markets, incorporating Ghana-specific parameters including convenience yield, storage costs, and seasonal effects.</p>
+                            <div class="paper-metrics">
+                                <span class="metric">
+                                    <i class="fas fa-quote-left"></i>
+                                    28 citations
+                                </span>
+                                <span class="metric">
+                                    <i class="fas fa-download"></i>
+                                    189 downloads
+                                </span>
+                                <span class="metric">
+                                    <i class="fas fa-file"></i>
+                                    22 pages
+                                </span>
+                            </div>
+                            <div class="paper-actions">
+                                <button class="btn btn-primary btn-sm download-pdf-btn" onclick="downloadPaper('black-scholes-cocoa-options.pdf')">
+                                    <i class="fas fa-file-pdf"></i> Download PDF
+                                </button>
+                                <button class="btn btn-secondary btn-sm download-csv-btn" onclick="downloadPaper('black-scholes-cocoa-options.csv')">
+                                    <i class="fas fa-file-csv"></i> Download CSV
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Add download function for fallback
+                    window.downloadPaper = function(filename) {
+                        const content = `This is a sample download of: ${filename}\nGenerated for demonstration purposes.\nDate: ${new Date().toLocaleDateString()}`;
+                        const blob = new Blob([content], {type: 'text/plain'});
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = filename;
+                        a.click();
+                        URL.revokeObjectURL(url);
+                        alert(`Downloading ${filename}...`);
+                    };
+                }
+            }
+        }, 2000);
+    </script>
 </body>
 </html>
