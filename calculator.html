@@ -120,6 +120,20 @@
                     
                     <div class="strategy-parameters">
                         <div class="strategy-param">
+                            <label for="pricingModel">Pricing Model</label>
+                            <select id="pricingModel" class="model-select"
+                                    aria-describedby="modelNote">
+                                <option value="black-scholes">Black-Scholes-Merton (closed form)</option>
+                                <option value="binomial">Binomial tree, European (256 steps)</option>
+                                <option value="binomial-american">Binomial tree, American (early exercise)</option>
+                                <option value="monte-carlo">Monte Carlo (100k paths, antithetic)</option>
+                                <option value="jump-diffusion">Merton jump-diffusion (harvest/policy shocks)</option>
+                                <option value="heston">Heston stochastic volatility</option>
+                            </select>
+                            <p id="modelNote" class="model-note"></p>
+                        </div>
+
+                        <div class="strategy-param">
                             <label>Option Type</label>
                             <div class="option-type-selector">
                                 <button class="option-type-btn active" data-type="call">
@@ -536,6 +550,7 @@
     <!-- Footer (same as index.html) -->
 
     <!-- Load the advanced hedging simulator -->
+    <script src="pricing.js"></script>
     <script src="cocoa-hedging.js"></script>
     
     <script>

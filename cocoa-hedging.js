@@ -26,6 +26,7 @@ class CocoaHedgingSimulator {
         return {
             cocoaPrice: 4200,
             strikePrice: 4200,
+            pricingModel: 'black-scholes',
             volatility: 0.45,
             timeToExpiry: 0.25, // 3 months
             riskFreeRate: 0.05,
@@ -119,6 +120,15 @@ class CocoaHedgingSimulator {
             }
         });
         
+        // Pricing model selector
+        const modelSelect = document.getElementById('pricingModel');
+        if (modelSelect) {
+            modelSelect.addEventListener('change', (e) => {
+                this.currentScenario.pricingModel = e.target.value;
+                this.updateCalculations();
+            });
+        }
+
         // Option type buttons
         document.querySelectorAll('.option-type-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -512,7 +522,34 @@ class CocoaHedgingSimulator {
         return data;
     }
     
+    /**
+     * Recalculate, debounced for the models that cost real time.
+     *
+     * Black-Scholes and the Merton series run in well under a millisecond, so
+     * they can track a slider live. The tree, Monte Carlo and Heston run
+     * 5-22ms on a desktop and several times that on a mid-range phone --
+     * dragging a slider fires `input` dozens of times a second, so calling
+     * them synchronously on every event drops frames and makes the control
+     * feel broken. Cheap models stay instant; expensive ones settle.
+     */
     updateCalculations() {
+        const model = this.currentScenario.pricingModel || 'black-scholes';
+        const isCheap = model === 'black-scholes' || model === 'jump-diffusion';
+
+        if (isCheap) {
+            if (this._calcTimer) { clearTimeout(this._calcTimer); this._calcTimer = null; }
+            this._runCalculations();
+            return;
+        }
+
+        if (this._calcTimer) clearTimeout(this._calcTimer);
+        this._calcTimer = setTimeout(() => {
+            this._calcTimer = null;
+            this._runCalculations();
+        }, 140);
+    }
+
+    _runCalculations() {
         try {
             const calculations = this.calculateOptionPrice();
             this.updateDisplay(calculations);
@@ -550,6 +587,30 @@ class CocoaHedgingSimulator {
             };
         }
         
+        // Non-Black-Scholes models are delegated to the verified engine in
+        // pricing.js (see test-pricing.js: 63 checks against Hull reference
+        // values, put-call parity, finite-difference greeks, and limiting
+        // cases). Black-Scholes stays on the closed form below, which is
+        // exact and needs no numerical method.
+        const model = this.currentScenario.pricingModel || 'black-scholes';
+        if (model !== 'black-scholes' && typeof Pricing !== 'undefined') {
+            const out = Pricing.price(model, {
+                S, K, T, r, sigma: σ, q: δ, optionType: isCall ? 'call' : 'put'
+            });
+            const intrinsic = isCall ? Math.max(S - K, 0) : Math.max(K - S, 0);
+            return {
+                price: out.price,
+                greeks: {
+                    delta: out.delta, gamma: out.gamma,
+                    theta: out.theta, vega: out.vega, rho: out.rho
+                },
+                isITM: isCall ? S > K : S < K,
+                intrinsicValue: intrinsic,
+                timeValue: out.price - intrinsic,
+                modelMeta: out
+            };
+        }
+
         // Black-Scholes-Merton with convenience yield
         const d1 = (Math.log(S / K) + (r - δ + (σ * σ) / 2) * T) / (σ * Math.sqrt(T));
         const d2 = d1 - σ * Math.sqrt(T);
@@ -658,6 +719,40 @@ class CocoaHedgingSimulator {
     }
     
     updateDisplay(calculations) {
+        // State how the number was produced. A Monte Carlo price carries
+        // sampling error and a tree carries discretisation error; showing
+        // both to two decimals with no distinction invites more confidence
+        // than either deserves.
+        const note = document.getElementById('modelNote');
+        if (note) {
+            const m = calculations.modelMeta;
+            if (!m) {
+                note.textContent = 'Closed form — exact for European options.';
+            } else if (m.stderr !== undefined) {
+                note.textContent = `${m.paths.toLocaleString()} paths — price is ` +
+                    `$${m.price.toFixed(2)} ± ${(1.96 * m.stderr).toFixed(2)} (95% CI). ` +
+                    `Greeks by central difference under common random numbers.`;
+            } else if (m.model === 'binomial-american') {
+                note.textContent = `${m.steps}-step tree with early exercise. ` +
+                    `American options are worth at least their European equivalent.`;
+            } else if (m.steps) {
+                note.textContent = `${m.steps}-step tree. Converges to Black-Scholes ` +
+                    `as steps increase; greeks read off the lattice.`;
+            } else if (m.model === 'heston') {
+                note.textContent = m.degenerateLimit ? m.note :
+                    `Stochastic volatility (kappa=${m.params.kappa}, ` +
+                    `vol-of-vol=${m.params.sigmaV}, rho=${m.params.rho}). ` +
+                    `Variance anchored on your volatility input. Greeks are numerical.`;
+            } else if (m.model === 'merton-jump-diffusion') {
+                const j = m.jumpParams;
+                note.textContent = `Poisson-weighted Black-Scholes series ` +
+                    `(intensity ${j.lambda}/yr, mean jump ${(j.muJ * 100).toFixed(0)}%). ` +
+                    `Prices the discontinuities a pure diffusion misses.`;
+            } else {
+                note.textContent = '';
+            }
+        }
+
         // Update option price
         const priceElement = document.getElementById('optionPrice');
         if (priceElement) {
