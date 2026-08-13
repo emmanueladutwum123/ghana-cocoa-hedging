@@ -9,11 +9,19 @@
     <!-- Same head content as index.html with specific calculator meta tags -->
     
     <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"
+            integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
     <!-- MathJax for formulas -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- polyfill.io REMOVED (2026-08): the domain was sold in June 2024 and
+         served malware to 100,000+ sites. It was also redundant here -- it
+         polyfills ES6 for IE11, but this site is written in ES6 classes and
+         arrow functions, so any browser needing the polyfill could not parse
+         the page in the first place. -->
+    <script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"
+            integrity="sha384-Wuix6BuhrWbjDBs24bXrjf4ZQ5aFeFWBuKkFekO2t8xFU0iNaLQfp2K6/1Nxveei"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -62,7 +70,7 @@
                                 <span>Cocoa Price ($/MT)</span>
                                 <span class="parameter-value" id="cocoaPriceValue">$2,500</span>
                             </label>
-                            <input type="range" id="cocoaPrice" min="2000" max="5000" value="2500" step="10">
+                            <input type="range" id="cocoaPrice" min="1500" max="13000" value="4200" step="25">
                             <div class="parameter-range">
                                 <span>$2,000</span>
                                 <span>$5,000</span>
@@ -74,7 +82,7 @@
                                 <span>Strike Price ($/MT)</span>
                                 <span class="parameter-value" id="strikePriceValue">$2,600</span>
                             </label>
-                            <input type="range" id="strikePrice" min="2200" max="3000" value="2600" step="10">
+                            <input type="range" id="strikePrice" min="1500" max="13000" value="4200" step="25">
                             <div class="parameter-range">
                                 <span>$2,200</span>
                                 <span>$3,000</span>
@@ -86,7 +94,7 @@
                                 <span>Volatility (σ)</span>
                                 <span class="parameter-value" id="volatilityValue">25%</span>
                             </label>
-                            <input type="range" id="volatility" min="0.15" max="0.5" value="0.25" step="0.01">
+                            <input type="range" id="volatility" min="0.10" max="1.20" value="0.45" step="0.01">
                             <div class="parameter-range">
                                 <span>15%</span>
                                 <span>50%</span>

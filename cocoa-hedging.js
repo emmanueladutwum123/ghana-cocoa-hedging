@@ -24,9 +24,9 @@ class CocoaHedgingSimulator {
     
     getDefaultScenario() {
         return {
-            cocoaPrice: 2500,
-            strikePrice: 2600,
-            volatility: 0.25,
+            cocoaPrice: 4200,
+            strikePrice: 4200,
+            volatility: 0.45,
             timeToExpiry: 0.25, // 3 months
             riskFreeRate: 0.05,
             convenienceYield: 0.02,
