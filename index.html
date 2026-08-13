@@ -49,11 +49,10 @@
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-content">
-            <div class="ghana-flag-loader">
+            <div class="ghana-flag-loader" role="img" aria-label="Flag of Ghana">
                 <div class="flag-red"></div>
                 <div class="flag-yellow"></div>
                 <div class="flag-green"></div>
-                <div class="flag-star"><i class="fas fa-star"></i></div>
             </div>
             <h2 class="typewriter-text" data-text="Ghana Cocoa Derivatives Research Platform"></h2>
             <div class="loading-spinner"></div>
@@ -63,7 +62,12 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="nav-logo">
+            <button class="nav-back" id="navBack" type="button"
+                        aria-label="Go back to the previous page" hidden>
+                    <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                    <span>Back</span>
+                </button>
+                <div class="nav-logo">
                 <div class="flag-mini">
                     <div class="flag-red"></div>
                     <div class="flag-yellow"></div>
@@ -707,5 +711,6 @@
             observer.observe(statsSection);
         }
     </script>
+    <script src="nav-back.js"></script>
 </body>
 </html>

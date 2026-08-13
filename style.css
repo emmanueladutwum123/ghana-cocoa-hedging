@@ -1704,6 +1704,24 @@ input[type="range"]::-moz-range-thumb {
 }
 
 /* Ghana flag loader with black star */
+/* ---------------------------------------------------------------------
+   Ghana flag, drawn ONCE.
+
+   This previously rendered the flag twice, stacked. The loader painted
+   its own stripes through ::before / .flag-star / ::after (absolutely
+   positioned), while the child divs .flag-red/.flag-yellow/.flag-green
+   were painted independently by the global rules, which carry
+   !important and so could not be overridden. That produced two
+   overlapping sets of stripes and three black stars -- one from
+   .flag-yellow::after, one from .flag-star::after, and one from the
+   Font Awesome <i> in the markup.
+
+   The loader now uses exactly the same mechanism as .flag-mini: three
+   stacked children, with the star supplied by .flag-yellow::after. One
+   flag, one star, and the two sizes stay visually identical because they
+   share a single implementation.
+   --------------------------------------------------------------------- */
+
 .ghana-flag-loader {
     position: relative;
     width: 80px;
@@ -1712,43 +1730,13 @@ input[type="range"]::-moz-range-thumb {
     overflow: hidden;
     margin: 0 auto 2rem;
     box-shadow: var(--shadow);
-}
-
-.ghana-flag-loader::before,
-.ghana-flag-loader::after,
-.ghana-flag-loader .flag-star {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 33.33%;
-}
-
-.ghana-flag-loader::before {
-    top: 0;
-    background: var(--ghana-red);
-}
-
-.ghana-flag-loader::after {
-    bottom: 0;
-    background: var(--ghana-green);
-}
-
-.ghana-flag-loader .flag-star {
-    top: 33.33%;
-    height: 33.33%;
-    background: var(--ghana-gold);
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
 }
 
-.ghana-flag-loader .flag-star::after {
-    content: "★";
-    color: var(--ghana-black);
-    font-size: 16px;
-    font-weight: 900;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+/* The star scales with the larger loader flag. */
+.ghana-flag-loader .flag-yellow::after {
+    font-size: 20px !important;
 }
 
 .loading-spinner {
@@ -2187,4 +2175,59 @@ h2::after, h3::after {
         color: #e8e8e8;
     }
     .model-note { color: #a8a8a8; }
+}
+
+/* ---------------------------------------------------------------------
+   Back control, and a navigation bar that survives a narrow viewport.
+
+   The site runs full screen and is installable as a PWA, and in both of
+   those there is no browser back arrow. Two pages were also dead ends:
+   calculator.html and research.html shipped with a placeholder comment
+   instead of a navigation bar, so the calculator -- the product itself --
+   could not be left once opened.
+   --------------------------------------------------------------------- */
+
+.nav-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 0.9rem;
+    margin-right: 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: 0.9rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+    flex: 0 0 auto;
+}
+
+.nav-back:hover { background: rgba(0, 0, 0, 0.05); }
+.nav-back:focus-visible { outline: 2px solid var(--ghana-green); outline-offset: 2px; }
+.nav-back[hidden] { display: none; }
+
+/* The nav overflowed at moderate widths -- "AI Models" wrapped onto two
+   lines and pushed the bar out of alignment. Keeping each link on one line
+   and letting the group scroll horizontally is more predictable than
+   letting labels wrap unpredictably. */
+.nav-container { flex-wrap: nowrap; }
+
+.nav-links a { white-space: nowrap; }
+
+@media (max-width: 1100px) {
+    .nav-links {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+    .nav-links::-webkit-scrollbar { height: 3px; }
+    .nav-back span { display: none; }      /* icon only, to buy width back */
+    .nav-back { padding: 0.5rem 0.65rem; margin-right: 0.5rem; }
+}
+
+@media (prefers-color-scheme: dark) {
+    .nav-back:hover { background: rgba(255, 255, 255, 0.08); }
 }

@@ -172,8 +172,41 @@
     </style>
 </head>
 <body>
-    <!-- If you have a global navigation, include it here. 
-         For now, let's focus on making the page content work. -->
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <button class="nav-back" id="navBack" type="button"
+                        aria-label="Go back to the previous page" hidden>
+                    <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                    <span>Back</span>
+                </button>
+                <div class="nav-logo">
+                <div class="flag-mini">
+                    <div class="flag-red"></div>
+                    <div class="flag-yellow"></div>
+                    <div class="flag-green"></div>
+                </div>
+                <h1>Cocoa Derivatives Lab</h1>
+            </div>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="index.html"><i class="fas fa-home"></i> <span>Home</span></a>
+                <a href="calculator.html"><i class="fas fa-calculator"></i> <span>Calculator</span></a>
+                <a href="dashboard.html"><i class="fas fa-chart-line"></i> <span>Dashboard</span></a>
+                <a href="research.html" class="active"><i class="fas fa-book"></i> <span>Research</span></a>
+                <a href="data.html"><i class="fas fa-database"></i> <span>Data</span></a>
+                <a href="ml-models.html"><i class="fas fa-brain"></i> <span>AI Models</span></a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
     <div class="research-container" id="researchContainer">
         <!-- Research Header -->
         <header class="research-header">
@@ -491,5 +524,6 @@
             }
         }, 2000);
     </script>
+    <script src="nav-back.js"></script>
 </body>
 </html>
